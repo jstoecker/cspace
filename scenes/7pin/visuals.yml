@@ -1,0 +1,76 @@
+!!cspace.visuals.Visuals
+cameraVisuals:
+  center2d: {x: 0.0, y: 0.0}
+  eye3d: {x: 0.0, y: -10.0, z: 0.0}
+  pitch3d: 0.0
+  scale2d: 6.1
+  visible2d: true
+  visible3d: true
+  yaw3d: 0.0
+genVisuals:
+  bgColor: {x: 1.0, y: 1.0, z: 1.0}
+  edgeScale: 0.16350798
+  fixedWidthEdges: true
+  scale: 1.0
+  view: VIEW_SPLIT
+obstacleVisuals:
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  drawOrigin: false
+  fillAlpha: 1.0
+  geomUpdated2d: false
+  geomUpdated3d: true
+  smooth2d: 0.0010
+  visible2d: true
+  visible3d: true
+  width2d: 0.03
+pathVisuals:
+  color: {x: 1.0, y: 1.0, z: 0.4}
+  geomUpdated2d: true
+  geomUpdated3d: true
+  smooth2d: 0.0010
+  visible2d: false
+  visible3d: false
+  waypointsChanged: false
+  width2d: 0.03
+pntVisuals:
+  color: {x: 0.2, y: 1.0, z: 0.4}
+  visible2d: true
+  visible3d: true
+robotVisuals:
+  color: {x: 1.0, y: 0.4, z: 0.4}
+  drawOrigin: true
+  fillAlpha: 1.0
+  geomUpdated2d: false
+  geomUpdated3d: true
+  onPath: true
+  p: {x: -0.118005, y: 8.85386E-11}
+  smooth2d: 0.0010
+  theta: -0.01234568783309
+  u: {x: 0.9999237929639023, y: -0.012345374222070573}
+  visible2d: true
+  visible3d: true
+  width2d: 0.03
+subVisuals:
+  color: {x: 0.4, y: 0.8, z: 0.28}
+  coloring: SOLID_COLOR
+  geomUpdated2d: false
+  geomUpdated3d: true
+  samplingLength: 0.1
+  samplingThreshold: 0.01
+  selected: -1
+  shading: true
+  smooth2d: 0.0010
+  style: SOLID
+  visible2d: true
+  visible3d: true
+  width2d: 0.03
+  wireframe: false
+sumEEVisuals:
+  color: {x: 0.0, y: 0.6, z: 1.0}
+  geomUpdated2d: true
+  geomUpdated3d: true
+  selected: []
+  smooth2d: 0.0010
+  visible2d: false
+  visible3d: false
+  width2d: 0.03

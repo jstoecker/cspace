@@ -1,0 +1,62 @@
+<project name="cspace" default="main" basedir=".">
+
+	<property name="src.dir" location="src" />
+	<property name="resource.dir" location="resources" />
+	<property name="build.dir" location="build" />
+	<property name="lib.dir" location="lib" />
+	<property name="dist.dir" location="bin" />
+	<property name="debug" value="true" />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+    <delete file="cspace.zip" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build.dir}" />
+		<subant target="compile">
+			<property name="build.dir" value="${build.dir}" />
+			<fileset dir="${lib.dir}" includes="*/build.xml" />
+		</subant>
+		<javac debug="${debug}" includeantruntime="false" srcdir="${src.dir}" destdir="${build.dir}" classpathref="build.classpath" />
+		<copy todir="${build.dir}/shaders">
+			<fileset dir="${src.dir}/shaders" includes="**" />
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${resource.dir}" includes="**" />
+		</copy>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${dist.dir}" />
+		<jar destfile="${dist.dir}/${ant.project.name}.jar" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="cspace.CSpaceViewer" />
+				<attribute name="Class-Path" value="lib/jogl-all.jar lib/gluegen-rt.jar lib/snakeyaml-1.10.jar" />
+			</manifest>
+		</jar>
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${lib.dir}" includes="*.jar" />
+			<fileset dir="${lib.dir}/jgl/lib" includes="*.jar" />
+		</copy>
+	</target>
+
+  <!-- This will make a ZIP containing the compiled version -->
+  <target name="deploy" depends="compile, jar">
+    <copy todir="${dist.dir}/scenes">
+      <fileset dir="scenes/" includes="**" />
+    </copy>
+    <copy file="LICENSE" tofile="${dist.dir}/LICENSE" />
+    <zip destfile="cspace.zip" basedir="bin" />
+  </target>
+
+	<target name="main" depends="compile, jar" />
+
+</project>
