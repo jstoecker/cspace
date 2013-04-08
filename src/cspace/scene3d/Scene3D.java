@@ -5,9 +5,9 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 
+import jgl.cameras.Camera;
 import jgl.core.Viewport;
 import jgl.math.vector.Transform;
-import jgl.scene.cameras.Camera;
 import cspace.model.Path.Waypoint;
 import cspace.model.Scene;
 

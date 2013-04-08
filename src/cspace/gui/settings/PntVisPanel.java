@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.settings;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import jgl.math.vector.Vec3f;
+import cspace.gui.util.ColorPanel;
+import cspace.gui.util.VisibilityPanel;
 import cspace.visuals.PntVisuals;
 
 public class PntVisPanel extends JPanel {
@@ -31,7 +33,7 @@ public class PntVisPanel extends JPanel {
     add(lblVisibility, gbc_lblVisibility);
     
     ColorPanel pColor = new ColorPanel("Pnt Color", visuals.getColor());
-    pColor.listeners.add(new ColorPanel.Listener() {
+    pColor.addListener(new ColorPanel.Listener() {
       public void colorChanged(ColorPanel panel, Vec3f newColor) {
         visuals.setColor(newColor);
       }

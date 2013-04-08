@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.main;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -24,12 +24,12 @@ import cspace.model.Path.Waypoint;
 import cspace.util.OBJExporter;
 import cspace.visuals.Visuals;
 
-public class SettingsPanel extends JPanel {
+public class MainWidgetPanel extends JPanel {
 
-  SceneWindow window;
-  JSlider     slRobot;
+  MainWindow window;
+  JSlider    slRobot;
 
-  public SettingsPanel(final SceneWindow window) {
+  public MainWidgetPanel(final MainWindow window) {
     this.window = window;
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -41,7 +41,7 @@ public class SettingsPanel extends JPanel {
     JButton btnSettings = new JButton(new ImageIcon(getClass().getResource("/gear.png")));
     btnSettings.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        window.visualsFrame.setVisible(true);
+        window.getSettingsDialog().setVisible(true);
       }
     });
 
@@ -58,13 +58,13 @@ public class SettingsPanel extends JPanel {
           Waypoint[] waypoints = new Waypoint[2];
           waypoints[0] = new Waypoint(0, 0, 0);
           waypoints[1] = new Waypoint(0, 0, 0);
-          window.scene.newPath = new Path(waypoints);
-          window.canvas.repaint();
+          window.getScene().newPath = new Path(waypoints);
+          window.repaintGL();
         } else {
-          window.scene.updatePath();
-          slRobot.setMaximum(window.scene.path.waypoints.length - 1);
+          window.getScene().updatePath();
+          slRobot.setMaximum(window.getScene().path.waypoints.length - 1);
           slRobot.setValue(0);
-          window.canvas.repaint();
+          window.repaintGL();
         }
       }
     });
@@ -73,8 +73,8 @@ public class SettingsPanel extends JPanel {
     objButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         JFileChooser fc = new JFileChooser();
-        if (fc.showSaveDialog(SettingsPanel.this) == JFileChooser.APPROVE_OPTION) {
-          new OBJExporter(window.scene.sampledCS).write(fc.getSelectedFile());
+        if (fc.showSaveDialog(MainWidgetPanel.this) == JFileChooser.APPROVE_OPTION) {
+          new OBJExporter(window.getScene().sampledCS).write(fc.getSelectedFile());
         }
       }
     });
@@ -86,7 +86,7 @@ public class SettingsPanel extends JPanel {
     gbc_pathButton.gridy = 0;
     add(pathButton, gbc_pathButton);
 
-    slRobot = new JSlider(0, window.scene.path.waypoints.length - 1, 0);
+    slRobot = new JSlider(0, window.getScene().path.waypoints.length - 1, 0);
     slRobot.addChangeListener(new SlideListener());
     GridBagConstraints gbc_slRobot = new GridBagConstraints();
     gbc_slRobot.fill = GridBagConstraints.HORIZONTAL;
@@ -106,8 +106,8 @@ public class SettingsPanel extends JPanel {
 
     @Override
     public void stateChanged(ChangeEvent arg0) {
-      Visuals visuals = window.scene.visuals;
-      Path path = window.scene.path;
+      Visuals visuals = window.getScene().visuals;
+      Path path = window.getScene().path;
 
       if (visuals.robotVisuals.isOnPath()) {
         Waypoint wp = path.waypoints[slRobot.getValue()];

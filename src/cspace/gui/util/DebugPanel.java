@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.util;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -18,15 +18,16 @@ import cspace.sampling.SampledCSpace;
 import cspace.visuals.Visuals;
 
 /**
+ * For debug only.
  * 
  * @author justin
  */
-public class TestPanel extends JFrame {
+public class DebugPanel extends JFrame {
 
   PathPuller puller;
 
-  public TestPanel(final SampledCSpace cs, final Path path,
-      final Visuals visuals, final GLCanvas canvas) {
+  public DebugPanel(final SampledCSpace cs, final Path path, final Visuals visuals,
+      final GLCanvas canvas) {
     puller = new PathPuller(cs, path, visuals.pathVisuals);
 
     setLayout(new FlowLayout());
@@ -49,8 +50,8 @@ public class TestPanel extends JFrame {
         if (value < cs.cspace.subs.length) {
           visuals.subVisuals.setSelected(value);
           if (value >= 0) {
-            cspace.scene3d.SubView.selected = cs.subSamplings
-                .get(cs.cspace.subs[model.getNumber().intValue()]);
+            cspace.scene3d.SubView.selected = cs.subSamplings.get(cs.cspace.subs[model.getNumber()
+                .intValue()]);
           } else {
             cspace.scene3d.SubView.selected = null;
           }
@@ -64,8 +65,7 @@ public class TestPanel extends JFrame {
     JSpinner triSpn = new JSpinner(triModel);
     triModel.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
-        cspace.scene3d.SubView.selectedTri = triModel.getNumber()
-            .intValue();
+        cspace.scene3d.SubView.selectedTri = triModel.getNumber().intValue();
         canvas.repaint();
       }
     });

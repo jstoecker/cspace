@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.settings;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -22,31 +22,38 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import cspace.gui.main.MainWindow;
 import cspace.visuals.Visuals;
 
-public class VisualsFrame extends JFrame {
+/**
+ * Contains configuration options for the scene.
+ * 
+ * @author justin
+ */
+public class SettingsDialog extends JDialog {
 
-  String[] menus = {"General", "Subs", "Robot", "Obstacle", "Path", "SumEEs", "Pnts"};
-  JPanel optionsPanel;
-  JList menuList;
+  String[]   menus = { "General", "Subs", "Robot", "Obstacle", "Path", "SumEEs", "Pnts" };
+  JPanel     optionsPanel;
+  JList      menuList;
   CardLayout optionsLayout;
 
-  public VisualsFrame(final SceneWindow window) {
+  public SettingsDialog(final MainWindow window) {
+    super(window);
     setResizable(false);
     setAlwaysOnTop(true);
     setSize(550, 420);
     setTitle("Settings");
     getContentPane().setLayout(new BorderLayout());
 
-    Visuals visuals = window.scene.visuals;
+    Visuals visuals = window.getScene().visuals;
     optionsPanel = new JPanel();
     optionsPanel.setLayout(optionsLayout = new CardLayout());
-    optionsPanel.add(new GeneralVisPanel(visuals.genVisuals), menus[0]);
-    optionsPanel.add(new SubVisPanel(visuals.subVisuals), menus[1]);
-    optionsPanel.add(new RobotVisPanel(visuals.robotVisuals), menus[2]);
-    optionsPanel.add(new ObstacleVisPanel(visuals.obstacleVisuals), menus[3]);
-    optionsPanel.add(new PathVisPanel(visuals.pathVisuals), menus[4]);
-    optionsPanel.add(new SumEEVisPanel(visuals.sumEEVisuals), menus[5]);
+    optionsPanel.add(new GeneralPanel(visuals.genVisuals), menus[0]);
+    optionsPanel.add(new SubPanel(visuals.subVisuals), menus[1]);
+    optionsPanel.add(new RobotPanel(visuals.robotVisuals), menus[2]);
+    optionsPanel.add(new ObstaclePanel(visuals.obstacleVisuals), menus[3]);
+    optionsPanel.add(new PathPanel(visuals.pathVisuals), menus[4]);
+    optionsPanel.add(new SumPanel(visuals.sumEEVisuals), menus[5]);
     optionsPanel.add(new PntVisPanel(visuals.pntVisuals), menus[6]);
     getContentPane().add(optionsPanel, BorderLayout.CENTER);
 
@@ -69,8 +76,8 @@ public class VisualsFrame extends JFrame {
     JButton btnResample = new JButton("Resample");
     btnResample.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        window.scene.sampleCS();
-        window.controller.control3d.view.updateGeometry();
+        window.getScene().sampleCS();
+        window.getController().control3d.view.updateGeometry();
         window.repaintGL();
       }
     });
@@ -79,7 +86,7 @@ public class VisualsFrame extends JFrame {
     JButton btnOk = new JButton("OK");
     btnOk.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        VisualsFrame.this.setVisible(false);
+        SettingsDialog.this.setVisible(false);
       }
     });
     bottomPanel.add(btnOk);
@@ -95,8 +102,8 @@ public class VisualsFrame extends JFrame {
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value,
-            int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList list, Object value, int index,
+        boolean isSelected, boolean cellHasFocus) {
       setBackground(isSelected ? Color.lightGray : Color.white);
       setText(value.toString());
       return this;

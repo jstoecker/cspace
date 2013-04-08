@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.settings;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,11 +15,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
+import cspace.gui.util.ColorPanel;
+import cspace.gui.util.VisibilityPanel;
 import cspace.visuals.RobotVisuals;
 
-public class RobotVisPanel extends JPanel {
+public class RobotPanel extends JPanel {
 
-  public RobotVisPanel(final RobotVisuals visuals) {
+  public RobotPanel(final RobotVisuals visuals) {
     setBorder(new EmptyBorder(10, 10, 10, 10));
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 193, 34, 0 };
@@ -39,7 +41,7 @@ public class RobotVisPanel extends JPanel {
     add(lblEdgeColor, gbc_lblEdgeColor);
 
     ColorPanel pColor = new ColorPanel("Robot Color", visuals.getColor());
-    pColor.listeners.add(new ColorPanel.Listener() {
+    pColor.addListener(new ColorPanel.Listener() {
       public void colorChanged(ColorPanel panel, Vec3f newColor) {
         visuals.setColor(newColor);
       }

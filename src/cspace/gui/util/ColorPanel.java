@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.util;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
@@ -13,10 +13,16 @@ import javax.swing.border.Border;
 
 import jgl.math.vector.Vec3f;
 
+/**
+ * Panel that displays a color. When clicked, a JColorChooser will appear that allows the user to
+ * change the color.
+ * 
+ * @author justin
+ */
 public class ColorPanel extends JPanel implements MouseListener {
 
-  String         colorName;
-  List<Listener> listeners = new ArrayList<Listener>();
+  private String         colorName;
+  private List<Listener> listeners = new ArrayList<Listener>();
 
   public ColorPanel(String colorName, Vec3f initialColor) {
     this.colorName = colorName;
@@ -28,7 +34,26 @@ public class ColorPanel extends JPanel implements MouseListener {
     setBackground(toColor(initialColor));
     addMouseListener(this);
   }
+  
+  public void addListener(ColorPanel.Listener listener) {
+    listeners.add(listener);
+  }
+  
+  public void removeListener(ColorPanel.Listener listener) {
+    listeners.remove(listener);
+  }
 
+  @Override
+  public void mousePressed(MouseEvent e) {
+    Color color = JColorChooser.showDialog(ColorPanel.this, colorName, getBackground());
+    if (color != null) {
+      setBackground(color);
+      Vec3f c = toVec3f(color);
+      for (Listener l : listeners)
+        l.colorChanged(this, c);
+    }
+  }
+  
   @Override
   public void mouseClicked(MouseEvent e) {
   }
@@ -43,18 +68,6 @@ public class ColorPanel extends JPanel implements MouseListener {
 
   @Override
   public void mouseReleased(MouseEvent e) {
-  }
-
-  @Override
-  public void mousePressed(MouseEvent e) {
-    Color color = JColorChooser.showDialog(ColorPanel.this, colorName,
-        getBackground());
-    if (color != null) {
-      setBackground(color);
-      Vec3f c = toVec3f(color);
-      for (Listener l : listeners)
-        l.colorChanged(this, c);
-    }
   }
 
   static Color toColor(Vec3f v) {

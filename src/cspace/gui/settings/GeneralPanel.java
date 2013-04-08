@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.settings;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,11 +18,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
+import cspace.gui.util.ColorPanel;
 import cspace.visuals.GeneralVisuals;
 import cspace.visuals.GeneralVisuals.ViewMode;
 
-public class GeneralVisPanel extends JPanel {
-  public GeneralVisPanel(final GeneralVisuals visuals) {
+public class GeneralPanel extends JPanel {
+  public GeneralPanel(final GeneralVisuals visuals) {
     setBorder(new EmptyBorder(10, 10, 10, 10));
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 193, 0, 0 };
@@ -41,7 +42,7 @@ public class GeneralVisPanel extends JPanel {
     add(lblNewLabel, gbc_lblNewLabel);
 
     ColorPanel pColor = new ColorPanel("Background Color", visuals.getBgColor());
-    pColor.listeners.add(new ColorPanel.Listener() {
+    pColor.addListener(new ColorPanel.Listener() {
       public void colorChanged(ColorPanel panel, Vec3f newColor) {
         visuals.setBgColor(newColor);
       }

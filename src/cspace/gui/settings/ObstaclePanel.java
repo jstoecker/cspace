@@ -1,29 +1,34 @@
-package cspace.gui;
+package cspace.gui.settings;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
-import cspace.visuals.PathVisuals;
+import cspace.gui.util.ColorPanel;
+import cspace.gui.util.VisibilityPanel;
+import cspace.visuals.ObstacleVisuals;
 
-public class PathVisPanel extends JPanel {
+public class ObstaclePanel extends JPanel  {
 
-  public PathVisPanel(final PathVisuals visuals) {
+  public ObstaclePanel(final ObstacleVisuals visuals) {
     setBorder(new EmptyBorder(10, 10, 10, 10));
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 193, 34, 0 };
-    gridBagLayout.rowHeights = new int[] { 32, 32, 32, 32, 0 };
+    gridBagLayout.rowHeights = new int[] { 32, 32, 32, 32, 32, 32, 32, 0 };
     gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, Double.MIN_VALUE };
     setLayout(gridBagLayout);
 
     JLabel lblEdgeColor = new JLabel("Edge Color");
@@ -35,8 +40,8 @@ public class PathVisPanel extends JPanel {
     gbc_lblEdgeColor.gridy = 0;
     add(lblEdgeColor, gbc_lblEdgeColor);
 
-    ColorPanel pColor = new ColorPanel("Path Color", visuals.getColor());
-    pColor.listeners.add(new ColorPanel.Listener() {
+    ColorPanel pColor = new ColorPanel("Robot Color", visuals.getColor());
+    pColor.addListener(new ColorPanel.Listener() {
       public void colorChanged(ColorPanel panel, Vec3f newColor) {
         visuals.setColor(newColor);
       }
@@ -94,7 +99,7 @@ public class PathVisPanel extends JPanel {
     gbc_spnEdgeSmooth.gridx = 1;
     gbc_spnEdgeSmooth.gridy = 2;
     add(spnEdgeSmooth, gbc_spnEdgeSmooth);
-    
+
     JLabel lblVisibility = new JLabel("Visibility");
     GridBagConstraints gbc_lblVisibility = new GridBagConstraints();
     gbc_lblVisibility.anchor = GridBagConstraints.EAST;
@@ -102,13 +107,29 @@ public class PathVisPanel extends JPanel {
     gbc_lblVisibility.gridx = 0;
     gbc_lblVisibility.gridy = 3;
     add(lblVisibility, gbc_lblVisibility);
-    
+
     VisibilityPanel visibilityPanel = new VisibilityPanel(visuals);
-    GridBagConstraints gbc_visibilityPanel = new GridBagConstraints();
-    gbc_visibilityPanel.insets = new Insets(0, 0, 5, 0);
-    gbc_visibilityPanel.fill = GridBagConstraints.BOTH;
-    gbc_visibilityPanel.gridx = 1;
-    gbc_visibilityPanel.gridy = 3;
-    add(visibilityPanel, gbc_visibilityPanel);
+    GridBagConstraints gbc_panel = new GridBagConstraints();
+    gbc_panel.insets = new Insets(0, 0, 5, 0);
+    gbc_panel.fill = GridBagConstraints.BOTH;
+    gbc_panel.gridx = 1;
+    gbc_panel.gridy = 3;
+    add(visibilityPanel, gbc_panel);
+
+    final JCheckBox cxbDrawOrigin = new JCheckBox("Draw Origin");
+    cxbDrawOrigin.setHorizontalTextPosition(SwingConstants.LEFT);
+    cxbDrawOrigin.setSelected(visuals.isDrawOrigin());
+    cxbDrawOrigin.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent arg0) {
+        visuals.setDrawOrigin(cxbDrawOrigin.isSelected());
+      }
+    });
+    GridBagConstraints gbc_cxbDrawOrigin = new GridBagConstraints();
+    gbc_cxbDrawOrigin.anchor = GridBagConstraints.EAST;
+    gbc_cxbDrawOrigin.insets = new Insets(0, 0, 5, 0);
+    gbc_cxbDrawOrigin.gridwidth = 2;
+    gbc_cxbDrawOrigin.gridx = 0;
+    gbc_cxbDrawOrigin.gridy = 4;
+    add(cxbDrawOrigin, gbc_cxbDrawOrigin);
   }
 }

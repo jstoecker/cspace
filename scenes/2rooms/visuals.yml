@@ -9,10 +9,10 @@ cameraVisuals:
   yaw3d: 0.0
 genVisuals:
   bgColor: {x: 1.0, y: 1.0, z: 1.0}
-  edgeScale: 1.0
+  edgeScale: 0.5131581
   fixedWidthEdges: true
   scale: 1.0
-  view: VIEW_SPLIT
+  view: VIEW_2D
 obstacleVisuals:
   color: {x: 0.6, y: 0.6, z: 0.6}
   drawOrigin: false
@@ -40,19 +40,19 @@ robotVisuals:
   color: {x: 1.0, y: 0.4, z: 0.4}
   drawOrigin: true
   fillAlpha: 1.0
-  geomUpdated2d: false
+  geomUpdated2d: true
   geomUpdated3d: true
-  onPath: true
-  p: {x: -5.0, y: 1.00001}
+  onPath: false
+  p: {x: 2.0, y: 4.274999618530273}
   smooth2d: 0.0010
-  theta: 3.1292543211
-  u: {x: -0.9999238837413194, y: 0.012338019438968938}
-  visible2d: true
-  visible3d: true
+  theta: 0.0
+  u: {x: 1.0, y: 0.0}
+  visible2d: false
+  visible3d: false
   width2d: 0.03
 subVisuals:
   color: {x: 0.4, y: 0.8, z: 0.28}
-  coloring: SOLID_COLOR
+  coloring: UNIQUE_COLOR
   geomUpdated2d: false
   geomUpdated3d: true
   samplingLength: 0.1
@@ -64,7 +64,7 @@ subVisuals:
   visible2d: true
   visible3d: true
   width2d: 0.03
-  wireframe: false
+  wireframe: true
 sumEEVisuals:
   color: {x: 0.0, y: 0.6, z: 1.0}
   geomUpdated2d: true

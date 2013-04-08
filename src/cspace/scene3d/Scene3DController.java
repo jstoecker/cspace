@@ -11,9 +11,8 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import jgl.math.Maths;
+import jgl.cameras.FirstPersonController;
 import jgl.math.vector.Vec3f;
-import jgl.scene.cameras.FirstPersonController;
 
 public class Scene3DController implements MouseListener, MouseMotionListener, MouseWheelListener,
     KeyListener {

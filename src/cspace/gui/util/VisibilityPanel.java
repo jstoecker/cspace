@@ -1,4 +1,4 @@
-package cspace.gui;
+package cspace.gui.util;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,13 +10,18 @@ import javax.swing.JRadioButton;
 
 import cspace.visuals.VisibleModel;
 
+/**
+ * GUI widget for controlling visibility of an object that can be displayed in 2D, 3D, or both.
+ * 
+ * @author justin
+ */
 public class VisibilityPanel extends JPanel {
 
-  JRadioButton rbOn;
-  JRadioButton rb2d;
-  JRadioButton rb3d;
-  JRadioButton rbOff;
-  VisibleModel visuals;
+  private JRadioButton rbOn;
+  private JRadioButton rb2d;
+  private JRadioButton rb3d;
+  private JRadioButton rbOff;
+  private VisibleModel visuals;
 
   public VisibilityPanel(VisibleModel visuals) {
     this.visuals = visuals;
@@ -39,8 +44,7 @@ public class VisibilityPanel extends JPanel {
     }
   }
 
-  void addButton(JRadioButton button, ButtonGroup group,
-      VisibilityActionListener al) {
+  void addButton(JRadioButton button, ButtonGroup group, VisibilityActionListener al) {
     add(button);
     group.add(button);
     button.addActionListener(al);

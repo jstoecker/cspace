@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import cspace.gui.SceneWindow;
+import cspace.gui.main.MainWindow;
 import cspace.model.CSpace;
 import cspace.model.CSpaceReader;
 import cspace.model.Path;
@@ -14,8 +14,7 @@ import cspace.model.Scene;
 import cspace.visuals.Visuals;
 
 /**
- * Main program that creates both 2D and 3D visualizations, animating the robot
- * moving along a path
+ * Main program.
  */
 public class CSpaceViewer {
 
@@ -28,7 +27,7 @@ public class CSpaceViewer {
       }
 
       Scene scene = loadScene(directory);
-      SceneWindow window = new SceneWindow(scene);
+      MainWindow window = new MainWindow(scene);
       window.setVisible(true);
     } else {
       System.out.println("To run, provide the path to a cspace directory:");
