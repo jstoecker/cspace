@@ -10,12 +10,12 @@ import jgl.loaders.ShaderLoader;
 import cspace.scene.Scene;
 import cspace.scene.trimesh.SampledSub;
 import cspace.scene.trimesh.SampledSub.Triangle;
-import cspace.scene.visuals.RobotVisuals;
-import cspace.scene.visuals.SubVisuals;
-import cspace.scene.visuals.SumEEVisuals;
+import cspace.scene.view.RobotVisuals;
+import cspace.scene.view.SubVisuals;
+import cspace.scene.view.SumEEVisuals;
 
 public class SubView {
-
+  
   private static final int COLOR_EDGE   = 0;
   private static final int COLOR_UNIQUE = 1;
   private static final int COLOR_NORMAL = 2;
@@ -140,9 +140,6 @@ public class SubView {
       break;
     case TRANSLUCENT:
       drawTranslucent(gl);
-      break;
-    case BORDER_THETA:
-      drawBorderTheta(gl);
       break;
     case CLIP_ABOVE:
       drawClipAbove(gl);

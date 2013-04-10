@@ -15,9 +15,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.ObstacleVisuals;
+import cspace.scene.view.ObstacleVisuals;
 import cspace.util.ColorPanel;
-import cspace.util.VisibilityPanel;
+import cspace.util.VisibilityWidget;
 
 public class ObstaclePanel extends JPanel  {
 
@@ -108,7 +108,7 @@ public class ObstaclePanel extends JPanel  {
     gbc_lblVisibility.gridy = 3;
     add(lblVisibility, gbc_lblVisibility);
 
-    VisibilityPanel visibilityPanel = new VisibilityPanel(visuals);
+    VisibilityWidget visibilityPanel = new VisibilityWidget(visuals);
     GridBagConstraints gbc_panel = new GridBagConstraints();
     gbc_panel.insets = new Insets(0, 0, 5, 0);
     gbc_panel.fill = GridBagConstraints.BOTH;

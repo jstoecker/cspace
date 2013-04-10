@@ -10,43 +10,39 @@ import jgl.core.GLBuffer;
 
 import com.jogamp.common.nio.Buffers;
 
+import cspace.scene.EdgePair;
 import cspace.scene.Scene;
+import cspace.scene.SceneView.Subs.ColorStyle3D;
 import cspace.scene.trimesh.SampledCSpace;
 import cspace.scene.trimesh.SampledSub;
 import cspace.scene.trimesh.SampledSub.Triangle;
 import cspace.scene.trimesh.SampledSub.Vertex;
-import cspace.scene.visuals.SubVisuals;
-import cspace.scene.visuals.SumEEVisuals;
-import cspace.scene.visuals.SubVisuals.SubColoring;
 
 public class SubMesh {
 
-  private SubVisuals visuals;
-  private SumEEVisuals sumVisuals;
-  private GLBuffer vertexBuf = new GLBuffer(GLBuffer.Target.ARRAY, GLBuffer.Usage.STATIC_DRAW);
-  private GLBuffer indexBuf = new GLBuffer(GLBuffer.Target.ELEMENT_ARRAY,
-      GLBuffer.Usage.STATIC_DRAW);
-  private int numTriangles;
+  private Scene     scene;
+  private GLBuffer  vertexBuf      = new GLBuffer(GLBuffer.Target.ARRAY, GLBuffer.Usage.STATIC_DRAW);
+  private GLBuffer  indexBuf       = new GLBuffer(GLBuffer.Target.ELEMENT_ARRAY,
+                                       GLBuffer.Usage.STATIC_DRAW);
+  private int       numTriangles;
 
-  private final int typeSize = Float.SIZE / 8;
-  private final int stride = typeSize * 12; // x, y, z, nx, ny, nz, r, g, b,
-                                            // sumR, sumG, sumB
-  private final int vertexOffset = 0;
-  private final int normalOffset = vertexOffset + typeSize * 3;
-  private final int colorOffset = normalOffset + typeSize * 3; // used when
-                                                               // coloring by
-                                                               // unique sub
-  private final int colorOffsetSum = colorOffset + typeSize * 3; // used when
-                                                                 // coloring by
-                                                                 // sumee
+  private final int typeSize       = Float.SIZE / 8;
+  // x, y, z, nx, ny, nz, r, g, b, sumR, sumG, sumB
+  private final int stride         = typeSize * 12;
+  private final int vertexOffset   = 0;
+  private final int normalOffset   = vertexOffset + typeSize * 3;
+
+  // used when coloring per sub
+  private final int colorOffset    = normalOffset + typeSize * 3;
+  // used when coloring per sum
+  private final int colorOffsetSum = colorOffset + typeSize * 3;
 
   // temporary buffers that store vertex & index data to be uploaded:
-  FloatBuffer vData;
-  IntBuffer iData;
+  FloatBuffer       vData;
+  IntBuffer         iData;
 
-  public SubMesh(SubVisuals visuals, SumEEVisuals sumVisuals) {
-    this.visuals = visuals;
-    this.sumVisuals = sumVisuals;
+  public SubMesh(Scene scene) {
+    this.scene = scene;
   }
 
   void update(Scene scene) {
@@ -65,11 +61,10 @@ public class SubMesh {
     iData = Buffers.newDirectIntBuffer(numTriangles * 3);
     for (SampledSub ssub : sampling.subSamplings.values()) {
       for (Vertex v : ssub.verts) {
-        
         v.position.toFloat().putInto(vData);
         v.normal.toFloat().putInto(vData);
-        visuals.getColor(ssub.sub).putInto(vData);
-        sumVisuals.getColor(ssub.sub.robEdge.index, ssub.sub.obsEdge.index).putInto(vData);
+        scene.view.subs.getColor(ssub.sub).putInto(vData);
+        scene.view.sums.getColor(new EdgePair(ssub.sub.robEdge.index, ssub.sub.obsEdge.index)).putInto(vData);
       }
       for (Triangle triangle : ssub.triangles) {
         iData.put(triangle.a.index + offset);
@@ -110,7 +105,7 @@ public class SubMesh {
     gl.glNormalPointer(GL2.GL_FLOAT, stride, normalOffset);
 
     gl.glEnableClientState(GL2.GL_COLOR_ARRAY);
-    if (visuals.getColoring() == SubColoring.SUMEE_COLOR)
+    if (scene.view.subs.colorStyle3d == ColorStyle3D.PER_SUM)
       gl.glColorPointer(3, GL2.GL_FLOAT, stride, colorOffsetSum);
     else
       gl.glColorPointer(3, GL2.GL_FLOAT, stride, colorOffset);

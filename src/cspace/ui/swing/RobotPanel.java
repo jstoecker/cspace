@@ -15,9 +15,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.RobotVisuals;
+import cspace.scene.view.RobotVisuals;
 import cspace.util.ColorPanel;
-import cspace.util.VisibilityPanel;
+import cspace.util.VisibilityWidget;
 
 public class RobotPanel extends JPanel {
 
@@ -109,7 +109,7 @@ public class RobotPanel extends JPanel {
     gbc_lblVisibility.gridy = 3;
     add(lblVisibility, gbc_lblVisibility);
 
-    VisibilityPanel visibilityPanel = new VisibilityPanel(visuals);
+    VisibilityWidget visibilityPanel = new VisibilityWidget(visuals);
     GridBagConstraints gbc_panel = new GridBagConstraints();
     gbc_panel.insets = new Insets(0, 0, 5, 0);
     gbc_panel.fill = GridBagConstraints.BOTH;

@@ -10,7 +10,7 @@ import cspace.scene.CSpace;
 import cspace.scene.CSpaceReader;
 import cspace.scene.Path;
 import cspace.scene.Scene;
-import cspace.scene.visuals.Visuals;
+import cspace.scene.SceneView;
 import cspace.ui.swing.MainWindow;
 
 /**
@@ -39,7 +39,7 @@ public class CSpaceViewer {
   private static Scene loadScene(File directory) {
     CSpace cspace = null;
     Path path = null;
-    Visuals visuals = null;
+    SceneView view = null;
 
     try {
       cspace = new CSpaceReader().read(getDataFile(directory, "cspace"));
@@ -53,9 +53,9 @@ public class CSpaceViewer {
     } catch (FileNotFoundException e) {
     }
 
-    visuals = Visuals.load(getDataFile(directory, "visuals.yml"));
+    view = SceneView.load(getDataFile(directory, "visuals.yml"));
 
-    return new Scene(cspace, path, visuals);
+    return new Scene(cspace, path, view);
   }
 
   private static File getDataFile(File directory, String name) {

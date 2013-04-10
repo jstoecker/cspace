@@ -18,11 +18,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.SubVisuals;
-import cspace.scene.visuals.SubVisuals.SubColoring;
-import cspace.scene.visuals.SubVisuals.SubRenderStyle;
+import cspace.scene.view.SubVisuals;
+import cspace.scene.view.SubVisuals.SubColoring;
+import cspace.scene.view.SubVisuals.SubRenderStyle;
 import cspace.util.ColorPanel;
-import cspace.util.VisibilityPanel;
+import cspace.util.VisibilityWidget;
 
 public class SubPanel extends JPanel {
   public SubPanel(final SubVisuals visuals) {
@@ -211,7 +211,7 @@ public class SubPanel extends JPanel {
     gbc_lblVisibility.gridy = 7;
     add(lblVisibility, gbc_lblVisibility);
 
-    VisibilityPanel visibilityPanel = new VisibilityPanel(visuals);
+    VisibilityWidget visibilityPanel = new VisibilityWidget(visuals);
     GridBagConstraints gbc_visibilityPanel = new GridBagConstraints();
     gbc_visibilityPanel.insets = new Insets(0, 0, 5, 0);
     gbc_visibilityPanel.fill = GridBagConstraints.BOTH;

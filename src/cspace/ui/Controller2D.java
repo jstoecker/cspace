@@ -33,46 +33,15 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
 
   @Override
   public void mouseWheelMoved(MouseWheelEvent e) {
-    if (scene.newPath != null && (e.isShiftDown() || e.isAltDown())) {
-      int wpIndex = e.isShiftDown() ? 0 : 1;
-      
-      // TODO move path planning code to separate class
-
-      double theta = scene.newPath.waypoints[wpIndex].theta;
-      if (e.getWheelRotation() < 0) {
-        theta += 0.1;
-      } else {
-        theta -= 0.1;
-      }
-      scene.newPath.waypoints[wpIndex].theta = theta;
-      scene.newPath.waypoints[wpIndex].u = new Vec2d(Math.cos(theta), Math.sin(theta));
-    } else {
-      Camera camera = renderer.get2D().getCamera();
-      float deltaScale = (e.getWheelRotation() < 0 ? 0.1f : -0.1f) * camera.getScale();
-      camera.setScale(camera.getScale() + deltaScale);
-      scene.visuals.genVisuals.setEdgeScale(1f / camera.getScale());
-    }
+    Camera camera = renderer.get2D().getCamera();
+    float deltaScale = (e.getWheelRotation() < 0 ? 0.1f : -0.1f) * camera.getScale();
+    camera.setScale(camera.getScale() + deltaScale);
   }
 
   @Override
   public void mouseDragged(MouseEvent e) {
     if (mousePressPt != null) {
-
-      // TODO move path planning code to separate class
-
-      Camera camera = renderer.get2D().getCamera();
-      Viewport viewport = renderer.get2D().getViewport();
-      int deltaX = e.getPoint().x - mousePressPt.x;
-      int deltaY = e.getPoint().y - mousePressPt.y;
-      float scale = 0.02f / camera.getScale();
-      if (scene.newPath != null && (e.isShiftDown() || e.isAltDown())) {
-        int wpIndex = e.isShiftDown() ? 0 : 1;
-        float wx = 16 * (float) e.getPoint().x / viewport.width - 8;
-        float wy = (16 * (float) (viewport.height - 1 - e.getPoint().y) / viewport.height - 8)
-            / viewport.aspect();
-        scene.newPath.waypoints[wpIndex].p.x = camera.getCenter().x() + wx / camera.getScale();
-        scene.newPath.waypoints[wpIndex].p.y = camera.getCenter().y() + wy / camera.getScale();
-      } else if (e.isShiftDown()) {
+      if (e.isShiftDown()) {
         moveRobot(e.getPoint());
       } else {
         panCamera(e.getPoint());
@@ -82,8 +51,8 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
 
   private void moveRobot(Point mousePt) {
     Vec2f p = renderer.get2D().getCamera().getCenter().plus(windowToWorld(mousePt));
-    scene.visuals.robotVisuals.getP().x = p.x;
-    scene.visuals.robotVisuals.getP().y = p.y;
+    scene.view.robot.position.x = p.x;
+    scene.view.robot.position.y = p.y;
   }
 
   private void panCamera(Point mousePt) {

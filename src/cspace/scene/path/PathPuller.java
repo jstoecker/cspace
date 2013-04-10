@@ -1,4 +1,4 @@
-package cspace.scene.trimesh;
+package cspace.scene.path;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,39 +7,41 @@ import jgl.math.geometry.Ray;
 import jgl.math.vector.Vec3d;
 import jgl.math.vector.Vec3f;
 import cspace.scene.Path;
-import cspace.scene.Sub;
 import cspace.scene.Path.Waypoint;
+import cspace.scene.SceneView;
+import cspace.scene.Sub;
+import cspace.scene.trimesh.SampledCSpace;
+import cspace.scene.trimesh.SampledSub;
 import cspace.scene.trimesh.SampledSub.Triangle;
 import cspace.scene.trimesh.SampledSub.Vertex;
-import cspace.scene.visuals.PathVisuals;
 
 public class PathPuller {
 
-  Path path;
-  SampledCSpace cs;
-  PathVisuals visuals;
-  Vec3d[] velocities;
-  Vec3d[] forces;
+  Path            path;
+  SampledCSpace   cs;
+  SceneView.Path  pathView;
+  Vec3d[]         velocities;
+  Vec3d[]         forces;
   Path.Waypoint[] waypoints;
-  double timestep = 0.5;
-  double damping = 0.9;
-  double avoidRadiusSqr = 0.025;
-  public boolean init = false;
+  double          timestep       = 0.5;
+  double          damping        = 0.9;
+  double          avoidRadiusSqr = 0.025;
+  public boolean  init           = false;
 
-  public PathPuller(SampledCSpace cs, Path path, PathVisuals visuals) {
+  public PathPuller(SampledCSpace cs, Path path, SceneView.Path pathView) {
     this.cs = cs;
-    this.visuals = visuals;
+    this.pathView = pathView;
     this.path = path;
 
-//    for (Sub sub : cs.cspace.subs) {
-//      SampledSub ss = cs.subSamplings.get(sub);
-//      for (Vertex v : ss.verts) {
-//        PathView.lines.add(new Vec3f[]{
-//          new Vec3f(v.position),
-//          new Vec3f(v.position.plus(v.normal.times(0.1f)))
-//        });
-//      }
-//    }
+    // for (Sub sub : cs.cspace.subs) {
+    // SampledSub ss = cs.subSamplings.get(sub);
+    // for (Vertex v : ss.verts) {
+    // PathView.lines.add(new Vec3f[]{
+    // new Vec3f(v.position),
+    // new Vec3f(v.position.plus(v.normal.times(0.1f)))
+    // });
+    // }
+    // }
   }
 
   public Path makePath() {
@@ -57,9 +59,8 @@ public class PathPuller {
     }
     return null;
   }
-  
+
   public void iterate() {
-    visuals.setGeomUpdated(true);
 
     if (!init) {
       forces = new Vec3d[path.waypoints.length];
@@ -69,7 +70,7 @@ public class PathPuller {
         velocities[i] = new Vec3d(0);
       }
       waypoints = path.waypoints;
-//      pushOff();
+      // pushOff();
       init = true;
       return;
     }
@@ -99,10 +100,10 @@ public class PathPuller {
 
         Ray r = new Ray(new Vec3d(wp.p.x, wp.p.y, wp.theta).toFloat(), push.normalized().toFloat());
 
-//        PathView.lines.add(new Vec3f[]{
-//                  new Vec3f(r.p),
-//                  r.p.plus(r.d.times(0.3f))
-//                });
+        // PathView.lines.add(new Vec3f[]{
+        // new Vec3f(r.p),
+        // r.p.plus(r.d.times(0.3f))
+        // });
 
         for (Sub sub : cs.cspace.subs) {
           SampledSub ss = cs.subSamplings.get(sub);
@@ -110,11 +111,9 @@ public class PathPuller {
             Vertex a = tri.a;
             Vertex b = tri.b;
             Vertex c = tri.c;
-            Vec3f x = r.intersect(new jgl.math.geometry.Triangle(
-                a.position.toFloat(), 
-               b.position.toFloat(), 
-               c.position.toFloat()));
-            
+            Vec3f x = r.intersect(new jgl.math.geometry.Triangle(a.position.toFloat(), b.position
+                .toFloat(), c.position.toFloat()));
+
             // if no intersection, try shifting by 2pi
             if (x == null) {
               Vec3f pa = a.position.toFloat();
@@ -171,10 +170,7 @@ public class PathPuller {
       SampledSub ss = cs.subSamplings.get(sub);
       for (Vertex v : ss.verts) {
 
-        Vec3d u = new Vec3d(
-                wp.p.x - v.position.x,
-                wp.p.y - v.position.y,
-                wp.theta - v.position.z);
+        Vec3d u = new Vec3d(wp.p.x - v.position.x, wp.p.y - v.position.y, wp.theta - v.position.z);
 
         double dSqr = u.lengthSquared();
 

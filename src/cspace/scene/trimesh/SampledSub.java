@@ -70,7 +70,7 @@ public class SampledSub {
    * Generate samples along the start
    */
   void sampleStart(Map<CSPnt, SampledPnt> pntSamplings,
-      Map<Sub, SampledSub> subSamplings, double samplingLength) {
+      Map<Sub, SampledSub> subSamplings, double alphaDetail) {
 
     if (sub.startTail == null) {
       if (sub.startHead == null) {
@@ -80,7 +80,7 @@ public class SampledSub {
         if (shSampling == null || shSampling.endSamples.isEmpty()) {
           Sample tail = pntSamplings.get(sub.tail).findSample(sub.start);
           Sample head = pntSamplings.get(sub.head).findSample(sub.start);
-          sampleBetween(tail, head, true, samplingLength);
+          sampleBetween(tail, head, true, alphaDetail);
         } else {
           startSamples = shSampling.endSamples;
         }
@@ -91,7 +91,7 @@ public class SampledSub {
         if (stSampling == null || stSampling.endSamples.isEmpty()) {
           Sample tail = pntSamplings.get(sub.tail).findSample(sub.start);
           Sample head = pntSamplings.get(sub.head).findSample(sub.start);
-          sampleBetween(tail, head, true, samplingLength);
+          sampleBetween(tail, head, true, alphaDetail);
         } else {
           startSamples = stSampling.endSamples;
         }
@@ -157,7 +157,7 @@ public class SampledSub {
    * Generates samples for the start or end of the sub
    */
   private void sampleBetween(Sample tail, Sample head, boolean start,
-      double samplingLength) {
+      double alphaDetail) {
     List<Sample> sampleList = start ? startSamples : endSamples;
 
     sampleList.add(tail);
@@ -165,7 +165,7 @@ public class SampledSub {
     Event event = tail.event;
     
     Arc arc = sub.arc(event.u);
-    int numSamples = (int) Math.max(1, Math.abs(arc.angle / samplingLength));
+    int numSamples = (int) Math.max(1, Math.abs(arc.angle / alphaDetail));
     Vec2d step = arc.headN.minus(arc.tailN).over(numSamples + 1);
     for (int i = 0; i < numSamples; i++) {
       Vec2d alpha = arc.tailN.plus(step.times(i + 1)).normalize().times(sub.r);

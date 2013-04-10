@@ -2,8 +2,6 @@ package cspace;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
 
 import jgl.core.Viewport;
 import jgl.math.vector.Vec3f;
@@ -92,7 +90,7 @@ public class SceneRenderer {
     gl.glLoadIdentity();
     screen.apply(gl);
     gl.glLineWidth(3);
-    Vec3f c = new Vec3f(1).subtract(scene.visuals.genVisuals.getBgColor());
+    Vec3f c = new Vec3f(1).subtract(scene.view.renderer.background);
     gl.glColor3f(c.x, c.y, c.z);
     gl.glBegin(GL2.GL_LINES);
     gl.glVertex2f(0, -1);
@@ -104,10 +102,10 @@ public class SceneRenderer {
   int frames = 0;
 
   public void display(GL2 gl) {
-    Vec3f bg = scene.visuals.genVisuals.getBgColor();
+    Vec3f bg = scene.view.renderer.background;
     gl.glClearColor(bg.x, bg.y, bg.z, 0);
 
-    switch (scene.visuals.genVisuals.getView()) {
+    switch (scene.view.renderer.viewMode) {
     case VIEW_2D:
       draw2DOnly(gl);
       break;
@@ -140,20 +138,4 @@ public class SceneRenderer {
     screen = new Viewport(x, y, w, h);
   }
 
-  public enum ViewMode {
-    VIEW_2D("2D Only"),
-    VIEW_3D("3D Only"),
-    VIEW_SPLIT("Split 2D/3D");
-
-    private final String toString;
-
-    private ViewMode(String toString) {
-      this.toString = toString;
-    }
-
-    @Override
-    public String toString() {
-      return toString;
-    }
-  }
 }

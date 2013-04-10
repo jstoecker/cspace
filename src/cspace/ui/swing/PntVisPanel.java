@@ -9,9 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.PntVisuals;
+import cspace.scene.view.PntVisuals;
 import cspace.util.ColorPanel;
-import cspace.util.VisibilityPanel;
+import cspace.util.VisibilityWidget;
 
 public class PntVisPanel extends JPanel {
   public PntVisPanel(final PntVisuals visuals) {
@@ -53,7 +53,7 @@ public class PntVisPanel extends JPanel {
     gbc_lblVisibility_1.gridy = 1;
     add(lblVisibility_1, gbc_lblVisibility_1);
     
-    VisibilityPanel pVisibility = new VisibilityPanel(visuals);
+    VisibilityWidget pVisibility = new VisibilityWidget(visuals);
     GridBagConstraints gbc_pVisibility = new GridBagConstraints();
     gbc_pVisibility.fill = GridBagConstraints.BOTH;
     gbc_pVisibility.gridx = 1;

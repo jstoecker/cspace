@@ -14,7 +14,7 @@ public class ColorMap<K> {
 
   private HashMap<K, Vec3f> colors = new HashMap<K, Vec3f>();
 
-  public Vec3f getColor(K key) {
+  public Vec3f get(K key) {
     Vec3f color = colors.get(key);
     if (color == null) {
       float r = Maths.random() * 0.8f + 0.2f;
@@ -25,7 +25,7 @@ public class ColorMap<K> {
     return color;
   }
 
-  public void setColor(K key, Vec3f color) {
+  public void set(K key, Vec3f color) {
     colors.put(key, color);
   }
 

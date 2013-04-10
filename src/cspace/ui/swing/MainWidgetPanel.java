@@ -21,15 +21,18 @@ import javax.swing.event.ChangeListener;
 import jgl.math.vector.Vec2d;
 import cspace.scene.Path;
 import cspace.scene.Path.Waypoint;
-import cspace.scene.visuals.Visuals;
+import cspace.scene.Scene;
+import cspace.scene.view.Visuals;
 import cspace.util.OBJExporter;
 
 public class MainWidgetPanel extends JPanel {
 
+  Scene scene;
   MainWindow window;
   JSlider    slRobot;
 
-  public MainWidgetPanel(final MainWindow window) {
+  public MainWidgetPanel(final MainWindow window, final Scene scene) {
+    this.scene = scene;
     this.window = window;
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -58,11 +61,11 @@ public class MainWidgetPanel extends JPanel {
           Waypoint[] waypoints = new Waypoint[2];
           waypoints[0] = new Waypoint(0, 0, 0);
           waypoints[1] = new Waypoint(0, 0, 0);
-          window.getScene().newPath = new Path(waypoints);
+          scene.newPath = new Path(waypoints);
           window.repaintGL();
         } else {
-          window.getScene().updatePath();
-          slRobot.setMaximum(window.getScene().path.waypoints.length - 1);
+          scene.updatePath();
+          slRobot.setMaximum(scene.path.waypoints.length - 1);
           slRobot.setValue(0);
           window.repaintGL();
         }
@@ -74,7 +77,7 @@ public class MainWidgetPanel extends JPanel {
       public void actionPerformed(ActionEvent e) {
         JFileChooser fc = new JFileChooser();
         if (fc.showSaveDialog(MainWidgetPanel.this) == JFileChooser.APPROVE_OPTION) {
-          new OBJExporter(window.getScene().sampledCS).write(fc.getSelectedFile());
+          new OBJExporter(scene.sampledCS).write(fc.getSelectedFile());
         }
       }
     });
@@ -86,7 +89,7 @@ public class MainWidgetPanel extends JPanel {
     gbc_pathButton.gridy = 0;
     add(pathButton, gbc_pathButton);
 
-    slRobot = new JSlider(0, window.getScene().path.waypoints.length - 1, 0);
+    slRobot = new JSlider(0, scene.path.waypoints.length - 1, 0);
     slRobot.addChangeListener(new SlideListener());
     GridBagConstraints gbc_slRobot = new GridBagConstraints();
     gbc_slRobot.fill = GridBagConstraints.HORIZONTAL;
@@ -106,8 +109,8 @@ public class MainWidgetPanel extends JPanel {
 
     @Override
     public void stateChanged(ChangeEvent arg0) {
-      Visuals visuals = window.getScene().visuals;
-      Path path = window.getScene().path;
+      Visuals visuals = scene.visuals;
+      Path path = scene.path;
 
       if (visuals.robotVisuals.isOnPath()) {
         Waypoint wp = path.waypoints[slRobot.getValue()];

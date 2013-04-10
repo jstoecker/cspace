@@ -22,16 +22,18 @@ import cspace.scene.Scene;
  * 
  * @author justin
  */
-public class SceneController implements GLEventListener, MouseListener, MouseMotionListener, MouseWheelListener,
-    KeyListener {
+public class SceneController implements GLEventListener, MouseListener, MouseMotionListener,
+    MouseWheelListener, KeyListener {
 
   private final FPSAnimator   animator;
+  private final Scene         scene;
   private final SceneRenderer renderer;
   private final Controller2D  controller2d;
   private final Controller3D  controller3d;
 
-  public SceneController(Scene scene, SceneRenderer renderer, GLCanvas canvas) {
-    this.renderer = renderer;
+  public SceneController(Scene scene, GLCanvas canvas) {
+    this.scene = scene;
+    this.renderer = new SceneRenderer(scene);
     controller2d = new Controller2D(scene, renderer);
     controller3d = new Controller3D(scene, renderer);
 
@@ -40,9 +42,14 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     canvas.addMouseMotionListener(this);
     canvas.addMouseWheelListener(this);
     canvas.addKeyListener(this);
-    
+
     animator = new FPSAnimator(canvas, 60);
     animator.start();
+  }
+
+  public void shutdown() {
+    animator.stop();
+    scene.view.save();
   }
 
   public Controller2D get2D() {

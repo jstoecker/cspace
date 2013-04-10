@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import jgl.math.vector.Vec2d;
@@ -110,9 +109,9 @@ public class CSpaceReader {
   }
 
   private void readSumEEs() throws IOException {
-    cspace.sumMap = new HashMap<CSpace.EdgeSum, List<SumEE>>();
-    cspace.sees = new SumEE[nextInt()];
-    for (int i = 0; i < cspace.sees.length; i++) {
+    cspace.sumMap = new HashMap<EdgePair, List<SumEE>>();
+    cspace.sums = new SumEE[nextInt()];
+    for (int i = 0; i < cspace.sums.length; i++) {
       // format : iObsEdge iRobEdge tailType iTail headType iHead iStartEvent
       // iEndEvent
       // where type 0=VE, 1=EV
@@ -131,9 +130,9 @@ public class CSpaceReader {
       Event end = cspace.events[nextInt()];
 
       SumEE sum = new SumEE(obsEdge, robEdge, tail, head, start, end, i);
-      cspace.sees[i] = sum;
+      cspace.sums[i] = sum;
 
-      CSpace.EdgeSum pair = cspace.new EdgeSum(iRobEdge, iObsEdge);
+      EdgePair pair = new EdgePair(iRobEdge, iObsEdge);
       List<SumEE> sums = cspace.sumMap.get(pair);
       if (sums == null)
         cspace.sumMap.put(pair, sums = new ArrayList<SumEE>());

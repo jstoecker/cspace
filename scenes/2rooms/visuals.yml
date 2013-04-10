@@ -1,4 +1,4 @@
-!!cspace.scene.visuals.Visuals
+!!cspace.scene.view.Visuals
 cameraVisuals:
   center2d: {x: 0.0, y: 0.0}
   eye3d: {x: 0.0, y: -10.0, z: 0.0}
@@ -9,10 +9,10 @@ cameraVisuals:
   yaw3d: 0.0
 genVisuals:
   bgColor: {x: 1.0, y: 1.0, z: 1.0}
-  edgeScale: 0.8116349
+  edgeScale: 0.5006775
   fixedWidthEdges: true
   scale: 1.0
-  view: VIEW_3D
+  view: VIEW_SPLIT
 obstacleVisuals:
   color: {x: 0.6, y: 0.6, z: 0.6}
   drawOrigin: false
@@ -43,10 +43,10 @@ robotVisuals:
   geomUpdated2d: false
   geomUpdated3d: true
   onPath: false
-  p: {x: -4.1189351081848145, y: 1.8545196056365967}
+  p: {x: -4.321738243103027, y: 0.8254678249359131}
   smooth2d: 0.0010
-  theta: 0.0
-  u: {x: 1.0, y: 0.0}
+  theta: 1.1264674853509218
+  u: {x: 0.4298519885248572, y: 0.902899367571617}
   visible2d: true
   visible3d: false
   width2d: 0.03

@@ -17,10 +17,10 @@ public class Renderer3D {
   Viewport  viewport;
   Scene     scene;
   SubView   subView;
-  PntView   pntView;
-  PathView  pathView;
-  RobotView robotView;
-  SumEEView sumEEView;
+  ContactRenderer   pntView;
+  PathRenderer  pathView;
+  RobotRenderer robotView;
+  SumRenderer sumEEView;
 
   public Renderer3D(Scene scene) {
     this.scene = scene;
@@ -29,10 +29,10 @@ public class Renderer3D {
     camera.setProjection(Transform.perspective(50, 1, 0.1f, 100));
     subView = new SubView(scene.visuals.subVisuals, scene.visuals.sumEEVisuals,
         scene.visuals.robotVisuals);
-    pntView = new PntView(scene.visuals.pntVisuals);
-    pathView = new PathView(scene.path, scene.visuals.pathVisuals, scene.visuals.robotVisuals);
-    robotView = new RobotView(scene.visuals.robotVisuals);
-    sumEEView = new SumEEView(scene.cspace, scene.visuals.sumEEVisuals, scene.visuals.subVisuals,
+    pntView = new ContactRenderer(scene.visuals.pntVisuals);
+    pathView = new PathRenderer(scene.path, scene.visuals.pathVisuals, scene.visuals.robotVisuals);
+    robotView = new RobotRenderer(scene.visuals.robotVisuals);
+    sumEEView = new SumRenderer(scene.cspace, scene.visuals.sumEEVisuals, scene.visuals.subVisuals,
         scene.visuals.robotVisuals);
     updateGeometry();
   }

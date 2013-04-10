@@ -18,8 +18,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.GeneralVisuals;
-import cspace.scene.visuals.GeneralVisuals.ViewMode;
+import cspace.scene.view.GeneralVisuals;
+import cspace.scene.view.GeneralVisuals.ViewMode;
 import cspace.util.ColorPanel;
 
 public class GeneralPanel extends JPanel {
@@ -29,8 +29,7 @@ public class GeneralPanel extends JPanel {
     gridBagLayout.columnWidths = new int[] { 193, 0, 0 };
     gridBagLayout.rowHeights = new int[] { 32, 32, 0, 0, 0 };
     gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0,
-        Double.MIN_VALUE };
+    gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
     setLayout(gridBagLayout);
 
     JLabel lblNewLabel = new JLabel("Background Color");
@@ -68,7 +67,7 @@ public class GeneralPanel extends JPanel {
     cbView.setSelectedItem(visuals.getView());
     cbView.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent arg0) {
-        visuals.setView((ViewMode)cbView.getSelectedItem());
+        visuals.setView((ViewMode) cbView.getSelectedItem());
       }
     });
     GridBagConstraints gbc_cbView = new GridBagConstraints();
@@ -86,8 +85,7 @@ public class GeneralPanel extends JPanel {
     gbc_lblScale.gridy = 2;
     add(lblScale, gbc_lblScale);
 
-    final SpinnerNumberModel scaleModel = new SpinnerNumberModel(
-        visuals.getScale(), -100, 100, 0.1);
+    final SpinnerNumberModel scaleModel = new SpinnerNumberModel(visuals.getScale(), -100, 100, 0.1);
     JSpinner spnScale = new JSpinner(scaleModel);
     spnScale.addChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {

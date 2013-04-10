@@ -25,7 +25,7 @@ public class CSpace {
   public SumEV[]  sevs;
 
   /** All sums of obstacle edges + robot edges */
-  public SumEE[]  sees;
+  public SumEE[]  sums;
 
   /** All intersections of pairs of SumEEs */
   public Intn[]   intns;
@@ -34,30 +34,7 @@ public class CSpace {
   public Sub[]    subs;
   
   /** Maps a pair of edge indices to a SumEE */
-  Map<EdgeSum, List<SumEE>> sumMap;
-  
-  /** Used only for the hashing to find sumees by index pairs */
-  public class EdgeSum {
-    final int robEdge;
-    final int obsEdge;
-    public EdgeSum(int robEdge, int obsEdge) {
-      this.robEdge = robEdge;
-      this.obsEdge = obsEdge;
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-      if (obj == null || obj.getClass() != getClass())
-        return false;
-      EdgeSum that = (EdgeSum)obj;
-      return (robEdge == that.robEdge && obsEdge == that.obsEdge);
-    }
-    
-    @Override
-    public int hashCode() {
-      return robEdge * obstacle.e.length + obsEdge;
-    }
-  }
+  Map<EdgePair, List<SumEE>> sumMap;
   
   CSpace() {
   }
@@ -83,6 +60,6 @@ public class CSpace {
   
   /** Returns a list of all SumEEs that have the edge indices given */
   public List<SumEE> getSumEEs(int robEdge, int obsEdge) {
-    return sumMap.get(new EdgeSum(robEdge, obsEdge));
+    return sumMap.get(new EdgePair(robEdge, obsEdge));
   }
 }

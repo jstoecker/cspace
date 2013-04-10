@@ -3,27 +3,27 @@ package cspace.render3d;
 import javax.media.opengl.GL2;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.visuals.RobotVisuals;
+import cspace.scene.Scene;
 
-public class RobotView {
+public class RobotRenderer {
 
-  private RobotVisuals visuals;
-  
-  public RobotView(RobotVisuals visuals) {
-    this.visuals = visuals;
+  private Scene scene;
+
+  public RobotRenderer(Scene scene) {
+    this.scene = scene;
   }
-  
-  void draw(GL2 gl) {
-    if (!visuals.isVisible3d()) {
+
+  public void draw(GL2 gl) {
+    if (!scene.view.robot.visible3d) {
       return;
     }
-    
-    Vec3f c = visuals.getColor();
+
+    Vec3f c = scene.view.robot.color;
     gl.glColor3f(c.x, c.y, c.z);
 
-    double x = visuals.getP().x;
-    double y = visuals.getP().y;
-    double z = visuals.getTheta();
+    double x = scene.view.robot.position.x;
+    double y = scene.view.robot.position.y;
+    double z = scene.view.robot.rotation.anglePi();
 
     gl.glBegin(GL2.GL_LINES);
     gl.glVertex3d(x, y, z - 10);

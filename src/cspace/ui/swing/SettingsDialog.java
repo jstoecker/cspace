@@ -22,7 +22,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import cspace.scene.visuals.Visuals;
+import cspace.scene.Scene;
+import cspace.scene.view.Visuals;
 
 /**
  * Contains configuration options for the scene.
@@ -36,7 +37,7 @@ public class SettingsDialog extends JDialog {
   JList      menuList;
   CardLayout optionsLayout;
 
-  public SettingsDialog(final MainWindow window) {
+  public SettingsDialog(final MainWindow window, final Scene scene) {
     super(window);
     setResizable(false);
     setAlwaysOnTop(true);
@@ -44,7 +45,7 @@ public class SettingsDialog extends JDialog {
     setTitle("Settings");
     getContentPane().setLayout(new BorderLayout());
 
-    Visuals visuals = window.getScene().visuals;
+    Visuals visuals = scene.visuals;
     optionsPanel = new JPanel();
     optionsPanel.setLayout(optionsLayout = new CardLayout());
     optionsPanel.add(new GeneralPanel(visuals.genVisuals), menus[0]);
@@ -75,7 +76,7 @@ public class SettingsDialog extends JDialog {
     JButton btnResample = new JButton("Resample");
     btnResample.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
-        window.getScene().sampleCS();
+        scene.sampleCS();
 //        window.getController().get3D().view.updateGeometry();
         window.repaintGL();
       }
