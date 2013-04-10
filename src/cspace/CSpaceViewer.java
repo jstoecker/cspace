@@ -6,12 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import cspace.gui.main.MainWindow;
-import cspace.model.CSpace;
-import cspace.model.CSpaceReader;
-import cspace.model.Path;
-import cspace.model.Scene;
-import cspace.visuals.Visuals;
+import cspace.scene.CSpace;
+import cspace.scene.CSpaceReader;
+import cspace.scene.Path;
+import cspace.scene.Scene;
+import cspace.scene.visuals.Visuals;
+import cspace.ui.swing.MainWindow;
 
 /**
  * Main program.
