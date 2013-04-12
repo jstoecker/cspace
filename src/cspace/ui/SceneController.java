@@ -12,8 +12,6 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 
-import com.jogamp.opengl.util.FPSAnimator;
-
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
 
@@ -25,7 +23,7 @@ import cspace.scene.Scene;
 public class SceneController implements GLEventListener, MouseListener, MouseMotionListener,
     MouseWheelListener, KeyListener {
 
-  private final FPSAnimator   animator;
+  private final GLCanvas      canvas;
   private final Scene         scene;
   private final SceneRenderer renderer;
   private final Controller2D  controller2d;
@@ -34,6 +32,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   public SceneController(Scene scene, GLCanvas canvas) {
     this.scene = scene;
     this.renderer = new SceneRenderer(scene);
+    this.canvas = canvas;
     controller2d = new Controller2D(scene, renderer);
     controller3d = new Controller3D(scene, renderer);
 
@@ -42,13 +41,14 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     canvas.addMouseMotionListener(this);
     canvas.addMouseWheelListener(this);
     canvas.addKeyListener(this);
-
-    animator = new FPSAnimator(canvas, 60);
-    animator.start();
   }
 
   public void shutdown() {
-    animator.stop();
+    canvas.removeGLEventListener(this);
+    canvas.removeMouseListener(this);
+    canvas.removeMouseMotionListener(this);
+    canvas.removeMouseWheelListener(this);
+    canvas.removeKeyListener(this);
     scene.view.save();
   }
 
@@ -59,11 +59,11 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   public Controller3D get3D() {
     return controller3d;
   }
-  
+
   public Scene getScene() {
     return scene;
   }
-  
+
   public SceneRenderer getRenderer() {
     return renderer;
   }
@@ -133,7 +133,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
     renderer.reshape(x, y, width, height);
   }
-  
+
   @Override
   public void mouseMoved(MouseEvent e) {
   }

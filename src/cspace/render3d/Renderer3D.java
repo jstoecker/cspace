@@ -2,24 +2,20 @@ package cspace.render3d;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
 
 import jgl.cameras.Camera;
-import jgl.core.Viewport;
 import jgl.math.vector.Transform;
 import cspace.scene.Scene;
-import cspace.scene.Path.Waypoint;
 
 public class Renderer3D {
 
-  private Camera          camera = new Camera();
-  private Scene           scene;
-  private SubRenderer     subRenderer;
-  private ContactRenderer contactRenderer;
-  private PathRenderer    pathRenderer;
-  private RobotRenderer   robotRenderer;
-  private SumRenderer     sumRenderer;
+  private Camera           camera = new Camera();
+  private Scene            scene;
+  private SubRenderer      subRenderer;
+  private ContactRenderer  contactRenderer;
+  private PathRenderer     pathRenderer;
+  private RobotRenderer    robotRenderer;
+  private SumRenderer      sumRenderer;
 
   public Renderer3D(Scene scene) {
     this.scene = scene;
@@ -31,13 +27,14 @@ public class Renderer3D {
     pathRenderer = new PathRenderer(scene);
     robotRenderer = new RobotRenderer(scene);
     sumRenderer = new SumRenderer(scene);
+
     updateGeometry();
   }
 
   public Camera getCamera() {
     return camera;
   }
-  
+
   public ContactRenderer getContactRenderer() {
     return contactRenderer;
   }
@@ -79,6 +76,6 @@ public class Renderer3D {
 
   public void updateGeometry() {
     subRenderer.update(scene);
-//    contactRenderer.update(scene.sampledCS);
+    // contactRenderer.update(scene.sampledCS);
   }
 }

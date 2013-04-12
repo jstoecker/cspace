@@ -7,26 +7,26 @@ camera3d:
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
   intnColor: {x: 0.75686276, y: 0.28235295, z: 0.75686276}
-  intnVisible2d: true
-  intnVisible3d: true
+  intnVisible2d: false
+  intnVisible3d: false
   sevColor: {x: 0.8, y: 0.0, z: 0.2}
-  sevVisible2d: true
-  sevVisible3d: true
+  sevVisible2d: false
+  sevVisible3d: false
   sveColor: {x: 0.0, y: 0.8, z: 0.8}
-  sveVisible2d: true
-  sveVisible3d: true
+  sveVisible2d: false
+  sveVisible3d: false
 obstacle:
-  color: {x: 0.6, y: 0.6, z: 0.6}
-  edgeDetail: 0.0010
-  edgeWidth: 0.03
+  color: {x: 1.0, y: 0.4, z: 0.2}
+  edgeDetail: 0.94
+  edgeWidth: 0.181
   originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 0.6, y: 0.6, z: 0.0}
+  color: {x: 0.4, y: 0.4, z: 0.0}
   edgeWidth: 0.03
   visible2d: false
-  visible3d: false
+  visible3d: true
 renderer:
   background: {x: 1.0, y: 1.0, z: 1.0}
   fixedWidthEdges: true
@@ -36,8 +36,8 @@ robot:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: 3.83303, y: -0.0233195}
-  rotation: {x: 0.9727162401646203, y: 0.23199809507839636}
+  position: {x: -2.87655, y: 2.04398}
+  rotation: {x: -0.8079577876890245, y: 0.5892403697241535}
   visible2d: true
   visible3d: true
 subs:

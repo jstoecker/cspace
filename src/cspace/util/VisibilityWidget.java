@@ -1,8 +1,8 @@
 package cspace.util;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +17,8 @@ import javax.swing.JPanel;
  */
 public class VisibilityWidget extends JPanel {
 
-  private JCheckBox      visible2d;
-  private JCheckBox      visible3d;
+  public JCheckBox      visible2d;
+  public JCheckBox      visible3d;
   private List<Listener> listeners = new ArrayList<Listener>();
 
   public VisibilityWidget(boolean on2D, boolean on3D) {
@@ -26,12 +26,12 @@ public class VisibilityWidget extends JPanel {
 
     visible2d = new JCheckBox("2D");
     visible2d.setSelected(on2D);
-    visible2d.addActionListener(new Action());
+    visible2d.addItemListener(new Action());
     add(visible2d);
 
     visible3d = new JCheckBox("3D");
     visible3d.setSelected(on3D);
-    visible3d.addActionListener(new Action());
+    visible3d.addItemListener(new Action());
     add(visible3d);
   }
 
@@ -39,8 +39,8 @@ public class VisibilityWidget extends JPanel {
     listeners.add(l);
   }
 
-  private class Action implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
+  private class Action implements ItemListener {
+    public void itemStateChanged(ItemEvent e) {
       for (Listener l : listeners)
         l.visibilityChanged(visible2d.isSelected(), visible3d.isSelected());
     }

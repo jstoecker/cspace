@@ -108,6 +108,7 @@ public class SceneRenderer {
   int frames = 0;
 
   public void display(GL2 gl) {
+    
     Vec3f bg = scene.view.renderer.background;
     gl.glClearColor(bg.x, bg.y, bg.z, 0);
 
