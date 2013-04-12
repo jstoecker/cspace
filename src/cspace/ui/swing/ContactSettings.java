@@ -2,54 +2,89 @@ package cspace.ui.swing;
 
 import javax.swing.JPanel;
 
+import jgl.math.vector.Vec3f;
+
+import cspace.SceneRenderer;
 import cspace.scene.Scene;
+import cspace.scene.SceneView;
+import cspace.util.ColorPanel;
+import cspace.util.PropertyLayout;
+import cspace.util.VisibilityWidget;
 
 public class ContactSettings extends JPanel {
-  public ContactSettings(Scene scene) {
-//    setBorder(new EmptyBorder(10, 10, 10, 10));
-//
-//    GridBagLayout gridBagLayout = new GridBagLayout();
-//    gridBagLayout.columnWidths = new int[]{193, 0, 0};
-//    gridBagLayout.rowHeights = new int[]{32, 32, 0};
-//    gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-//    gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-//    setLayout(gridBagLayout);
-//    
-//    JLabel lblVisibility = new JLabel("Color");
-//    GridBagConstraints gbc_lblVisibility = new GridBagConstraints();
-//    gbc_lblVisibility.anchor = GridBagConstraints.EAST;
-//    gbc_lblVisibility.insets = new Insets(0, 0, 5, 5);
-//    gbc_lblVisibility.gridx = 0;
-//    gbc_lblVisibility.gridy = 0;
-//    add(lblVisibility, gbc_lblVisibility);
-//    
-//    ColorPanel pColor = new ColorPanel("Pnt Color", visuals.getColor());
-//    pColor.addListener(new ColorPanel.Listener() {
-//      public void colorChanged(ColorPanel panel, Vec3f newColor) {
-//        visuals.setColor(newColor);
-//      }
-//    });
-//    GridBagConstraints gbc_pColor = new GridBagConstraints();
-//    gbc_pColor.insets = new Insets(2, 2, 7, 2);
-//    gbc_pColor.fill = GridBagConstraints.BOTH;
-//    gbc_pColor.gridx = 1;
-//    gbc_pColor.gridy = 0;
-//    add(pColor, gbc_pColor);
-//    
-//    JLabel lblVisibility_1 = new JLabel("Visibility");
-//    GridBagConstraints gbc_lblVisibility_1 = new GridBagConstraints();
-//    gbc_lblVisibility_1.anchor = GridBagConstraints.EAST;
-//    gbc_lblVisibility_1.insets = new Insets(0, 0, 0, 5);
-//    gbc_lblVisibility_1.gridx = 0;
-//    gbc_lblVisibility_1.gridy = 1;
-//    add(lblVisibility_1, gbc_lblVisibility_1);
-//    
-//    VisibilityWidget pVisibility = new VisibilityWidget(visuals);
-//    GridBagConstraints gbc_pVisibility = new GridBagConstraints();
-//    gbc_pVisibility.fill = GridBagConstraints.BOTH;
-//    gbc_pVisibility.gridx = 1;
-//    gbc_pVisibility.gridy = 1;
-//    add(pVisibility, gbc_pVisibility);
+
+  private final Scene         scene;
+  private final SceneRenderer renderer;
+
+  public ContactSettings(Scene scene, SceneRenderer renderer) {
+    this.scene = scene;
+    this.renderer = renderer;
+
+    SceneView.Contacts view = scene.view.contacts;
+    PropertyLayout layout = new PropertyLayout();
+
+    ColorPanel intnColor = new ColorPanel("Intersection Color", view.intnColor);
+    intnColor.addListener(new ColorAction(view.intnColor));
+    layout.add("Intersection Color", intnColor);
+    
+    VisibilityWidget intnVisibility = new VisibilityWidget(view.intnVisible2d, view.intnVisible3d);
+    intnVisibility.addListener(new IntnVisAction());
+    layout.add("Intersection Visibility", intnVisibility);
+    
+    ColorPanel sveColor = new ColorPanel("SumVE Color", view.sveColor);
+    sveColor.addListener(new ColorAction(view.sveColor));
+    layout.add("SumVE Color", sveColor);
+    
+    VisibilityWidget sveVisibility = new VisibilityWidget(view.sveVisible2d, view.sveVisible3d);
+    sveVisibility.addListener(new SveVisAction());
+    layout.add("SumVE Visibility", sveVisibility);
+    
+    ColorPanel sevColor = new ColorPanel("SumEV Color", view.sevColor);
+    sevColor.addListener(new ColorAction(view.sevColor));
+    layout.add("SumEV Color", sevColor);
+    
+    VisibilityWidget sevVisibility = new VisibilityWidget(view.sevVisible2d, view.sevVisible3d);
+    sevVisibility.addListener(new SevVisAction());
+    layout.add("SumEV Visibility", sevVisibility);
+
+    layout.apply(this);
+  }
+  
+  private class ColorAction implements ColorPanel.Listener {
+    private Vec3f color;
+    public ColorAction(Vec3f color) {
+      this.color = color;
+    }
+    public void colorChanged(ColorPanel panel, Vec3f newColor) {
+      color.set(newColor);
+      renderer.get2D().getContactRenderer().markDirty();
+    }
   }
 
+  private class IntnVisAction implements VisibilityWidget.Listener {
+    public void visibilityChanged(boolean visible2d, boolean visible3d) {
+      scene.view.contacts.intnVisible2d = visible2d;
+      scene.view.contacts.intnVisible3d = visible3d;
+      renderer.get2D().getContactRenderer().markDirty();
+      renderer.get3D().getContactRenderer().markDirty();
+    }
+  }
+  
+  private class SveVisAction implements VisibilityWidget.Listener {
+    public void visibilityChanged(boolean visible2d, boolean visible3d) {
+      scene.view.contacts.sveVisible2d = visible2d;
+      scene.view.contacts.sveVisible3d = visible3d;
+      renderer.get2D().getContactRenderer().markDirty();
+      renderer.get3D().getContactRenderer().markDirty();
+    }
+  }
+  
+  private class SevVisAction implements VisibilityWidget.Listener {
+    public void visibilityChanged(boolean visible2d, boolean visible3d) {
+      scene.view.contacts.sevVisible2d = visible2d;
+      scene.view.contacts.sevVisible3d = visible3d;
+      renderer.get2D().getContactRenderer().markDirty();
+      renderer.get3D().getContactRenderer().markDirty();
+    }
+  }
 }

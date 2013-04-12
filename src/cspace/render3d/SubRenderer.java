@@ -32,7 +32,6 @@ public class SubRenderer {
   SubRenderer(Scene scene) {
     this.scene = scene;
     this.mesh = new SubMesh(scene);
-    mesh.update(scene);
   }
 
   void init(GL2 gl) {

@@ -15,6 +15,7 @@ public class Renderer2D {
   private SubRenderer      subRenderer;
   private PathRenderer     pathRenderer;
   private SumRenderer      sumRenderer;
+  private ContactRenderer  contactRenderer;
 
   public Renderer2D(Scene scene) {
     camera.setScale(scene.view.camera2d.initialScale);
@@ -24,6 +25,7 @@ public class Renderer2D {
     subRenderer = new SubRenderer(scene, camera);
     pathRenderer = new PathRenderer(scene, camera);
     sumRenderer = new SumRenderer(scene, camera);
+    contactRenderer = new ContactRenderer(scene);
   }
 
   public Viewport getViewport() {
@@ -53,6 +55,10 @@ public class Renderer2D {
   public SumRenderer getSumRenderer() {
     return sumRenderer;
   }
+
+  public ContactRenderer getContactRenderer() {
+    return contactRenderer;
+  }
   
   public void markDirty() {
     obstacleRenderer.markDirty();
@@ -60,6 +66,7 @@ public class Renderer2D {
     subRenderer.markDirty();
     pathRenderer.markDirty();
     robotRenderer.markDirty();
+    contactRenderer.markDirty();
   }
 
   public void display(GL2 gl) {
@@ -72,6 +79,7 @@ public class Renderer2D {
     obstacleRenderer.draw(gl);
     sumRenderer.draw(gl);
     subRenderer.draw(gl);
+    contactRenderer.draw(gl);
     pathRenderer.draw(gl);
     robotRenderer.draw(gl);
   }

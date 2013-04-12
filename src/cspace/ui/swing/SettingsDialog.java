@@ -53,7 +53,7 @@ public class SettingsDialog extends JDialog {
     optionsPanel.add(new ObstacleSettings(scene), menus[3]);
     optionsPanel.add(new PathSettings(scene), menus[4]);
     optionsPanel.add(new SumSettings(scene), menus[5]);
-    optionsPanel.add(new ContactSettings(scene), menus[6]);
+    optionsPanel.add(new ContactSettings(scene, renderer), menus[6]);
     getContentPane().add(optionsPanel, BorderLayout.CENTER);
 
     JPanel bottomPanel = new JPanel();

@@ -6,7 +6,12 @@ import java.util.Map;
 import javax.media.opengl.GL2;
 
 import jgl.math.vector.Vec3f;
+import cspace.scene.CSPnt;
+import cspace.scene.Intn;
 import cspace.scene.Scene;
+import cspace.scene.SceneView;
+import cspace.scene.SumEV;
+import cspace.scene.SumVE;
 import cspace.scene.triangulate.Sample;
 import cspace.scene.triangulate.SampledSub;
 import cspace.scene.triangulate.SampledSub.Vertex;
@@ -22,16 +27,35 @@ public class ContactRenderer extends CachedRenderer {
 
   @Override
   protected void beginDraw(GL2 gl) {
-    Vec3f c = scene.view.contacts.color;
+    Vec3f c = scene.view.contacts.intnColor;
     gl.glColor3f(c.x, c.y, c.z);
   }
 
   @Override
   protected void updateGeometry(GL2 gl) {
     for (SampledSub sub : scene.sampledCS.subSamplings.values()) {
-      drawLineStrip(gl, sub.vertMap, sub.tailSamples);
-      drawLineStrip(gl, sub.vertMap, sub.headSamples);
+      Vec3f color = color(sub.sub.tail);
+      if (color != null) {
+        gl.glColor3f(color.x, color.y, color.z);
+        drawLineStrip(gl, sub.vertMap, sub.tailSamples);
+      }
+
+      color = color(sub.sub.head);
+      if (color != null) {
+        gl.glColor3f(color.x, color.y, color.z);
+        drawLineStrip(gl, sub.vertMap, sub.headSamples);
+      }
     }
+  }
+
+  Vec3f color(CSPnt pnt) {
+    if (pnt instanceof Intn && scene.view.contacts.intnVisible3d)
+      return scene.view.contacts.intnColor;
+    if (pnt instanceof SumVE && scene.view.contacts.sveVisible3d)
+      return scene.view.contacts.sveColor;
+    if (pnt instanceof SumEV && scene.view.contacts.sevVisible3d)
+      return scene.view.contacts.sevColor;
+    return null;
   }
 
   private void drawLineStrip(GL2 gl, Map<Sample, Vertex> vertMap, List<Sample> samples) {
@@ -48,9 +72,10 @@ public class ContactRenderer extends CachedRenderer {
     }
     gl.glEnd();
   }
-  
+
   @Override
   protected boolean isVisible() {
-    return scene.view.contacts.visible3d;
+    SceneView.Contacts view = scene.view.contacts;
+    return view.intnVisible3d || view.sveVisible3d || view.sevVisible3d;
   }
 }

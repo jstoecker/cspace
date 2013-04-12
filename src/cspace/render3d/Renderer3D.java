@@ -37,6 +37,10 @@ public class Renderer3D {
   public Camera getCamera() {
     return camera;
   }
+  
+  public ContactRenderer getContactRenderer() {
+    return contactRenderer;
+  }
 
   public void display(GL2 gl) {
 

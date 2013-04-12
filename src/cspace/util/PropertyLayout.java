@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Utility class for organizing Swing components in a two-column layout.
@@ -19,7 +20,7 @@ import javax.swing.JLabel;
 public class PropertyLayout {
 
   public int         labelColumnWidth = 180;
-  public int         rowHeight        = 0;
+  public int         rowHeight        = 26;
   private List<Item> items            = new ArrayList<Item>();
 
   public void add(Component component) {
@@ -45,6 +46,7 @@ public class PropertyLayout {
     rowWeights[numRows] = Double.MIN_VALUE;
     layout.rowWeights = rowWeights;
 
+    component.setBorder(new EmptyBorder(10, 10, 10, 10));
     component.setLayout(layout);
 
     for (int row = 0; row < items.size(); row++) {

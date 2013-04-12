@@ -127,6 +127,7 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
     if (translation.lengthSquared() > 0) {
       cameraController.move(translation);
     }
+    
   }
 
 

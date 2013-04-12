@@ -1,6 +1,7 @@
 package cspace.util;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class ColorPanel extends JPanel implements MouseListener {
     setBorder(b);
     setBackground(toColor(initialColor));
     addMouseListener(this);
+    setPreferredSize(new Dimension(22, 22));
+    setMinimumSize(new Dimension(22, 22));
   }
   
   public void addListener(ColorPanel.Listener listener) {

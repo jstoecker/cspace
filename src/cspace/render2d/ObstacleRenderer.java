@@ -29,6 +29,15 @@ public class ObstacleRenderer extends CachedRenderer {
       width /= camera.getScale();
     for (int i = 0; i < scene.cspace.obstacle.e.length; i++)
       new ArcGeometry(scene.cspace.obstacle.e[i]).draw(gl, width, scene.view.obstacle.edgeDetail);
+    
+    if (scene.view.robot.originVisible) {
+      gl.glBegin(GL2.GL_LINES);
+      gl.glVertex2f(-0.1f, 0);
+      gl.glVertex2f(0.1f, 0);
+      gl.glVertex2f(0, -0.1f);
+      gl.glVertex2f(0, 0.1f);
+      gl.glEnd();
+    }
   }
 
   @Override

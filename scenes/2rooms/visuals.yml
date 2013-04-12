@@ -6,37 +6,43 @@ camera3d:
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
-  color: {x: 0.2, y: 1.0, z: 0.4}
-  visible2d: false
-  visible3d: false
+  intnColor: {x: 0.75686276, y: 0.28235295, z: 0.75686276}
+  intnVisible2d: true
+  intnVisible3d: true
+  sevColor: {x: 0.8, y: 0.0, z: 0.2}
+  sevVisible2d: true
+  sevVisible3d: true
+  sveColor: {x: 0.0, y: 0.8, z: 0.8}
+  sveVisible2d: true
+  sveVisible3d: true
 obstacle:
   color: {x: 0.6, y: 0.6, z: 0.6}
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  originVisible: true
+  originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.6, y: 0.6, z: 0.0}
   edgeWidth: 0.03
-  visible2d: true
+  visible2d: false
   visible3d: false
 renderer:
-  background: {x: 0.1, y: 0.1, z: 0.1}
-  fixedWidthEdges: false
-  viewMode: VIEW_2D
+  background: {x: 1.0, y: 1.0, z: 1.0}
+  fixedWidthEdges: true
+  viewMode: VIEW_SPLIT
 robot:
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.6, y: 0.0, z: 0.0}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: 3.83303, y: -0.0233195}
+  rotation: {x: 0.9727162401646203, y: 0.23199809507839636}
   visible2d: true
-  visible3d: false
+  visible3d: true
 subs:
   alphaSampling: 0.1
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.0, y: 0.6, z: 0.0}
   colorStyle3d: UNIFORM
   edgeDetail: 0.0010
   edgeWidth: 0.03
@@ -44,10 +50,10 @@ subs:
   shaded: true
   thetaSampling: 0.01
   visible2d: true
-  visible3d: false
+  visible3d: true
   wireframed: false
 sums:
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.3, y: 0.3, z: 0.3}
   drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03

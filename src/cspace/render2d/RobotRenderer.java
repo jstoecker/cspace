@@ -37,8 +37,17 @@ public class RobotRenderer extends CachedRenderer {
       width /= camera.getScale();
     for (int i = 0; i < scene.cspace.robot.e.length; i++)
       new ArcGeometry(scene.cspace.robot.e[i]).draw(gl, width, scene.view.obstacle.edgeDetail);
+
+    if (scene.view.robot.originVisible) {
+      gl.glBegin(GL2.GL_LINES);
+      gl.glVertex2f(-0.1f, 0);
+      gl.glVertex2f(0.1f, 0);
+      gl.glVertex2f(0, -0.1f);
+      gl.glVertex2f(0, 0.1f);
+      gl.glEnd();
+    }
   }
-  
+
   @Override
   protected boolean isVisible() {
     return scene.view.robot.visible2d;

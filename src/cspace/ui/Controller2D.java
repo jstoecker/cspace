@@ -30,9 +30,16 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
 
   @Override
   public void mouseWheelMoved(MouseWheelEvent e) {
-    Camera camera = renderer.get2D().getCamera();
-    float deltaScale = (e.getWheelRotation() < 0 ? 0.1f : -0.1f) * camera.getScale();
-    camera.setScale(camera.getScale() + deltaScale);
+    if (e.isShiftDown()) {
+      // rotate robot
+      float delta = e.getWheelRotation() < 0 ? 3 : -3;
+      scene.view.robot.rotation.rotateDegrees(delta);
+    } else {
+      // zoom camera
+      Camera camera = renderer.get2D().getCamera();
+      float deltaScale = (e.getWheelRotation() < 0 ? 0.1f : -0.1f) * camera.getScale();
+      camera.setScale(camera.getScale() + deltaScale);
+    }
     renderer.get2D().markDirty();
   }
 
@@ -40,23 +47,17 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
   public void mouseDragged(MouseEvent e) {
     if (mousePressPt != null) {
       if (e.isShiftDown()) {
-        moveRobot(e.getPoint());
+        // move robot
+        Vec2f p = renderer.get2D().getCamera().getCenter().plus(windowToWorld(e.getPoint()));
+        scene.view.robot.position.x = p.x;
+        scene.view.robot.position.y = p.y;
       } else {
-        panCamera(e.getPoint());
+        // translate camera
+        Vec2f a = windowToWorld(mousePressPt);
+        Vec2f b = windowToWorld(e.getPoint());
+        renderer.get2D().getCamera().setCenter(cameraPos.plus(a.minus(b)));
       }
     }
-  }
-
-  private void moveRobot(Point mousePt) {
-    Vec2f p = renderer.get2D().getCamera().getCenter().plus(windowToWorld(mousePt));
-    scene.view.robot.position.x = p.x;
-    scene.view.robot.position.y = p.y;
-  }
-
-  private void panCamera(Point mousePt) {
-    Vec2f a = windowToWorld(mousePressPt);
-    Vec2f b = windowToWorld(mousePt);
-    renderer.get2D().getCamera().setCenter(cameraPos.plus(a.minus(b)));
   }
 
   Vec2f windowToWorld(Point p) {

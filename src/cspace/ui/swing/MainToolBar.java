@@ -18,17 +18,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import cspace.scene.Path.Waypoint;
-import cspace.scene.Scene;
+import cspace.ui.SceneController;
 
-public class MainWidgetPanel extends JPanel {
+public class MainToolBar extends JPanel {
 
-  Scene      scene;
-  MainWindow window;
-  JSlider    slRobot;
+  private final SceneController controller;
 
-  public MainWidgetPanel(final MainWindow window, final Scene scene) {
-    this.scene = scene;
-    this.window = window;
+  public MainToolBar(final MainWindow window, SceneController controller) {
+    this.controller = controller;
     GridBagLayout gridBagLayout = new GridBagLayout();
     gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
     gridBagLayout.rowHeights = new int[] { 0, 0 };
@@ -57,7 +54,7 @@ public class MainWidgetPanel extends JPanel {
     gbc_pathButton.gridy = 0;
     add(pathButton, gbc_pathButton);
 
-    slRobot = new JSlider(0, scene.path.waypoints.length - 1, 0);
+    JSlider slRobot = new JSlider(0, controller.getScene().path.waypoints.length - 1, 0);
     slRobot.addChangeListener(new PathSlideAction());
     GridBagConstraints gbc_slRobot = new GridBagConstraints();
     gbc_slRobot.fill = GridBagConstraints.HORIZONTAL;
@@ -75,9 +72,13 @@ public class MainWidgetPanel extends JPanel {
 
   private class PathSlideAction implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
-      Waypoint wp = scene.path.waypoints[slRobot.getValue()];
-      scene.view.robot.position = wp.p.copy();
-      scene.view.robot.rotation = wp.u.copy();
+      JSlider slider = (JSlider) e.getSource();
+      Waypoint wp = controller.getScene().path.waypoints[slider.getValue()];
+      controller.getScene().view.robot.position = wp.p.copy();
+      controller.getScene().view.robot.rotation = wp.u.copy();
+      controller.getRenderer().get2D().getSumRenderer().markDirty();
+      controller.getRenderer().get2D().getSubRenderer().markDirty();
+      controller.getRenderer().get2D().getContactRenderer().markDirty();
     }
   }
 }

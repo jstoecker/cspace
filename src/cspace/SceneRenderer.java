@@ -14,14 +14,20 @@ import cspace.scene.Scene;
  */
 public class SceneRenderer {
 
-  public Viewport   screen;
-  public Viewport   vp2D;
-  public Viewport   vp3D;
-  public Renderer2D renderer2d;
-  public Renderer3D renderer3d;
+  private Viewport   screen;
+  private Viewport   vp2D;
+  private Viewport   vp3D;
+  private Renderer2D renderer2d;
+  private Renderer3D renderer3d;
   Scene             scene;
   
-  // TODO: why viewports duplicated?
+  public Viewport getViewport2d() {
+    return vp2D;
+  }
+  
+  public Viewport getViewport3d() {
+    return vp3D;
+  }
 
   public SceneRenderer(Scene scene) {
     this.scene = scene;

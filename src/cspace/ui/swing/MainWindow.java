@@ -9,7 +9,6 @@ import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.swing.JFrame;
 
-import cspace.SceneRenderer;
 import cspace.scene.Scene;
 import cspace.ui.SceneController;
 
@@ -53,7 +52,7 @@ public class MainWindow extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(1280, 720);
     setLocationRelativeTo(null);
-    getContentPane().add(new MainWidgetPanel(this, scene), BorderLayout.SOUTH);
+    getContentPane().add(new MainToolBar(this, controller), BorderLayout.SOUTH);
     getContentPane().add(canvas, BorderLayout.CENTER);
   }
 

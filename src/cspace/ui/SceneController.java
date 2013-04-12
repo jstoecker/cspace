@@ -60,6 +60,10 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     return controller3d;
   }
   
+  public Scene getScene() {
+    return scene;
+  }
+  
   public SceneRenderer getRenderer() {
     return renderer;
   }
@@ -81,7 +85,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
 
   @Override
   public void mouseWheelMoved(MouseWheelEvent e) {
-    if (renderer.vp2D.contains(e.getPoint())) {
+    if (renderer.getViewport2d().contains(e.getPoint())) {
       controller2d.mouseWheelMoved(e);
     } else {
       controller3d.mouseWheelMoved(e);
@@ -96,7 +100,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
 
   @Override
   public void mousePressed(MouseEvent e) {
-    if (renderer.vp2D.contains(e.getPoint())) {
+    if (renderer.getViewport2d().contains(e.getPoint())) {
       controller2d.mousePressed(e);
     } else {
       controller3d.mousePressed(e);

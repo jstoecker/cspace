@@ -62,9 +62,15 @@ public class SceneView {
   }
 
   public static class Contacts {
-    public Vec3f   color     = new Vec3f(0.2f, 1.0f, 0.4f);
-    public boolean visible2d = false;
-    public boolean visible3d = false;
+    public Vec3f   intnColor     = new Vec3f(0.6f, 0.0f, 0.6f);
+    public Vec3f   sveColor      = new Vec3f(0.6f, 0.3f, 0.0f);
+    public Vec3f   sevColor      = new Vec3f(0.3f, 0.0f, 0.6f);
+    public boolean sveVisible2d  = false;
+    public boolean sveVisible3d  = false;
+    public boolean sevVisible2d  = false;
+    public boolean sevVisible3d  = false;
+    public boolean intnVisible2d = false;
+    public boolean intnVisible3d = false;
   }
 
   public static class Obstacle {
@@ -73,22 +79,22 @@ public class SceneView {
     public float   edgeDetail    = 0.001f;
     public boolean visible2d     = true;
     public boolean visible3d     = false;
-    public boolean originVisible = true;
+    public boolean originVisible = false;
   }
 
   public static class Path {
-    public Vec3f   color     = new Vec3f(0.6f);
+    public Vec3f   color     = new Vec3f(0.6f, 0.6f, 0.0f);
     public float   edgeWidth = 0.03f;
-    public boolean visible2d = true;
+    public boolean visible2d = false;
     public boolean visible3d = false;
   }
 
   public static class Robot {
-    public Vec3f   color         = new Vec3f(0.6f);
+    public Vec3f   color         = new Vec3f(0.6f, 0.0f, 0.0f);
     public float   edgeWidth     = 0.03f;
     public float   edgeDetail    = 0.001f;
     public boolean visible2d     = true;
-    public boolean visible3d     = false;
+    public boolean visible3d     = true;
     public boolean originVisible = true;
     public Vec2d   position      = new Vec2d();
     public Vec2d   rotation      = new Vec2d(1, 0);
@@ -111,11 +117,11 @@ public class SceneView {
       CLIP_AROUND_THETA
     }
 
-    public Vec3f          color         = new Vec3f(0.6f);
+    public Vec3f          color         = new Vec3f(0.0f, 0.6f, 0.0f);
     public float          edgeWidth     = 0.03f;
     public float          edgeDetail    = 0.001f;
     public boolean        visible2d     = true;
-    public boolean        visible3d     = false;
+    public boolean        visible3d     = true;
     public boolean        shaded        = true;
     public boolean        wireframed    = false;
     public ColorStyle3D   colorStyle3d  = ColorStyle3D.UNIFORM;
@@ -130,7 +136,7 @@ public class SceneView {
   }
 
   public static class Sums {
-    public Vec3f               color      = new Vec3f(0.6f);
+    public Vec3f               color      = new Vec3f(0.3f, 0.3f, 0.3f);
     public float               edgeWidth  = 0.03f;
     public float               edgeDetail = 0.001f;
     public boolean             visible2d  = true;

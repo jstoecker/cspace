@@ -21,9 +21,11 @@ import cspace.util.PropertyLayout;
 public class RendererSettings extends JPanel {
 
   private final Scene         scene;
+  private final SceneRenderer renderer;
 
   public RendererSettings(Scene scene, SceneRenderer renderer) {
     this.scene = scene;
+    this.renderer = renderer;
 
     PropertyLayout layout = new PropertyLayout();
 
@@ -52,7 +54,7 @@ public class RendererSettings extends JPanel {
       checkBox.addChangeListener(new FixedWidthEdgeAction());
       layout.add(checkBox);
     }
-    
+
     layout.apply(this);
   }
 
@@ -64,13 +66,14 @@ public class RendererSettings extends JPanel {
 
   private class ViewModeAction implements ItemListener {
     public void itemStateChanged(ItemEvent e) {
-      scene.view.renderer.viewMode = (SceneView.Renderer.ViewMode)e.getItem();
+      scene.view.renderer.viewMode = (SceneView.Renderer.ViewMode) e.getItem();
     }
   }
-  
+
   private class FixedWidthEdgeAction implements ChangeListener {
     public void stateChanged(ChangeEvent e) {
       scene.view.renderer.fixedWidthEdges = ((JCheckBox)e.getSource()).isSelected();
+      renderer.get2D().markDirty();
     }
   }
 }
