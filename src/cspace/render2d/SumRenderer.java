@@ -27,11 +27,15 @@ public class SumRenderer extends CachedRenderer {
   @Override
   protected void updateGeometry(GL2 gl) {
     double theta = scene.view.robot.rotation.anglePi();
-    double scaledWidth = scene.view.sums.edgeWidth / camera.getScale();
+    
+    float width = scene.view.sums.edgeWidth;
+    if (scene.view.renderer.fixedWidthEdges)
+      width /= camera.getScale();
+    
     for (SumEE sum : scene.cspace.sums) {
       if (sum != null && sum.isActive(theta)) {
         Arc arc = sum.arc(scene.view.robot.rotation);
-        new ArcGeometry(arc).draw(gl, scaledWidth, scene.view.sums.edgeDetail);
+        new ArcGeometry(arc).draw(gl, width, scene.view.sums.edgeDetail);
       }
     }
   }

@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
-import cspace.scene.view.Visuals;
-import cspace.scene.view.Visuals.VisualChangeEvent;
 import cspace.ui.SceneController;
 
 /**
@@ -26,7 +24,7 @@ public class MainWindow extends JFrame {
   private GLCanvas        canvas;
   private SceneController controller;
 
-  public MainWindow(final Scene scene) {
+  public MainWindow(Scene scene) {
 
     GLProfile glp = GLProfile.get(GLProfile.GL2);
     GLCapabilities glc = new GLCapabilities(glp);
@@ -48,7 +46,7 @@ public class MainWindow extends JFrame {
       }
     });
 
-    settingsDialog = new SettingsDialog(this, scene);
+    settingsDialog = new SettingsDialog(this, scene, controller.getRenderer());
 
     setTitle("Configuration Space Visualization");
     setLayout(new BorderLayout());
@@ -57,8 +55,6 @@ public class MainWindow extends JFrame {
     setLocationRelativeTo(null);
     getContentPane().add(new MainWidgetPanel(this, scene), BorderLayout.SOUTH);
     getContentPane().add(canvas, BorderLayout.CENTER);
-
-    // new TestPanel(scene.sampledCS, scene.path, scene.visuals, canvas).setVisible(true);
   }
 
   public SettingsDialog getSettingsDialog() {
@@ -67,9 +63,5 @@ public class MainWindow extends JFrame {
 
   public SceneController getController() {
     return controller;
-  }
-
-  public void repaintGL() {
-    canvas.repaint();
   }
 }

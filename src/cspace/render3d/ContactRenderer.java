@@ -7,9 +7,9 @@ import javax.media.opengl.GL2;
 
 import jgl.math.vector.Vec3f;
 import cspace.scene.Scene;
-import cspace.scene.trimesh.Sample;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.Vertex;
+import cspace.scene.triangulate.Sample;
+import cspace.scene.triangulate.SampledSub;
+import cspace.scene.triangulate.SampledSub.Vertex;
 import cspace.util.CachedRenderer;
 
 public class ContactRenderer extends CachedRenderer {

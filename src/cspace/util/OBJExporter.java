@@ -5,10 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import cspace.scene.trimesh.SampledCSpace;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.Triangle;
-import cspace.scene.trimesh.SampledSub.Vertex;
+import cspace.scene.triangulate.SampledCSpace;
+import cspace.scene.triangulate.SampledSub;
+import cspace.scene.triangulate.SampledSub.Triangle;
+import cspace.scene.triangulate.SampledSub.Vertex;
 
 /**
  * Writes a cspace mesh to OBJ format.

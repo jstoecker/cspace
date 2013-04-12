@@ -33,15 +33,6 @@ public class PathRenderer extends CachedRenderer {
       gl.glVertex2d(wp.p.x, wp.p.y);
     }
     gl.glEnd();
-
-    // draw points at waypoints
-    gl.glPointSize(3);
-    gl.glBegin(GL2.GL_POINTS);
-    for (Waypoint wp : scene.path.waypoints) {
-      gl.glVertex2d(wp.p.x, wp.p.y);
-    }
-    gl.glEnd();
-    gl.glPointSize(1);
   }
   
   @Override

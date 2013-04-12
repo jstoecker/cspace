@@ -6,11 +6,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import jgl.core.Viewport;
-import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec2f;
 import cspace.SceneRenderer;
 import cspace.render2d.Camera;
@@ -36,6 +33,7 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
     Camera camera = renderer.get2D().getCamera();
     float deltaScale = (e.getWheelRotation() < 0 ? 0.1f : -0.1f) * camera.getScale();
     camera.setScale(camera.getScale() + deltaScale);
+    renderer.get2D().markDirty();
   }
 
   @Override

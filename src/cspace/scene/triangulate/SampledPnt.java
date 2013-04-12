@@ -1,4 +1,4 @@
-package cspace.scene.trimesh;
+package cspace.scene.triangulate;
 
 import cspace.scene.CSPnt;
 import cspace.scene.Event;

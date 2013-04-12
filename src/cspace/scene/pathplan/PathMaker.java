@@ -1,4 +1,4 @@
-package cspace.scene.path;
+package cspace.scene.pathplan;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import jgl.math.geometry.Ray;
 import jgl.math.vector.Vec3d;
 import jgl.math.vector.Vec3f;
 import cspace.scene.Path;
-import cspace.scene.trimesh.SampledCSpace;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.RayTriIntersection;
-import cspace.scene.trimesh.SampledSub.Triangle;
+import cspace.scene.triangulate.SampledCSpace;
+import cspace.scene.triangulate.SampledSub;
+import cspace.scene.triangulate.SampledSub.RayTriIntersection;
+import cspace.scene.triangulate.SampledSub.Triangle;
 
 /**
  * Makes a path along the subs of the sampled cspace using a breadth first

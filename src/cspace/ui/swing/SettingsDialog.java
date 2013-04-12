@@ -22,8 +22,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import cspace.SceneRenderer;
 import cspace.scene.Scene;
-import cspace.scene.view.Visuals;
 
 /**
  * Contains configuration options for the scene.
@@ -32,12 +32,12 @@ import cspace.scene.view.Visuals;
  */
 public class SettingsDialog extends JDialog {
 
-  String[]   menus = { "General", "Subs", "Robot", "Obstacle", "Path", "SumEEs", "Pnts" };
+  String[]   menus = { "Renderer", "Subs", "Robot", "Obstacle", "Path", "Sums", "Contacts" };
   JPanel     optionsPanel;
   JList      menuList;
   CardLayout optionsLayout;
 
-  public SettingsDialog(final MainWindow window, final Scene scene) {
+  public SettingsDialog(final MainWindow window, final Scene scene, final SceneRenderer renderer) {
     super(window);
     setResizable(false);
     setAlwaysOnTop(true);
@@ -45,16 +45,15 @@ public class SettingsDialog extends JDialog {
     setTitle("Settings");
     getContentPane().setLayout(new BorderLayout());
 
-    Visuals visuals = scene.visuals;
     optionsPanel = new JPanel();
     optionsPanel.setLayout(optionsLayout = new CardLayout());
-    optionsPanel.add(new GeneralPanel(visuals.genVisuals), menus[0]);
-    optionsPanel.add(new SubPanel(visuals.subVisuals), menus[1]);
-    optionsPanel.add(new RobotPanel(visuals.robotVisuals), menus[2]);
-    optionsPanel.add(new ObstaclePanel(visuals.obstacleVisuals), menus[3]);
-    optionsPanel.add(new PathPanel(visuals.pathVisuals), menus[4]);
-    optionsPanel.add(new SumPanel(visuals.sumEEVisuals), menus[5]);
-    optionsPanel.add(new PntVisPanel(visuals.pntVisuals), menus[6]);
+    optionsPanel.add(new RendererSettings(scene, renderer), menus[0]);
+    optionsPanel.add(new SubSettings(scene), menus[1]);
+    optionsPanel.add(new RobotSettings(scene), menus[2]);
+    optionsPanel.add(new ObstacleSettings(scene), menus[3]);
+    optionsPanel.add(new PathSettings(scene), menus[4]);
+    optionsPanel.add(new SumSettings(scene), menus[5]);
+    optionsPanel.add(new ContactSettings(scene), menus[6]);
     getContentPane().add(optionsPanel, BorderLayout.CENTER);
 
     JPanel bottomPanel = new JPanel();
@@ -73,16 +72,6 @@ public class SettingsDialog extends JDialog {
     menuList.setSelectedIndex(0);
     getContentPane().add(menuList, BorderLayout.WEST);
 
-    JButton btnResample = new JButton("Resample");
-    btnResample.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        scene.sampleCS();
-//        window.getController().get3D().view.updateGeometry();
-        window.repaintGL();
-      }
-    });
-    bottomPanel.add(btnResample);
-
     JButton btnOk = new JButton("OK");
     btnOk.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -92,16 +81,13 @@ public class SettingsDialog extends JDialog {
     bottomPanel.add(btnOk);
   }
 
-  // ===========================================================================
-  static class MenuRenderer extends JLabel implements ListCellRenderer {
-
+  private static class MenuRenderer extends JLabel implements ListCellRenderer {
     public MenuRenderer() {
       setHorizontalAlignment(RIGHT);
       setOpaque(true);
       setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 10));
     }
 
-    @Override
     public Component getListCellRendererComponent(JList list, Object value, int index,
         boolean isSelected, boolean cellHasFocus) {
       setBackground(isSelected ? Color.lightGray : Color.white);
@@ -110,27 +96,19 @@ public class SettingsDialog extends JDialog {
     }
   }
 
-  // ===========================================================================
-  class MenuModel extends AbstractListModel {
-
-    @Override
+  private class MenuModel extends AbstractListModel {
     public Object getElementAt(int index) {
       return menus[index];
     }
 
-    @Override
     public int getSize() {
       return menus.length;
     }
   }
 
-  // ===========================================================================
-  class MenuListener implements ListSelectionListener {
-
-    @Override
+  private class MenuListener implements ListSelectionListener {
     public void valueChanged(ListSelectionEvent e) {
       optionsLayout.show(optionsPanel, menus[menuList.getSelectedIndex()]);
     }
   }
-  // ===========================================================================
 }

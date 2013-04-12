@@ -27,11 +27,15 @@ public class SubRenderer extends CachedRenderer {
   @Override
   protected void updateGeometry(GL2 gl) {
     double theta = scene.view.robot.rotation.anglePi();
-    float scaledWidth = scene.view.robot.edgeWidth / camera.getScale();
+    
+    float width = scene.view.subs.edgeWidth;
+    if (scene.view.renderer.fixedWidthEdges)
+      width /= camera.getScale();
+    
     for (Sub sub : scene.cspace.subs) {
       if (sub != null && sub.isActive(theta)) {
         Arc arc = sub.arc(scene.view.robot.rotation);
-        new ArcGeometry(arc).draw(gl, scaledWidth, scene.view.subs.edgeDetail);
+        new ArcGeometry(arc).draw(gl, width, scene.view.subs.edgeDetail);
       }
     }
   }

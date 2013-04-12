@@ -19,7 +19,6 @@ public class Renderer2D {
   public Renderer2D(Scene scene) {
     camera.setScale(scene.view.camera2d.initialScale);
     camera.setCenter(scene.view.camera2d.initialCenter);
-
     robotRenderer = new RobotRenderer(scene, camera);
     obstacleRenderer = new ObstacleRenderer(scene, camera);
     subRenderer = new SubRenderer(scene, camera);
@@ -53,6 +52,14 @@ public class Renderer2D {
 
   public SumRenderer getSumRenderer() {
     return sumRenderer;
+  }
+  
+  public void markDirty() {
+    obstacleRenderer.markDirty();
+    sumRenderer.markDirty();
+    subRenderer.markDirty();
+    pathRenderer.markDirty();
+    robotRenderer.markDirty();
   }
 
   public void display(GL2 gl) {

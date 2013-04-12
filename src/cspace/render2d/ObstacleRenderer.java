@@ -24,9 +24,11 @@ public class ObstacleRenderer extends CachedRenderer {
 
   @Override
   protected void updateGeometry(GL2 gl) {
-    float scaledWidth = scene.view.obstacle.edgeWidth / camera.getScale();
+    float width = scene.view.obstacle.edgeWidth;
+    if (scene.view.renderer.fixedWidthEdges)
+      width /= camera.getScale();
     for (int i = 0; i < scene.cspace.obstacle.e.length; i++)
-      new ArcGeometry(scene.cspace.obstacle.e[i]).draw(gl, scaledWidth, scene.view.obstacle.edgeDetail);
+      new ArcGeometry(scene.cspace.obstacle.e[i]).draw(gl, width, scene.view.obstacle.edgeDetail);
   }
 
   @Override

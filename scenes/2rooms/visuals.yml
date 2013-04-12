@@ -1,76 +1,55 @@
-!!cspace.scene.view.Visuals
-cameraVisuals:
-  center2d: {x: 0.0, y: 0.0}
-  eye3d: {x: 0.0, y: -10.0, z: 0.0}
-  pitch3d: 0.0
-  scale2d: 1.0
-  visible2d: true
-  visible3d: true
-  yaw3d: 0.0
-genVisuals:
-  bgColor: {x: 1.0, y: 1.0, z: 1.0}
-  edgeScale: 0.5006775
-  fixedWidthEdges: true
-  scale: 1.0
-  view: VIEW_SPLIT
-obstacleVisuals:
-  color: {x: 0.6, y: 0.6, z: 0.6}
-  drawOrigin: false
-  fillAlpha: 1.0
-  geomUpdated2d: false
-  geomUpdated3d: true
-  smooth2d: 0.0010
-  visible2d: true
-  visible3d: true
-  width2d: 0.03
-pathVisuals:
-  color: {x: 1.0, y: 1.0, z: 0.4}
-  geomUpdated2d: true
-  geomUpdated3d: true
-  smooth2d: 0.0010
-  visible2d: false
-  visible3d: false
-  waypointsChanged: false
-  width2d: 0.03
-pntVisuals:
+!!cspace.scene.SceneView
+camera2d:
+  initialCenter: {x: 0.0, y: 0.0}
+  initialScale: 1.0
+camera3d:
+  initialCenter: {x: 0.0, y: 0.0, z: 0.0}
+  initialEye: {x: 0.0, y: -10.0, z: 10.0}
+contacts:
   color: {x: 0.2, y: 1.0, z: 0.4}
   visible2d: false
   visible3d: false
-robotVisuals:
-  color: {x: 1.0, y: 0.4, z: 0.4}
-  drawOrigin: true
-  fillAlpha: 1.0
-  geomUpdated2d: false
-  geomUpdated3d: true
-  onPath: false
-  p: {x: -4.321738243103027, y: 0.8254678249359131}
-  smooth2d: 0.0010
-  theta: 1.1264674853509218
-  u: {x: 0.4298519885248572, y: 0.902899367571617}
+obstacle:
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  originVisible: true
   visible2d: true
   visible3d: false
-  width2d: 0.03
-subVisuals:
-  color: {x: 0.4, y: 0.8, z: 0.28}
-  coloring: SOLID_COLOR
-  geomUpdated2d: false
-  geomUpdated3d: true
-  samplingLength: 0.1
-  samplingThreshold: 0.01
-  selected: -1
-  shading: true
-  smooth2d: 0.0010
-  style: SOLID
+path:
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  edgeWidth: 0.03
   visible2d: true
-  visible3d: true
-  width2d: 0.03
-  wireframe: false
-sumEEVisuals:
-  color: {x: 0.0, y: 0.6, z: 1.0}
-  geomUpdated2d: true
-  geomUpdated3d: true
-  selected: []
-  smooth2d: 0.0010
-  visible2d: false
   visible3d: false
-  width2d: 0.03
+renderer:
+  background: {x: 0.1, y: 0.1, z: 0.1}
+  fixedWidthEdges: false
+  viewMode: VIEW_2D
+robot:
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  originVisible: true
+  position: {x: -5.0, y: 1.00001}
+  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  visible2d: true
+  visible3d: false
+subs:
+  alphaSampling: 0.1
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  colorStyle3d: UNIFORM
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  renderStyle3d: OPAQUE
+  shaded: true
+  thetaSampling: 0.01
+  visible2d: true
+  visible3d: false
+  wireframed: false
+sums:
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  drawn3d: []
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  visible2d: true
+  visible3d: false

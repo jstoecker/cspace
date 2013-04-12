@@ -13,10 +13,10 @@ import com.jogamp.common.nio.Buffers;
 import cspace.scene.EdgePair;
 import cspace.scene.Scene;
 import cspace.scene.SceneView.Subs.ColorStyle3D;
-import cspace.scene.trimesh.SampledCSpace;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.Triangle;
-import cspace.scene.trimesh.SampledSub.Vertex;
+import cspace.scene.triangulate.SampledCSpace;
+import cspace.scene.triangulate.SampledSub;
+import cspace.scene.triangulate.SampledSub.Triangle;
+import cspace.scene.triangulate.SampledSub.Vertex;
 
 public class SubMesh {
 

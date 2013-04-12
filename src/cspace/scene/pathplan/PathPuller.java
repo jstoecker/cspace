@@ -1,4 +1,4 @@
-package cspace.scene.path;
+package cspace.scene.pathplan;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,10 +10,10 @@ import cspace.scene.Path;
 import cspace.scene.Path.Waypoint;
 import cspace.scene.SceneView;
 import cspace.scene.Sub;
-import cspace.scene.trimesh.SampledCSpace;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.Triangle;
-import cspace.scene.trimesh.SampledSub.Vertex;
+import cspace.scene.triangulate.SampledCSpace;
+import cspace.scene.triangulate.SampledSub;
+import cspace.scene.triangulate.SampledSub.Triangle;
+import cspace.scene.triangulate.SampledSub.Vertex;
 
 public class PathPuller {
 
@@ -107,7 +107,7 @@ public class PathPuller {
 
         for (Sub sub : cs.cspace.subs) {
           SampledSub ss = cs.subSamplings.get(sub);
-          for (cspace.scene.trimesh.SampledSub.Triangle tri : ss.triangles) {
+          for (cspace.scene.triangulate.SampledSub.Triangle tri : ss.triangles) {
             Vertex a = tri.a;
             Vertex b = tri.b;
             Vertex c = tri.c;

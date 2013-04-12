@@ -1,4 +1,4 @@
-package cspace.scene.trimesh;
+package cspace.scene.triangulate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import jgl.math.geometry.Ray;
 import cspace.scene.CSPnt;
 import cspace.scene.CSpace;
 import cspace.scene.Sub;
-import cspace.scene.trimesh.SampledSub.RayTriIntersection;
+import cspace.scene.triangulate.SampledSub.RayTriIntersection;
 
 /**
  * Performs "watertight" sampling of the configuration space.

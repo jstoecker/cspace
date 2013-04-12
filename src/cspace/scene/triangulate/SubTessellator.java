@@ -1,4 +1,4 @@
-package cspace.scene.trimesh;
+package cspace.scene.triangulate;
 
 import java.util.ArrayList;
 import java.util.Collections;

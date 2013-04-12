@@ -8,14 +8,9 @@ import jgl.core.Shader;
 import jgl.core.Uniform;
 import jgl.loaders.ShaderLoader;
 import cspace.scene.Scene;
-import cspace.scene.trimesh.SampledSub;
-import cspace.scene.trimesh.SampledSub.Triangle;
-import cspace.scene.view.RobotVisuals;
-import cspace.scene.view.SubVisuals;
-import cspace.scene.view.SumEEVisuals;
 
-public class SubView {
-  
+public class SubRenderer {
+
   private static final int COLOR_EDGE   = 0;
   private static final int COLOR_UNIQUE = 1;
   private static final int COLOR_NORMAL = 2;
@@ -23,28 +18,24 @@ public class SubView {
   private static final int CLIP_ABOVE   = 1;
   private static final int CLIP_AROUND  = 2;
   private static final int CLIP_BELOW   = 3;
-  Program                  subShader;
-  SubMesh                  mesh;
-  SubVisuals               visuals;
-  RobotVisuals             robotVisuals;
-  Uniform                  uShading;
-  Uniform                  uColor;
-  Uniform                  uColoring;
-  Uniform                  uClipping;
-  Uniform                  uAlpha;
-  Uniform                  uTheta;
-  // TODO REMOVE DEBUG ONLY
-  public static int        selectedTri;
-  public static SampledSub selected;
 
-  SubView(SubVisuals visuals, SumEEVisuals sumVisuals, RobotVisuals robotVisuals) {
-    this.visuals = visuals;
-    this.robotVisuals = robotVisuals;
-    this.mesh = new SubMesh(visuals, sumVisuals);
+  private Scene            scene;
+  private Program          subShader;
+  private SubMesh          mesh;
+  private Uniform          uShading;
+  private Uniform          uColor;
+  private Uniform          uColoring;
+  private Uniform          uClipping;
+  private Uniform          uAlpha;
+  private Uniform          uTheta;
+
+  SubRenderer(Scene scene) {
+    this.scene = scene;
+    this.mesh = new SubMesh(scene);
+    mesh.update(scene);
   }
 
   void init(GL2 gl) {
-    
     Shader vs = ShaderLoader.load(gl, "/shaders/cspace.vert", Shader.Type.VERTEX);
     Shader fs = ShaderLoader.load(gl, "/shaders/cspace.frag", Shader.Type.FRAGMENT);
     subShader = new Program();
@@ -64,97 +55,51 @@ public class SubView {
     mesh.delete(gl);
   }
 
-  void drawSub(GL2 gl, SampledSub s) {
-    gl.glBegin(GL2.GL_TRIANGLES);
-    for (Triangle tri : s.triangles) {
-      drawTri(gl, tri);
-    }
-    gl.glEnd();
-  }
-
-  void drawTri(GL2 gl, Triangle t) {
-    gl.glVertex3d(t.a.position.x, t.a.position.y, t.a.position.z);
-    gl.glVertex3d(t.b.position.x, t.b.position.y, t.b.position.z);
-    gl.glVertex3d(t.c.position.x, t.c.position.y, t.c.position.z);
-  }
-
   void draw(GL2 gl) {
-
-    if (selected != null) {
-      gl.glColor3f(1, 1, 1);
-      drawSub(gl, selected);
-      gl.glColor3f(1, 0, 0);
-      for (SampledSub n : selected.neighbors) {
-        drawSub(gl, n);
-      }
-
-      if (selectedTri >= 0 && selectedTri < selected.triangles.size()) {
-        Triangle t = selected.triangles.get(selectedTri);
-        gl.glColor3f(0.5f, 0.5f, 1);
-        gl.glDisable(GL.GL_DEPTH_TEST);
-        gl.glBegin(GL2.GL_TRIANGLES);
-        drawTri(gl, t);
-        gl.glEnd();
-        gl.glColor3f(0, 1, 0);
-        for (Triangle n : t.neighbors) {
-          if (n != null) {
-            gl.glBegin(GL2.GL_TRIANGLES);
-            drawTri(gl, n);
-            gl.glEnd();
-          }
-        }
-        gl.glEnd();
-        gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glLineWidth(1);
-      }
-    }
-
-    if (!visuals.isVisible3d()) {
+    if (!scene.view.subs.visible3d)
       return;
-    }
 
     subShader.bind(gl);
-    uShading.set(gl, visuals.isShading());
+    uShading.set(gl, scene.view.subs.shaded);
     uAlpha.set(gl, 1);
-    uTheta.set(gl, (float) robotVisuals.getTheta());
-    switch (visuals.getColoring()) {
-    case SOLID_COLOR:
-      uColor.set(gl, visuals.getColor());
+    uTheta.set(gl, (float)scene.view.robot.rotation.anglePi());
+    switch (scene.view.subs.colorStyle3d) {
+    case UNIFORM:
+      uColor.set(gl, scene.view.subs.color);
       uColoring.set(gl, COLOR_EDGE);
       break;
-    case UNIQUE_COLOR:
+    case PER_SUB:
       uColoring.set(gl, COLOR_UNIQUE);
       break;
-    case NORMAL_COLOR:
+    case NORMALS:
       uColoring.set(gl, COLOR_NORMAL);
       break;
-    case SUMEE_COLOR:
+    case PER_SUM:
       uColoring.set(gl, COLOR_UNIQUE);
       break;
     }
 
     mesh.setState(gl);
-    switch (visuals.getStyle()) {
-    case SOLID:
+    switch (scene.view.subs.renderStyle3d) {
+    case OPAQUE:
       drawSolid(gl);
       break;
     case TRANSLUCENT:
       drawTranslucent(gl);
       break;
-    case CLIP_ABOVE:
+    case CLIP_ABOVE_THETA:
       drawClipAbove(gl);
       break;
-    case CLIP_AROUND:
+    case CLIP_AROUND_THETA:
       drawClipAround(gl);
       break;
-    case CLIP_BELOW:
+    case CLIP_BELOW_THETA:
       drawClipBelow(gl);
       break;
     }
 
-    if (visuals.isWireframe()) {
+    if (scene.view.subs.wireframed) 
       drawWireframe(gl);
-    }
 
     subShader.unbind(gl);
     mesh.unsetState(gl);
@@ -174,9 +119,6 @@ public class SubView {
     mesh.draw(gl);
     gl.glDisable(GL.GL_BLEND);
     gl.glEnable(GL.GL_DEPTH_TEST);
-  }
-
-  private void drawBorderTheta(GL2 gl) {
   }
 
   private void drawClipAbove(GL2 gl) {

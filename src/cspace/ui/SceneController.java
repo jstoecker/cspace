@@ -59,6 +59,10 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   public Controller3D get3D() {
     return controller3d;
   }
+  
+  public SceneRenderer getRenderer() {
+    return renderer;
+  }
 
   @Override
   public void keyPressed(KeyEvent e) {
@@ -106,22 +110,6 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   }
 
   @Override
-  public void mouseMoved(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseClicked(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseEntered(MouseEvent e) {
-  }
-
-  @Override
-  public void mouseExited(MouseEvent e) {
-  }
-
-  @Override
   public void display(GLAutoDrawable drawable) {
     controller3d.update();
     renderer.display(drawable.getGL().getGL2());
@@ -140,5 +128,21 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   @Override
   public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
     renderer.reshape(x, y, width, height);
+  }
+  
+  @Override
+  public void mouseMoved(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
   }
 }

@@ -46,8 +46,9 @@ public class SceneView {
       }
     }
 
-    public Vec3f    background = new Vec3f(0.1f);
-    public ViewMode viewMode   = ViewMode.VIEW_SPLIT;
+    public Vec3f    background      = new Vec3f(0.1f);
+    public ViewMode viewMode        = ViewMode.VIEW_SPLIT;
+    public boolean  fixedWidthEdges = true;
   }
 
   public static class Camera2D {
@@ -89,7 +90,6 @@ public class SceneView {
     public boolean visible2d     = true;
     public boolean visible3d     = false;
     public boolean originVisible = true;
-    public boolean onPath        = true;
     public Vec2d   position      = new Vec2d();
     public Vec2d   rotation      = new Vec2d(1, 0);
   }

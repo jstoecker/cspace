@@ -8,14 +8,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import jgl.cameras.Camera;
 import jgl.cameras.FirstPersonController;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
-import cspace.render3d.Renderer3D;
 import cspace.scene.Scene;
 
 /**

@@ -1,4 +1,4 @@
-package cspace.scene.trimesh;
+package cspace.scene.triangulate;
 
 import jgl.math.vector.Vec2d;
 import cspace.scene.CSPnt;

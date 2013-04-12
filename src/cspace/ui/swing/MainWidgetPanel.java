@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JToggleButton;
@@ -18,16 +17,12 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import jgl.math.vector.Vec2d;
-import cspace.scene.Path;
 import cspace.scene.Path.Waypoint;
 import cspace.scene.Scene;
-import cspace.scene.view.Visuals;
-import cspace.util.OBJExporter;
 
 public class MainWidgetPanel extends JPanel {
 
-  Scene scene;
+  Scene      scene;
   MainWindow window;
   JSlider    slRobot;
 
@@ -54,35 +49,8 @@ public class MainWidgetPanel extends JPanel {
     gbc_btnSettings.gridy = 0;
     add(btnSettings, gbc_btnSettings);
 
-    final JToggleButton pathButton = new JToggleButton(new ImageIcon(getClass().getResource("/path.png")));
-    pathButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        if (pathButton.isSelected()) {
-          Waypoint[] waypoints = new Waypoint[2];
-          waypoints[0] = new Waypoint(0, 0, 0);
-          waypoints[1] = new Waypoint(0, 0, 0);
-          scene.newPath = new Path(waypoints);
-          window.repaintGL();
-        } else {
-          scene.updatePath();
-          slRobot.setMaximum(scene.path.waypoints.length - 1);
-          slRobot.setValue(0);
-          window.repaintGL();
-        }
-      }
-    });
-
-    final JButton objButton = new JButton("S");
-    objButton.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        JFileChooser fc = new JFileChooser();
-        if (fc.showSaveDialog(MainWidgetPanel.this) == JFileChooser.APPROVE_OPTION) {
-          new OBJExporter(scene.sampledCS).write(fc.getSelectedFile());
-        }
-      }
-    });
-    // add(objButton);
-
+    final JToggleButton pathButton = new JToggleButton(new ImageIcon(getClass().getResource(
+        "/path.png")));
     GridBagConstraints gbc_pathButton = new GridBagConstraints();
     gbc_pathButton.insets = new Insets(0, 0, 0, 5);
     gbc_pathButton.gridx = 1;
@@ -90,7 +58,7 @@ public class MainWidgetPanel extends JPanel {
     add(pathButton, gbc_pathButton);
 
     slRobot = new JSlider(0, scene.path.waypoints.length - 1, 0);
-    slRobot.addChangeListener(new SlideListener());
+    slRobot.addChangeListener(new PathSlideAction());
     GridBagConstraints gbc_slRobot = new GridBagConstraints();
     gbc_slRobot.fill = GridBagConstraints.HORIZONTAL;
     gbc_slRobot.gridx = 2;
@@ -105,22 +73,11 @@ public class MainWidgetPanel extends JPanel {
     slRobot.setValue(0);
   }
 
-  class SlideListener implements ChangeListener {
-
-    @Override
-    public void stateChanged(ChangeEvent arg0) {
-      Visuals visuals = scene.visuals;
-      Path path = scene.path;
-
-      if (visuals.robotVisuals.isOnPath()) {
-        Waypoint wp = path.waypoints[slRobot.getValue()];
-        visuals.robotVisuals.setP(wp.p);
-        visuals.robotVisuals.setTheta(wp.theta);
-      } else {
-        double theta = slRobot.getValue() / (double) slRobot.getMaximum() * Math.PI * 2;
-        Vec2d u = new Vec2d(Math.cos(theta), Math.sin(theta));
-        visuals.robotVisuals.setU(u);
-      }
+  private class PathSlideAction implements ChangeListener {
+    public void stateChanged(ChangeEvent e) {
+      Waypoint wp = scene.path.waypoints[slRobot.getValue()];
+      scene.view.robot.position = wp.p.copy();
+      scene.view.robot.rotation = wp.u.copy();
     }
   }
 }

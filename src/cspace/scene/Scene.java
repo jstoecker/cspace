@@ -1,6 +1,6 @@
 package cspace.scene;
 
-import cspace.scene.trimesh.SampledCSpace;
+import cspace.scene.triangulate.SampledCSpace;
 
 /**
  * Stores data associated with a configuration space scene.
