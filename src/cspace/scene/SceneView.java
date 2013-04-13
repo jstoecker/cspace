@@ -49,6 +49,8 @@ public class SceneView {
     public Vec3f    background      = new Vec3f(0.1f);
     public ViewMode viewMode        = ViewMode.VIEW_SPLIT;
     public boolean  fixedWidthEdges = true;
+    public boolean  drawPiPlanes    = false;
+    public int      periods3d       = 1;
   }
 
   public static class Camera2D {

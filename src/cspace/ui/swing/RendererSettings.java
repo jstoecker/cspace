@@ -6,6 +6,8 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -23,7 +25,7 @@ public class RendererSettings extends JPanel {
   private final Scene         scene;
   private final SceneRenderer renderer;
 
-  public RendererSettings(Scene scene, SceneRenderer renderer) {
+  public RendererSettings(final Scene scene, SceneRenderer renderer) {
     this.scene = scene;
     this.renderer = renderer;
 
@@ -45,6 +47,18 @@ public class RendererSettings extends JPanel {
       comboBox.addItemListener(new ViewModeAction());
       layout.add("View Mode", comboBox);
     }
+    
+    // Draw Periods
+    {
+      final SpinnerNumberModel model = new SpinnerNumberModel(scene.view.renderer.periods3d, 1, 33, 2);
+      JSpinner spinner = new JSpinner(model);
+      spinner.addChangeListener(new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
+          scene.view.renderer.periods3d = model.getNumber().intValue();
+        }
+      });
+      layout.add("Draw 3D Periods", spinner);
+    }
 
     // fixed-width edges
     {
@@ -52,6 +66,19 @@ public class RendererSettings extends JPanel {
       checkBox.setSelected(scene.view.renderer.fixedWidthEdges);
       checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
       checkBox.addChangeListener(new FixedWidthEdgeAction());
+      layout.add(checkBox);
+    }
+    
+    // Pi planes
+    {
+      final JCheckBox checkBox = new JCheckBox("Draw Pi Planes");
+      checkBox.setSelected(scene.view.renderer.drawPiPlanes);
+      checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
+      checkBox.addItemListener(new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+          scene.view.renderer.drawPiPlanes = checkBox.isSelected();
+        }
+      });
       layout.add(checkBox);
     }
 

@@ -3,6 +3,7 @@ package cspace.render3d;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+import jgl.cameras.Camera;
 import jgl.core.Program;
 import jgl.core.Shader;
 import jgl.core.Uniform;
@@ -56,7 +57,7 @@ public class SubRenderer {
     mesh.delete(gl);
   }
 
-  void draw(GL2 gl) {
+  void draw(GL2 gl, Camera camera) {
     if (!scene.view.subs.visible3d)
       return;
 
@@ -81,6 +82,7 @@ public class SubRenderer {
     }
 
     mesh.setState(gl);
+    
     switch (scene.view.subs.renderStyle3d) {
     case OPAQUE:
       drawSolid(gl);
@@ -101,11 +103,12 @@ public class SubRenderer {
 
     if (scene.view.subs.wireframed)
       drawWireframe(gl);
+    
 
     subShader.unbind(gl);
     mesh.unsetState(gl);
   }
-
+  
   private void drawSolid(GL2 gl) {
     uClipping.set(gl, CLIP_NONE);
     mesh.draw(gl);

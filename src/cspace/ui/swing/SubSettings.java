@@ -17,6 +17,7 @@ import cspace.scene.Scene;
 import cspace.scene.SceneView;
 import cspace.util.ColorPanel;
 import cspace.util.PropertyLayout;
+import cspace.util.VisibilityWidget;
 
 public class SubSettings extends JPanel {
   public SubSettings(final Scene scene, final SceneRenderer renderer) {
@@ -68,6 +69,16 @@ public class SubSettings extends JPanel {
     });
     layout.add("3D Coloring Style", colorComboBox);
     
+    // visibility
+    VisibilityWidget visibility = new VisibilityWidget(view.visible2d, view.visible3d);
+    visibility.addListener(new VisibilityWidget.Listener() {
+      public void visibilityChanged(boolean visible2d, boolean visible3d) {
+        view.visible2d = visible2d;
+        view.visible3d = visible3d;
+      }
+    });
+    layout.add("Visibility", visibility);
+    
     /// shaded
     final JCheckBox shaded = new JCheckBox("Shaded");
     shaded.setSelected(view.shaded);
@@ -87,9 +98,6 @@ public class SubSettings extends JPanel {
       }
     });
     layout.add(wireframed);
-    
-    // visibility
-
     
     layout.apply(this);
   }
