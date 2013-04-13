@@ -2,11 +2,12 @@ package cspace.ui.swing;
 
 import javax.swing.JPanel;
 
+import cspace.SceneRenderer;
 import cspace.scene.Scene;
 
 public class SumSettings extends JPanel {
 
-  public SumSettings(Scene scene) {
+  public SumSettings(final Scene scene, final SceneRenderer renderer) {
 //    setBorder(new EmptyBorder(10, 10, 10, 10));
 //    GridBagLayout gridBagLayout = new GridBagLayout();
 //    gridBagLayout.columnWidths = new int[]{193, 34, 0};

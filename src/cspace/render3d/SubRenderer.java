@@ -28,6 +28,7 @@ public class SubRenderer {
   private Uniform          uClipping;
   private Uniform          uAlpha;
   private Uniform          uTheta;
+  private Uniform          uReverse;
 
   SubRenderer(Scene scene) {
     this.scene = scene;
@@ -48,6 +49,7 @@ public class SubRenderer {
     uClipping = subShader.uniform("clipping");
     uAlpha = subShader.uniform("alpha");
     uTheta = subShader.uniform("robotTheta");
+    uReverse = subShader.uniform("reverse");
   }
 
   void delete(GL gl) {
@@ -61,7 +63,7 @@ public class SubRenderer {
     subShader.bind(gl);
     uShading.set(gl, scene.view.subs.shaded);
     uAlpha.set(gl, 1);
-    uTheta.set(gl, (float)scene.view.robot.rotation.anglePi());
+    uTheta.set(gl, (float) scene.view.robot.rotation.anglePi());
     switch (scene.view.subs.colorStyle3d) {
     case UNIFORM:
       uColor.set(gl, scene.view.subs.color);
@@ -97,7 +99,7 @@ public class SubRenderer {
       break;
     }
 
-    if (scene.view.subs.wireframed) 
+    if (scene.view.subs.wireframed)
       drawWireframe(gl);
 
     subShader.unbind(gl);
@@ -113,8 +115,16 @@ public class SubRenderer {
     gl.glDisable(GL.GL_DEPTH_TEST);
     uClipping.set(gl, CLIP_NONE);
     gl.glEnable(GL.GL_BLEND);
-    gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
-    uAlpha.set(gl, 0.3f);
+    if (scene.view.renderer.background.length() < 0.86) {
+      gl.glBlendEquation(GL.GL_FUNC_ADD);
+      gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
+      uReverse.set(gl, false);
+    } else {
+      gl.glBlendEquation(GL.GL_FUNC_REVERSE_SUBTRACT);
+      gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_ONE);
+      uReverse.set(gl, true);
+    }
+    uAlpha.set(gl, 0.25f);
     mesh.draw(gl);
     gl.glDisable(GL.GL_BLEND);
     gl.glEnable(GL.GL_DEPTH_TEST);

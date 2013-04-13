@@ -16,36 +16,36 @@ contacts:
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 1.0, y: 0.4, z: 0.2}
+  color: {x: 0.2, y: 0.2, z: 0.2}
   edgeDetail: 0.94
   edgeWidth: 0.181
   originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 0.4, y: 0.4, z: 0.0}
+  color: {x: 1.0, y: 1.0, z: 1.0}
   edgeWidth: 0.03
   visible2d: false
   visible3d: true
 renderer:
-  background: {x: 1.0, y: 1.0, z: 1.0}
+  background: {x: 0.078431375, y: 0.078431375, z: 0.078431375}
   fixedWidthEdges: true
   viewMode: VIEW_SPLIT
 robot:
-  color: {x: 0.6, y: 0.0, z: 0.0}
+  color: {x: 1.0, y: 0.2, z: 0.2}
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.07
   originVisible: true
-  position: {x: -2.87655, y: 2.04398}
-  rotation: {x: -0.8079577876890245, y: 0.5892403697241535}
+  position: {x: 4.06151, y: 0.445879}
+  rotation: {x: 0.7985467349309163, y: 0.6019328136355194}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
-  color: {x: 0.0, y: 0.6, z: 0.0}
-  colorStyle3d: UNIFORM
+  color: {x: 0.6, y: 0.8, z: 0.0}
+  colorStyle3d: PER_SUB
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.05
   renderStyle3d: OPAQUE
   shaded: true
   thetaSampling: 0.01

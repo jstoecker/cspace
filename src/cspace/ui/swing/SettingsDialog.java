@@ -48,11 +48,11 @@ public class SettingsDialog extends JDialog {
     optionsPanel = new JPanel();
     optionsPanel.setLayout(optionsLayout = new CardLayout());
     optionsPanel.add(new RendererSettings(scene, renderer), menus[0]);
-    optionsPanel.add(new SubSettings(scene), menus[1]);
+    optionsPanel.add(new SubSettings(scene, renderer), menus[1]);
     optionsPanel.add(new RobotSettings(scene, renderer), menus[2]);
     optionsPanel.add(new ObstacleSettings(scene, renderer), menus[3]);
     optionsPanel.add(new PathSettings(scene, renderer), menus[4]);
-    optionsPanel.add(new SumSettings(scene), menus[5]);
+    optionsPanel.add(new SumSettings(scene, renderer), menus[5]);
     optionsPanel.add(new ContactSettings(scene, renderer), menus[6]);
     getContentPane().add(optionsPanel, BorderLayout.CENTER);
 

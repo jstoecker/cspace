@@ -3,7 +3,7 @@ varying vec3 color;
 varying float theta;
 varying vec3 normal_ES;
 
-
+uniform bool reverse;
 uniform int coloring;    // 0 = EDGE COLOR, 1 = UNIQUE, 2 = NORMAL
 uniform int clipping;    // 0 = NONE, 1 = ABOVE, 2 = AROUND, 3 = BELOW
 uniform float robotTheta;
@@ -29,6 +29,13 @@ void main()
     fcolor = color * diffuse;
   } else {
     fcolor = (normal * 0.5 + 0.5) * diffuse;
+  }
+  
+  if (reverse && alpha < 1.0) {
+    fcolor.x = 1.0 - fcolor.x;
+    fcolor.y = 1.0 - fcolor.y;
+    fcolor.z = 1.0 - fcolor.z;
+    fcolor *= alpha;
   }
   
   if (clipping == 0) {
