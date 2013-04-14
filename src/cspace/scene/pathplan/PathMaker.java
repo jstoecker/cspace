@@ -14,7 +14,6 @@ import jgl.math.vector.Vec3d;
 import jgl.math.vector.Vec3f;
 import cspace.scene.Path;
 import cspace.scene.triangulate.SampledCSpace;
-import cspace.scene.triangulate.SampledSub;
 import cspace.scene.triangulate.SampledSub.RayTriIntersection;
 import cspace.scene.triangulate.SampledSub.Triangle;
 

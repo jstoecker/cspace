@@ -11,9 +11,14 @@ import java.awt.event.MouseWheelListener;
 
 import jgl.cameras.Camera;
 import jgl.cameras.FirstPersonController;
+import jgl.core.Viewport;
+import jgl.math.geometry.Ray;
+import jgl.math.vector.Transform;
+import jgl.math.vector.Vec2f;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
+import cspace.scene.triangulate.SampledSub.RayTriIntersection;
 
 /**
  * Mouse / keyboard input controller for 3D visualization.
@@ -21,6 +26,7 @@ import cspace.scene.Scene;
 public class Controller3D implements MouseListener, MouseMotionListener, MouseWheelListener,
     KeyListener {
 
+  private final SceneController controller;
   private final Scene           scene;
   private final SceneRenderer   renderer;
 
@@ -35,10 +41,11 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
   private boolean               moveLeft         = false;
   private boolean               moveRight        = false;
   private float                 translationScale = 0.1f;
-
-  public Controller3D(Scene scene, SceneRenderer renderer) {
-    this.scene = scene;
-    this.renderer = renderer;
+  
+  public Controller3D(SceneController controller) {
+    this.scene = controller.getScene();
+    this.renderer = controller.getRenderer();
+    this.controller = controller;
 
     cameraController = new FirstPersonController(new Vec3f(-9, -6.8f, 6.2f), 0, 0, false);
     cameraController.setCamera(renderer.get3D().getCamera());
@@ -106,7 +113,7 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
       break;
     }
   }
-  
+
   public void update() {
     Vec3f translation = new Vec3f(0);
 
@@ -127,12 +134,24 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
     if (translation.lengthSquared() > 0) {
       cameraController.move(translation);
     }
-    
-  }
 
+  }
+  
+  private void debugPick(Point winCoords) {
+    Ray ray = Transform.windowToWorld(renderer.get3D().getCamera(), renderer.getViewport3d(),
+        winCoords);
+    RayTriIntersection intersection = scene.sampledCS.intersect(ray);
+    if (intersection != null) {
+      System.out.println(intersection.t.getSub().sub.index);
+    } else {
+    }
+  }
 
   @Override
   public void mouseMoved(MouseEvent e) {
+    if (controller.isInspectMode()) {
+      debugPick(new Point(e.getX(), renderer.getViewport3d().height - e.getY() - 1));
+    }
   }
 
   @Override

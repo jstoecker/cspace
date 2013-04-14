@@ -18,14 +18,16 @@ import cspace.scene.Scene;
  */
 public class Controller2D implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-  private final Scene         scene;
-  private final SceneRenderer renderer;
-  private Point               mousePressPt;
-  private Vec2f               cameraPos;
+  private final SceneController controller;
+  private final Scene           scene;
+  private final SceneRenderer   renderer;
+  private Point                 mousePressPt;
+  private Vec2f                 cameraPos;
 
-  public Controller2D(Scene scene, SceneRenderer renderer) {
-    this.scene = scene;
-    this.renderer = renderer;
+  public Controller2D(SceneController controller) {
+    this.scene = controller.getScene();
+    this.renderer = controller.getRenderer();
+    this.controller = controller;
   }
 
   @Override

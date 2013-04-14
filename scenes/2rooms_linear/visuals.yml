@@ -8,7 +8,7 @@ camera3d:
 contacts:
   intnColor: {x: 0.6, y: 0.0, z: 0.6}
   intnVisible2d: false
-  intnVisible3d: true
+  intnVisible3d: false
   sevColor: {x: 0.3, y: 0.0, z: 0.6}
   sevVisible2d: false
   sevVisible3d: false
@@ -28,22 +28,26 @@ path:
   visible2d: false
   visible3d: false
 renderer:
-  background: {x: 1.0, y: 1.0, z: 1.0}
+  background: {x: 0.0, y: 0.0, z: 0.0}
+  drawAxes: false
+  drawPiPlanes: false
   fixedWidthEdges: true
+  periods3d: 33
   viewMode: VIEW_SPLIT
 robot:
-  color: {x: 0.6, y: 0.0, z: 0.0}
+  color: {x: 1.0, y: 0.4, z: 0.4}
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.06
   originVisible: true
-  position: {x: 4.450900077819824, y: 0.5889788269996643}
-  rotation: {x: -0.31945488912668407, y: 0.9476014847038818}
+  position: {x: -0.08384406566619873, y: 1.0949982404708862}
+  rotation: {x: -0.5094914602481425, y: 0.860475712576548}
   visible2d: true
-  visible3d: true
+  visible3d: false
 subs:
   alphaSampling: 0.1
-  color: {x: 0.0, y: 0.6, z: 0.0}
+  color: {x: 0.4, y: 1.0, z: 0.4}
   colorStyle3d: UNIFORM
+  drawAlpha: 0.22
   edgeDetail: 0.0010
   edgeWidth: 0.03
   renderStyle3d: OPAQUE
@@ -57,5 +61,5 @@ sums:
   drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: true
+  visible2d: false
   visible3d: false

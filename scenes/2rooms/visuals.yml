@@ -46,7 +46,7 @@ robot:
 subs:
   alphaSampling: 0.1
   color: {x: 0.74509805, y: 0.8784314, z: 0.06666667}
-  colorStyle3d: PER_SUM
+  colorStyle3d: UNIFORM
   drawAlpha: 0.46
   edgeDetail: 0.0010
   edgeWidth: 0.05
@@ -57,11 +57,9 @@ subs:
   visible3d: true
   wireframed: false
 sums:
-  color: {x: 0.0, y: 1.0, z: 0.8}
-  drawn3d:
-  - {obsEdge: 5, robEdge: 4}
-  - {obsEdge: 10, robEdge: 0}
+  color: {x: 0.8, y: 0.8, z: 1.0}
+  drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: true
-  visible3d: true
+  visible2d: false
+  visible3d: false

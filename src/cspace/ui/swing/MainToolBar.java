@@ -1,6 +1,7 @@
 package cspace.ui.swing;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -39,12 +40,14 @@ public class MainToolBar extends JPanel {
     setBorder(BorderFactory.createCompoundBorder(outer, inner));
 
     GridBagLayout layout = new GridBagLayout();
-    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, };
+    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, };
     setLayout(layout);
 
     // button to open scene
     {
-      JButton openButton = new JButton(new ImageIcon(getClass().getResource("/folder_open_icon&16.png")));
+      JButton openButton = new JButton(new ImageIcon(getClass().getResource(
+          "/folder_open_icon&16.png")));
+      openButton.setPreferredSize(new Dimension(32,32));
       openButton.addActionListener(new OpenSceneAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 0;
@@ -56,6 +59,7 @@ public class MainToolBar extends JPanel {
     {
       settingsButton = new JButton(new ImageIcon(getClass().getResource("/cogs_icon&16.png")));
       settingsButton.setEnabled(false);
+      settingsButton.setPreferredSize(new Dimension(32,32));
       settingsButton.addActionListener(new OpenSettingsAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 1;
@@ -65,7 +69,7 @@ public class MainToolBar extends JPanel {
 
     // button to toggle path planning mode
     {
-      ImageIcon icon = new ImageIcon(getClass().getResource("/eye_inv_icon&16.png"));
+      ImageIcon icon = new ImageIcon(getClass().getResource("/push_pin_icon&16.png"));
       pathButton = new JToggleButton(icon);
       pathButton.setEnabled(false);
       GridBagConstraints gbc = new GridBagConstraints();
@@ -73,13 +77,29 @@ public class MainToolBar extends JPanel {
       gbc.gridy = 0;
       add(pathButton, gbc);
     }
+
+    // inspect mode
+    {
+      ImageIcon icon = new ImageIcon(getClass().getResource("/zoom_icon&16.png"));
+      final JToggleButton button = new JToggleButton(icon);
+      button.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent arg0) {
+          controller.setInspectMode(button.isSelected());
+        }
+      });
+      GridBagConstraints gbc = new GridBagConstraints();
+      gbc.gridx = 3;
+      gbc.gridy = 0;
+      add(button, gbc);
+    }
     
     // about button
     {
       ImageIcon icon = new ImageIcon(getClass().getResource("/info_icon&16.png"));
       JButton button = new JButton(icon);
+      button.setPreferredSize(new Dimension(32,32));
       GridBagConstraints gbc = new GridBagConstraints();
-      gbc.gridx = 3;
+      gbc.gridx = 4;
       gbc.gridy = 0;
       add(button, gbc);
     }
@@ -91,7 +111,7 @@ public class MainToolBar extends JPanel {
       pathSlider.addChangeListener(new PathSlideAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.fill = GridBagConstraints.HORIZONTAL;
-      gbc.gridx = 4;
+      gbc.gridx = 5;
       gbc.gridy = 0;
       add(pathSlider, gbc);
     }

@@ -180,7 +180,7 @@ public class SampledSub {
    * Generates samples for the interior of the sub
    */
   void sampleInside(double samplingLength) {
-    int numSamplesTheta = (int) Math.max(0,
+    int numSamplesTheta = (int) Math.max(1,
         Math.abs(sub.angle / samplingLength));
     innerSamples = new ArrayList<List<Sample>>(numSamplesTheta);
     
@@ -457,6 +457,10 @@ public class SampledSub {
     @Override
     public String toString() {
       return String.format("%d, %d, %d", a.index, b.index, c.index);
+    }
+    
+    public SampledSub getSub() {
+      return SampledSub.this;
     }
   }
 

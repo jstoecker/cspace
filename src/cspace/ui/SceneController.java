@@ -28,13 +28,14 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
   private final SceneRenderer renderer;
   private final Controller2D  controller2d;
   private final Controller3D  controller3d;
+  private boolean             inspectMode = false;
 
   public SceneController(Scene scene, GLCanvas canvas) {
     this.scene = scene;
     this.renderer = new SceneRenderer(scene);
     this.canvas = canvas;
-    controller2d = new Controller2D(scene, renderer);
-    controller3d = new Controller3D(scene, renderer);
+    controller2d = new Controller2D(this);
+    controller3d = new Controller3D(this);
 
     canvas.addGLEventListener(this);
     canvas.addMouseListener(this);
@@ -50,6 +51,14 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     canvas.removeMouseWheelListener(this);
     canvas.removeKeyListener(this);
     scene.view.save();
+  }
+
+  public void setInspectMode(boolean inspectMode) {
+    this.inspectMode = inspectMode;
+  }
+
+  public boolean isInspectMode() {
+    return inspectMode;
   }
 
   public Controller2D get2D() {
@@ -136,6 +145,8 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
 
   @Override
   public void mouseMoved(MouseEvent e) {
+    if (renderer.getViewport3d().contains(e.getPoint()))
+      controller3d.mouseMoved(e);
   }
 
   @Override
