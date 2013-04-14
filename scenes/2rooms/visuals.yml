@@ -16,7 +16,7 @@ contacts:
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 0.2, y: 0.2, z: 0.2}
+  color: {x: 0.4, y: 0.4, z: 0.4}
   edgeDetail: 0.94
   edgeWidth: 0.181
   originVisible: false
@@ -28,36 +28,40 @@ path:
   visible2d: false
   visible3d: false
 renderer:
-  background: {x: 1.0, y: 1.0, z: 1.0}
+  background: {x: 0.0, y: 0.0, z: 0.0}
+  drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
-  periods3d: 33
-  viewMode: VIEW_SPLIT
+  periods3d: 1
+  viewMode: VIEW_3D
 robot:
   color: {x: 1.0, y: 0.2, z: 0.2}
   edgeDetail: 0.0010
   edgeWidth: 0.07
   originVisible: true
-  position: {x: 0.917003, y: 3.40757}
-  rotation: {x: 0.2717605941373404, y: 0.9623648889449987}
+  position: {x: -5.0, y: 1.00001}
+  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
   visible2d: true
-  visible3d: true
+  visible3d: false
 subs:
   alphaSampling: 0.1
-  color: {x: 0.6, y: 0.8, z: 0.0}
-  colorStyle3d: NORMALS
+  color: {x: 0.74509805, y: 0.8784314, z: 0.06666667}
+  colorStyle3d: PER_SUM
+  drawAlpha: 0.46
   edgeDetail: 0.0010
-  edgeWidth: 0.1
+  edgeWidth: 0.05
   renderStyle3d: OPAQUE
   shaded: true
   thetaSampling: 0.01
   visible2d: true
   visible3d: true
-  wireframed: true
+  wireframed: false
 sums:
-  color: {x: 0.3, y: 0.3, z: 0.3}
-  drawn3d: []
+  color: {x: 0.0, y: 1.0, z: 0.8}
+  drawn3d:
+  - {obsEdge: 5, robEdge: 4}
+  - {obsEdge: 10, robEdge: 0}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   visible2d: true
-  visible3d: false
+  visible3d: true

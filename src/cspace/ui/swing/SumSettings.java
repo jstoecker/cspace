@@ -1,112 +1,109 @@
 package cspace.ui.swing;
 
-import javax.swing.JPanel;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
+import cspace.scene.EdgePair;
 import cspace.scene.Scene;
+import cspace.scene.SceneView;
+import cspace.util.ColorPanel;
+import cspace.util.PropertyLayout;
+import cspace.util.VisibilityWidget;
 
 public class SumSettings extends JPanel {
 
   public SumSettings(final Scene scene, final SceneRenderer renderer) {
-//    setBorder(new EmptyBorder(10, 10, 10, 10));
-//    GridBagLayout gridBagLayout = new GridBagLayout();
-//    gridBagLayout.columnWidths = new int[]{193, 34, 0};
-//    gridBagLayout.rowHeights = new int[]{32, 32, 32, 32, 0, 0};
-//    gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-//    gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-//    setLayout(gridBagLayout);
-//    
-//    JLabel lblEdgeColor = new JLabel("Edge Color");
-//    GridBagConstraints gbc_lblEdgeColor = new GridBagConstraints();
-//    gbc_lblEdgeColor.fill = GridBagConstraints.VERTICAL;
-//    gbc_lblEdgeColor.anchor = GridBagConstraints.EAST;
-//    gbc_lblEdgeColor.insets = new Insets(0, 0, 5, 5);
-//    gbc_lblEdgeColor.gridx = 0;
-//    gbc_lblEdgeColor.gridy = 0;
-//    add(lblEdgeColor, gbc_lblEdgeColor);
-//    
-//    ColorPanel pColor = new ColorPanel("SumEE Color", visuals.getColor());
-//    pColor.addListener(new ColorPanel.Listener() {
-//      public void colorChanged(ColorPanel panel, Vec3f newColor) {
-//        visuals.setColor(newColor);
-//      }
-//    });
-//    GridBagConstraints gbc_pColor = new GridBagConstraints();
-//    gbc_pColor.insets = new Insets(2, 2, 7, 2);
-//    gbc_pColor.fill = GridBagConstraints.BOTH;
-//    gbc_pColor.gridx = 1;
-//    gbc_pColor.gridy = 0;
-//    add(pColor, gbc_pColor);
-//    
-//    JLabel lblEdgeWidth = new JLabel("Edge Width");
-//    GridBagConstraints gbc_lblEdgeWidth = new GridBagConstraints();
-//    gbc_lblEdgeWidth.fill = GridBagConstraints.VERTICAL;
-//    gbc_lblEdgeWidth.anchor = GridBagConstraints.EAST;
-//    gbc_lblEdgeWidth.insets = new Insets(0, 0, 5, 5);
-//    gbc_lblEdgeWidth.gridx = 0;
-//    gbc_lblEdgeWidth.gridy = 1;
-//    add(lblEdgeWidth, gbc_lblEdgeWidth);
-//    
-//    final SpinnerNumberModel widthModel = new SpinnerNumberModel(visuals.getWidth2d(), 0, 100, 0.01);
-//    JSpinner spnWidth = new JSpinner(widthModel);
-//    spnWidth.addChangeListener(new ChangeListener() {
-//      public void stateChanged(ChangeEvent e) {
-//        visuals.setWidth2d(widthModel.getNumber().floatValue());
-//      }
-//    });
-//    GridBagConstraints gbc_spnWidth = new GridBagConstraints();
-//    gbc_spnWidth.fill = GridBagConstraints.BOTH;
-//    gbc_spnWidth.insets = new Insets(0, 0, 5, 0);
-//    gbc_spnWidth.gridx = 1;
-//    gbc_spnWidth.gridy = 1;
-//    add(spnWidth, gbc_spnWidth);
-//    
-//    JLabel lblEdgeSmoothFactor = new JLabel("Edge Smooth Factor");
-//    GridBagConstraints gbc_lblEdgeSmoothFactor = new GridBagConstraints();
-//    gbc_lblEdgeSmoothFactor.anchor = GridBagConstraints.EAST;
-//    gbc_lblEdgeSmoothFactor.insets = new Insets(0, 0, 5, 5);
-//    gbc_lblEdgeSmoothFactor.gridx = 0;
-//    gbc_lblEdgeSmoothFactor.gridy = 2;
-//    add(lblEdgeSmoothFactor, gbc_lblEdgeSmoothFactor);
-//    
-//    final SpinnerNumberModel smoothModel = new SpinnerNumberModel(visuals.getSmooth2d(), 0, 0.1, 0.001);
-//    JSpinner spnEdgeSmooth = new JSpinner(smoothModel);
-//    spnEdgeSmooth.addChangeListener(new ChangeListener() {
-//      public void stateChanged(ChangeEvent e) {
-//        visuals.setSmooth2d(smoothModel.getNumber().floatValue());
-//      }
-//    });
-//    GridBagConstraints gbc_spnEdgeSmooth = new GridBagConstraints();
-//    gbc_spnEdgeSmooth.fill = GridBagConstraints.HORIZONTAL;
-//    gbc_spnEdgeSmooth.insets = new Insets(0, 0, 5, 0);
-//    gbc_spnEdgeSmooth.gridx = 1;
-//    gbc_spnEdgeSmooth.gridy = 2;
-//    add(spnEdgeSmooth, gbc_spnEdgeSmooth);
-//    
-//    JLabel lblVisibility = new JLabel("Visibility");
-//    GridBagConstraints gbc_lblVisibility = new GridBagConstraints();
-//    gbc_lblVisibility.fill = GridBagConstraints.VERTICAL;
-//    gbc_lblVisibility.anchor = GridBagConstraints.EAST;
-//    gbc_lblVisibility.insets = new Insets(0, 0, 5, 5);
-//    gbc_lblVisibility.gridx = 0;
-//    gbc_lblVisibility.gridy = 3;
-//    add(lblVisibility, gbc_lblVisibility);
-//    
-//    VisibilityWidget visibilityPanel = new VisibilityWidget(visuals);
-//    GridBagConstraints gbc_visibilityPanel = new GridBagConstraints();
-//    gbc_visibilityPanel.insets = new Insets(0, 0, 5, 0);
-//    gbc_visibilityPanel.fill = GridBagConstraints.BOTH;
-//    gbc_visibilityPanel.gridx = 1;
-//    gbc_visibilityPanel.gridy = 3;
-//    add(visibilityPanel, gbc_visibilityPanel);
-//    
-//    JLabel lblDisplayed = new JLabel("Displayed:");
-//    GridBagConstraints gbc_lblDisplayed = new GridBagConstraints();
-//    gbc_lblDisplayed.anchor = GridBagConstraints.EAST;
-//    gbc_lblDisplayed.insets = new Insets(0, 0, 0, 5);
-//    gbc_lblDisplayed.gridx = 0;
-//    gbc_lblDisplayed.gridy = 4;
-//    add(lblDisplayed, gbc_lblDisplayed);
 
+    final SceneView.Sums view = scene.view.sums;
+    
+    PropertyLayout layout = new PropertyLayout();
+    
+    // color
+    ColorPanel colorPanel = new ColorPanel("Sums Color", view.color);
+    colorPanel.addListener(new ColorPanel.Listener() {
+      public void colorChanged(ColorPanel panel, Vec3f newColor) {
+        view.color.set(newColor);
+      }
+    });
+    layout.add("Color", colorPanel);
+
+    // edge width
+    final SpinnerNumberModel widthModel = new SpinnerNumberModel(view.edgeWidth, 0, 100, 0.01);
+    JSpinner widthSpinner = new JSpinner(widthModel);
+    widthSpinner.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        view.edgeWidth = widthModel.getNumber().floatValue();
+        renderer.get2D().getSumRenderer().markDirty();
+      }
+    });
+    layout.add("Edge Width", widthSpinner);
+
+    // drawn 3d
+    final JTextField drawn3d = new JTextField(pairsToString(view.drawn3d));
+    drawn3d.getDocument().addDocumentListener(new DocumentListener() {
+      public void removeUpdate(DocumentEvent e) {
+        view.drawn3d = stringToPairs(drawn3d.getText());
+        renderer.get3D().getSumRenderer().markDirty();
+      }
+      public void insertUpdate(DocumentEvent e) {
+        view.drawn3d = stringToPairs(drawn3d.getText());
+        renderer.get3D().getSumRenderer().markDirty();
+      }
+      public void changedUpdate(DocumentEvent e) {
+      }
+    });
+    layout.add("Edge Pairs 3D", drawn3d);
+    
+    // visibility
+    VisibilityWidget visibility = new VisibilityWidget(view.visible2d, view.visible3d);
+    visibility.addListener(new VisibilityWidget.Listener() {
+      public void visibilityChanged(boolean visible2d, boolean visible3d) {
+        view.visible2d = visible2d;
+        view.visible3d = visible3d;
+      }
+    });
+    layout.add(visibility);
+    
+    layout.apply(this);
+  }
+  
+  private static String pairsToString(List<EdgePair> pairs) {
+    StringBuilder s = new StringBuilder();
+    for (EdgePair pair : pairs) {
+      s.append(pair.robEdge);
+      s.append("/");
+      s.append(pair.obsEdge);
+      s.append(" ");
+    }
+    return s.toString();
+  }
+  
+  private static List<EdgePair> stringToPairs(String s) {
+    List<EdgePair> pairs = new ArrayList<EdgePair>();
+    String[] groups = s.split("\\s++");
+
+    for (String group : groups) {
+      int i = group.indexOf("/");
+      try {
+        int robEdge = Integer.parseInt(group.substring(0, i));
+        int obsEdge = Integer.parseInt(group.substring(i + 1));
+        pairs.add(new EdgePair(robEdge, obsEdge));
+      } catch (Exception e) {
+        continue;
+      }
+    }
+    
+    return pairs;
   }
 }

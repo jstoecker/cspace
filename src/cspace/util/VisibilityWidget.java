@@ -24,13 +24,17 @@ public class VisibilityWidget extends JPanel {
   public VisibilityWidget(boolean on2D, boolean on3D) {
     setLayout(new GridLayout(1, 2));
 
-    visible2d = new JCheckBox("2D");
+    visible2d = new JCheckBox("Draw 2D");
     visible2d.setSelected(on2D);
+    visible2d.setHorizontalAlignment(JCheckBox.RIGHT);
+    visible2d.setHorizontalTextPosition(JCheckBox.LEFT);
     visible2d.addItemListener(new Action());
     add(visible2d);
 
-    visible3d = new JCheckBox("3D");
+    visible3d = new JCheckBox("Draw 3D");
     visible3d.setSelected(on3D);
+    visible3d.setHorizontalAlignment(JCheckBox.RIGHT);
+    visible3d.setHorizontalTextPosition(JCheckBox.LEFT);
     visible3d.addItemListener(new Action());
     add(visible3d);
   }

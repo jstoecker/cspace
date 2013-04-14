@@ -46,7 +46,7 @@ public class PathSettings extends JPanel {
         view.visible3d = visible3d;
       }
     });
-    layout.add("Visibility", visibility);
+    layout.add(visibility);
     
     layout.apply(this);
   }

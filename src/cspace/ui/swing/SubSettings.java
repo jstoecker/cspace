@@ -6,6 +6,7 @@ import java.awt.event.ItemListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
@@ -69,6 +70,15 @@ public class SubSettings extends JPanel {
     });
     layout.add("3D Coloring Style", colorComboBox);
     
+    // draw alpha
+    final JSlider drawAlpha = new JSlider(0, 100, (int)(view.drawAlpha * 100));
+    drawAlpha.addChangeListener( new ChangeListener() {
+      public void stateChanged(ChangeEvent arg0) {
+        view.drawAlpha = drawAlpha.getValue() / 100.0f;
+      }
+    });
+    layout.add("Translucency", drawAlpha);
+    
     // visibility
     VisibilityWidget visibility = new VisibilityWidget(view.visible2d, view.visible3d);
     visibility.addListener(new VisibilityWidget.Listener() {
@@ -77,7 +87,7 @@ public class SubSettings extends JPanel {
         view.visible3d = visible3d;
       }
     });
-    layout.add("Visibility", visibility);
+    layout.add(visibility);
     
     /// shaded
     final JCheckBox shaded = new JCheckBox("Shaded");

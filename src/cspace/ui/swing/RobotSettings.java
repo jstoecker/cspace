@@ -54,7 +54,7 @@ public class RobotSettings extends JPanel {
         view.visible3d = visible3d;
       }
     });
-    layout.add("Visibility", visibility);
+    layout.add(visibility);
 
     // draw origin
     final JCheckBox originCheckBox = new JCheckBox("Draw Origin");

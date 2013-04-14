@@ -64,7 +64,6 @@ public class RendererSettings extends JPanel {
     {
       JCheckBox checkBox = new JCheckBox("Fixed-Width Edges");
       checkBox.setSelected(scene.view.renderer.fixedWidthEdges);
-      checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
       checkBox.addChangeListener(new FixedWidthEdgeAction());
       layout.add(checkBox);
     }
@@ -73,10 +72,21 @@ public class RendererSettings extends JPanel {
     {
       final JCheckBox checkBox = new JCheckBox("Draw Pi Planes");
       checkBox.setSelected(scene.view.renderer.drawPiPlanes);
-      checkBox.setHorizontalTextPosition(SwingConstants.LEFT);
       checkBox.addItemListener(new ItemListener() {
         public void itemStateChanged(ItemEvent e) {
           scene.view.renderer.drawPiPlanes = checkBox.isSelected();
+        }
+      });
+      layout.add(checkBox);
+    }
+    
+    // draw axes
+    {
+      final JCheckBox checkBox = new JCheckBox("Draw Axes");
+      checkBox.setSelected(scene.view.renderer.drawAxes);
+      checkBox.addItemListener(new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+          scene.view.renderer.drawAxes = checkBox.isSelected();
         }
       });
       layout.add(checkBox);

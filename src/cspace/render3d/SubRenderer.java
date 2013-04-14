@@ -127,7 +127,7 @@ public class SubRenderer {
       gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_ONE);
       uReverse.set(gl, true);
     }
-    uAlpha.set(gl, 0.25f);
+    uAlpha.set(gl, scene.view.subs.drawAlpha);
     mesh.draw(gl);
     gl.glDisable(GL.GL_BLEND);
     gl.glEnable(GL.GL_DEPTH_TEST);

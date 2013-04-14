@@ -5,6 +5,8 @@ import javax.media.opengl.GL2;
 
 import jgl.cameras.Camera;
 import jgl.geometry.extra.AxesGeometry;
+import jgl.math.vector.ConstVec3f;
+import jgl.math.vector.Mat4f;
 import jgl.math.vector.Transform;
 import cspace.scene.Scene;
 
@@ -17,7 +19,7 @@ public class Renderer3D {
   private PathRenderer    pathRenderer;
   private RobotRenderer   robotRenderer;
   private SumRenderer     sumRenderer;
-  private AxesGeometry    axes   = new AxesGeometry(0.5f);
+  private AxesGeometry    axes   = new AxesGeometry(1);
 
   public Renderer3D(Scene scene) {
     this.scene = scene;
@@ -40,6 +42,10 @@ public class Renderer3D {
   public ContactRenderer getContactRenderer() {
     return contactRenderer;
   }
+  
+  public SumRenderer getSumRenderer() {
+    return sumRenderer;
+  }
 
   public void display(GL2 gl) {
 
@@ -48,10 +54,14 @@ public class Renderer3D {
     gl.glEnable(GL.GL_DEPTH_TEST);
 
     camera.apply(gl);
+    
+    if (scene.view.renderer.drawAxes)
+      drawAxes(gl);
 
     int numPeriods = scene.view.renderer.periods3d;
     if (numPeriods > 1) {
-      int centerPeriod = (int) (camera.getEye().z() / (2 * Math.PI));
+      double z = camera.getEye().z();
+      int centerPeriod = (int) ((z < 0 ? (z - Math.PI) : (z + Math.PI)) / (2 * Math.PI));
       for (int i = -numPeriods / 2; i <= numPeriods / 2; i++) {
         gl.glPushMatrix();
         gl.glTranslated(0, 0, Math.PI * 2 * (centerPeriod + i));
@@ -61,11 +71,34 @@ public class Renderer3D {
     } else {
       drawScene(gl);
     }
-
+    
     if (scene.view.renderer.drawPiPlanes)
       drawPiPlanes(gl);
 
     gl.glDisable(GL.GL_DEPTH_TEST);
+  }
+
+  private void drawAxes(GL2 gl) {
+    gl.glEnable(GL2.GL_LIGHTING);
+    gl.glEnable(GL2.GL_LIGHT0);
+    gl.glEnable(GL2.GL_COLOR_MATERIAL);
+    axes.drawArrays(gl);
+    gl.glDisable(GL2.GL_LIGHTING);
+    gl.glDisable(GL2.GL_COLOR_MATERIAL);
+  }
+
+  private void drawAxesOverlay(GL2 gl) {
+    ConstVec3f eye = camera.getForward().times(-4);
+    ConstVec3f up = camera.getUp();
+    Mat4f view = Transform.lookAt(eye.x(), eye.y(), eye.z(), 0, 0, 0, up.x(), up.y(), up.z());
+    gl.glLoadMatrixf(view.a, 0);
+    gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+    gl.glEnable(GL2.GL_LIGHTING);
+    gl.glEnable(GL2.GL_LIGHT0);
+    gl.glEnable(GL2.GL_COLOR_MATERIAL);
+    axes.drawArrays(gl);
+    gl.glDisable(GL2.GL_LIGHTING);
+    gl.glDisable(GL2.GL_COLOR_MATERIAL);
   }
 
   private void drawPiPlanes(GL2 gl) {

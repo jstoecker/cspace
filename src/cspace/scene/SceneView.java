@@ -50,6 +50,7 @@ public class SceneView {
     public ViewMode viewMode        = ViewMode.VIEW_SPLIT;
     public boolean  fixedWidthEdges = true;
     public boolean  drawPiPlanes    = false;
+    public boolean  drawAxes        = false;
     public int      periods3d       = 1;
   }
 
@@ -122,6 +123,7 @@ public class SceneView {
     public Vec3f          color         = new Vec3f(0.0f, 0.6f, 0.0f);
     public float          edgeWidth     = 0.03f;
     public float          edgeDetail    = 0.001f;
+    public float          drawAlpha     = 0.3f;
     public boolean        visible2d     = true;
     public boolean        visible3d     = true;
     public boolean        shaded        = true;

@@ -39,12 +39,12 @@ public class MainToolBar extends JPanel {
     setBorder(BorderFactory.createCompoundBorder(outer, inner));
 
     GridBagLayout layout = new GridBagLayout();
-    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, };
+    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, };
     setLayout(layout);
 
     // button to open scene
     {
-      JButton openButton = new JButton(new ImageIcon(getClass().getResource("/gear.png")));
+      JButton openButton = new JButton(new ImageIcon(getClass().getResource("/folder_open_icon&16.png")));
       openButton.addActionListener(new OpenSceneAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 0;
@@ -54,7 +54,7 @@ public class MainToolBar extends JPanel {
 
     // button to open settings dialog
     {
-      settingsButton = new JButton(new ImageIcon(getClass().getResource("/gear.png")));
+      settingsButton = new JButton(new ImageIcon(getClass().getResource("/cogs_icon&16.png")));
       settingsButton.setEnabled(false);
       settingsButton.addActionListener(new OpenSettingsAction());
       GridBagConstraints gbc = new GridBagConstraints();
@@ -65,13 +65,23 @@ public class MainToolBar extends JPanel {
 
     // button to toggle path planning mode
     {
-      ImageIcon icon = new ImageIcon(getClass().getResource("/path.png"));
+      ImageIcon icon = new ImageIcon(getClass().getResource("/eye_inv_icon&16.png"));
       pathButton = new JToggleButton(icon);
       pathButton.setEnabled(false);
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 2;
       gbc.gridy = 0;
       add(pathButton, gbc);
+    }
+    
+    // about button
+    {
+      ImageIcon icon = new ImageIcon(getClass().getResource("/info_icon&16.png"));
+      JButton button = new JButton(icon);
+      GridBagConstraints gbc = new GridBagConstraints();
+      gbc.gridx = 3;
+      gbc.gridy = 0;
+      add(button, gbc);
     }
 
     // path progress slider
@@ -81,11 +91,11 @@ public class MainToolBar extends JPanel {
       pathSlider.addChangeListener(new PathSlideAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.fill = GridBagConstraints.HORIZONTAL;
-      gbc.gridx = 3;
+      gbc.gridx = 4;
       gbc.gridy = 0;
       add(pathSlider, gbc);
     }
-
+    
     sceneFileChooser = new JFileChooser();
     sceneFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }

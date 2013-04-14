@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -28,6 +30,10 @@ public class PropertyLayout {
   }
 
   public void add(String label, Component component) {
+    if (component instanceof JCheckBox) {
+      ((JCheckBox)component).setHorizontalTextPosition(SwingConstants.LEFT);
+      ((JCheckBox)component).setHorizontalAlignment(JCheckBox.RIGHT);
+    }
     items.add(new Item(label, component));
   }
 
