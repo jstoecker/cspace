@@ -29,37 +29,37 @@ path:
   visible3d: false
 renderer:
   background: {x: 0.0, y: 0.0, z: 0.0}
-  drawAxes: false
+  drawAxes: true
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
   viewMode: VIEW_3D
 robot:
   color: {x: 1.0, y: 0.2, z: 0.2}
-  edgeDetail: 0.0010
+  edgeDetail: 0.001
   edgeWidth: 0.07
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: -0.936309, y: 3.40232}
+  rotation: {x: -0.2534141560559691, y: 0.9673578787142021}
   visible2d: true
-  visible3d: false
+  visible3d: true
 subs:
   alphaSampling: 0.1
   color: {x: 0.74509805, y: 0.8784314, z: 0.06666667}
-  colorStyle3d: UNIFORM
+  colorStyle3d: PER_SUB
   drawAlpha: 0.46
-  edgeDetail: 0.0010
+  edgeDetail: 0.001
   edgeWidth: 0.05
   renderStyle3d: OPAQUE
   shaded: true
   thetaSampling: 0.01
   visible2d: true
   visible3d: true
-  wireframed: false
+  wireframed: true
 sums:
   color: {x: 0.8, y: 0.8, z: 1.0}
   drawn3d: []
-  edgeDetail: 0.0010
+  edgeDetail: 0.001
   edgeWidth: 0.03
   visible2d: false
   visible3d: false

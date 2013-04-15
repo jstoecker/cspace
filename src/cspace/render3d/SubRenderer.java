@@ -7,6 +7,7 @@ import jgl.cameras.Camera;
 import jgl.core.Program;
 import jgl.core.Shader;
 import jgl.core.Uniform;
+import jgl.core.Viewport;
 import jgl.loaders.ShaderLoader;
 import cspace.scene.Scene;
 
@@ -30,6 +31,8 @@ public class SubRenderer {
   private Uniform          uAlpha;
   private Uniform          uTheta;
   private Uniform          uReverse;
+  
+  private Program          subWireframe;
 
   SubRenderer(Scene scene) {
     this.scene = scene;
@@ -51,13 +54,26 @@ public class SubRenderer {
     uAlpha = subShader.uniform("alpha");
     uTheta = subShader.uniform("robotTheta");
     uReverse = subShader.uniform("reverse");
+
+    // check if geometry shader extensions are available for nicer wireframe
+    String ext = gl.glGetString(GL.GL_EXTENSIONS);
+    if (ext.contains("GL_EXT_gpu_shader4") && ext.contains("GL_EXT_geometry_shader4")) {
+      subWireframe = new Program();
+      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.vs", Shader.Type.VERTEX));
+      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.gs", Shader.Type.GEOMETRY));
+      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.fs", Shader.Type.FRAGMENT));
+      subWireframe.param(gl, GL2.GL_GEOMETRY_INPUT_TYPE_EXT, GL2.GL_TRIANGLES);
+      subWireframe.param(gl, GL2.GL_GEOMETRY_OUTPUT_TYPE_EXT, GL2.GL_TRIANGLES);
+      subWireframe.param(gl, GL2.GL_GEOMETRY_VERTICES_OUT_EXT, 3);
+      subWireframe.link(gl);
+    }
   }
 
   void delete(GL gl) {
     mesh.delete(gl);
   }
 
-  void draw(GL2 gl, Camera camera) {
+  void draw(GL2 gl, Camera camera, Viewport viewport) {
     if (!scene.view.subs.visible3d)
       return;
 
@@ -83,27 +99,27 @@ public class SubRenderer {
 
     mesh.setState(gl);
     
-    switch (scene.view.subs.renderStyle3d) {
-    case OPAQUE:
-      drawSolid(gl);
-      break;
-    case TRANSLUCENT:
-      drawTranslucent(gl);
-      break;
-    case CLIP_ABOVE_THETA:
-      drawClipAbove(gl);
-      break;
-    case CLIP_AROUND_THETA:
-      drawClipAround(gl);
-      break;
-    case CLIP_BELOW_THETA:
-      drawClipBelow(gl);
-      break;
+    if (scene.view.subs.wireframed) {
+      drawWireframe(gl, viewport);
+    } else {
+      switch (scene.view.subs.renderStyle3d) {
+      case OPAQUE:
+        drawSolid(gl);
+        break;
+      case TRANSLUCENT:
+        drawTranslucent(gl);
+        break;
+      case CLIP_ABOVE_THETA:
+        drawClipAbove(gl);
+        break;
+      case CLIP_AROUND_THETA:
+        drawClipAround(gl);
+        break;
+      case CLIP_BELOW_THETA:
+        drawClipBelow(gl);
+        break;
+      }
     }
-
-    if (scene.view.subs.wireframed)
-      drawWireframe(gl);
-    
 
     subShader.unbind(gl);
     mesh.unsetState(gl);
@@ -148,16 +164,25 @@ public class SubRenderer {
     uClipping.set(gl, CLIP_BELOW);
     mesh.draw(gl);
   }
+  
+  private void drawWireframe(GL2 gl, Viewport viewport) {
+    if (subWireframe != null) {
+      // use single-pass shader wireframe
+      subWireframe.bind(gl);
+      subWireframe.uniform("viewport").set(gl, (float)viewport.width, (float)viewport.height);
+      mesh.draw(gl);
+      subWireframe.unbind(gl);
+    } else {
+      // use old-style wireframe with poly offset
+      uColoring.set(gl, COLOR_EDGE);
+      uColor.set(gl, 0f, 0f, 0f);
+      uAlpha.set(gl, 1f);
+      uShading.set(gl, false);
 
-  private void drawWireframe(GL2 gl) {
-    uColoring.set(gl, COLOR_EDGE);
-    uColor.set(gl, 0f, 0f, 0f);
-    uAlpha.set(gl, 1f);
-    uShading.set(gl, false);
-
-    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
-    mesh.draw(gl);
-    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+      gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+      mesh.draw(gl);
+      gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+    }
   }
 
   void update(Scene scene) {

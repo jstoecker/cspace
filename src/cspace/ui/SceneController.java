@@ -145,7 +145,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
 
   @Override
   public void mouseMoved(MouseEvent e) {
-    if (renderer.getViewport3d().contains(e.getPoint()))
+    if (renderer.getViewport3d() != null && renderer.getViewport3d().contains(e.getPoint()))
       controller3d.mouseMoved(e);
   }
 

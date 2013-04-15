@@ -66,7 +66,7 @@ public class SceneRenderer {
     vp3D = new Viewport(screen.x, screen.y, screen.width, screen.height);
     renderer3d.reshape(vp3D.x, vp3D.y, vp3D.width, vp3D.height);
     vp3D.apply(gl);
-    renderer3d.display(gl);
+    renderer3d.display(gl, vp3D);
   }
 
   private void drawSplit(GL2 gl) {
@@ -84,7 +84,7 @@ public class SceneRenderer {
     endViewport(gl);
     
     beginViewport(gl, vp3D);
-    renderer3d.display(gl);
+    renderer3d.display(gl, vp3D);
     endViewport(gl);
     
     gl.glDisable(GL.GL_SCISSOR_TEST);

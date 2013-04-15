@@ -4,6 +4,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import jgl.cameras.Camera;
+import jgl.core.Viewport;
 import jgl.geometry.extra.AxesGeometry;
 import jgl.math.vector.ConstVec3f;
 import jgl.math.vector.Mat4f;
@@ -47,7 +48,7 @@ public class Renderer3D {
     return sumRenderer;
   }
 
-  public void display(GL2 gl) {
+  public void display(GL2 gl, Viewport viewport) {
 
     gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
@@ -65,11 +66,11 @@ public class Renderer3D {
       for (int i = -numPeriods / 2; i <= numPeriods / 2; i++) {
         gl.glPushMatrix();
         gl.glTranslated(0, 0, Math.PI * 2 * (centerPeriod + i));
-        drawScene(gl);
+        drawScene(gl, viewport);
         gl.glPopMatrix();
       }
     } else {
-      drawScene(gl);
+      drawScene(gl, viewport);
     }
     
     if (scene.view.renderer.drawPiPlanes)
@@ -133,7 +134,7 @@ public class Renderer3D {
     gl.glDisable(GL.GL_BLEND);
   }
 
-  private void drawScene(GL2 gl) {
+  private void drawScene(GL2 gl, Viewport viewport) {
     pathRenderer.draw(gl);
     robotRenderer.draw(gl);
     contactRenderer.draw(gl);
@@ -142,7 +143,7 @@ public class Renderer3D {
       gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
       gl.glPolygonOffset(1, 1);
     }
-    subRenderer.draw(gl, camera);
+    subRenderer.draw(gl, camera, viewport);
     if (scene.view.subs.wireframed)
       gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
 
