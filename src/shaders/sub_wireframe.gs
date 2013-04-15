@@ -1,21 +1,24 @@
+// C-Space 3D Sub Geometry Shader (wireframe enabled)
+// Justin Stoecker
+
 #version 120
 #extension GL_EXT_gpu_shader4 : enable
 #extension GL_EXT_geometry_shader4 : enable
 
 uniform vec2 viewport;
 
-// INPUT
 varying in vec3  vert_normal_world[3];
 varying in vec3  vert_normal_eye[3];
 varying in vec3  vert_color[3];
-varying in float vert_theta[3];
+varying in float vert_theta_world[3];
+varying in float vert_theta_eye[3];
 
-// OUTPUT
 varying out vec3 normal_world;
 varying out vec3 normal_eye;
 varying out vec3 color;
-varying out float theta;
-noperspective varying vec3 dist;
+varying out float theta_world;
+varying out float theta_eye;
+noperspective varying out vec3 dist;
 
 void main()
 {
@@ -34,7 +37,8 @@ void main()
 	normal_world = vert_normal_world[0];
 	normal_eye = vert_normal_eye[0];
 	color = vert_color[0];
-	theta = vert_theta[0];
+	theta_world = vert_theta_world[0];
+	theta_eye = vert_theta_eye[0];
   dist = vec3(area / length(edge_0), 0.0, 0.0);
   gl_Position = gl_PositionIn[0];
   EmitVertex();
@@ -43,7 +47,8 @@ void main()
   normal_world = vert_normal_world[1];
   normal_eye = vert_normal_eye[1];
   color = vert_color[1];
-  theta = vert_theta[1];
+  theta_world = vert_theta_world[1];
+  theta_eye = vert_theta_eye[1];
   dist = vec3(0.0, area / length(edge_1), 0.0);
   gl_Position = gl_PositionIn[1];
   EmitVertex();
@@ -52,7 +57,8 @@ void main()
 	normal_world = vert_normal_world[2];
   normal_eye = vert_normal_eye[2];
   color = vert_color[2];
-  theta = vert_theta[2];
+  theta_world = vert_theta_world[2];
+  theta_eye = vert_theta_eye[2];
   dist = vec3(0.0, 0.0, area / length(edge_2));
   gl_Position = gl_PositionIn[2];
   EmitVertex();
