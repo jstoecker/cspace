@@ -138,10 +138,13 @@ public class Renderer3D {
     robotRenderer.draw(gl);
     contactRenderer.draw(gl);
 
-    gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
-    gl.glPolygonOffset(1, 1);
+    if (scene.view.subs.wireframed) {
+      gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
+      gl.glPolygonOffset(1, 1);
+    }
     subRenderer.draw(gl, camera);
-    gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
+    if (scene.view.subs.wireframed)
+      gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
 
     sumRenderer.draw(gl);
   }
