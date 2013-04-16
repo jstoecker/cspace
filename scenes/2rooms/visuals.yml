@@ -6,60 +6,60 @@ camera3d:
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
-  intnColor: {x: 0.75686276, y: 0.28235295, z: 0.75686276}
+  intnColor: {x: 0.6, y: 0.0, z: 0.6}
   intnVisible2d: false
   intnVisible3d: false
-  sevColor: {x: 0.8, y: 0.0, z: 0.2}
+  sevColor: {x: 0.3, y: 0.0, z: 0.6}
   sevVisible2d: false
   sevVisible3d: false
-  sveColor: {x: 0.0, y: 0.8, z: 0.8}
+  sveColor: {x: 0.6, y: 0.3, z: 0.0}
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 0.4, y: 0.4, z: 0.4}
-  edgeDetail: 0.94
-  edgeWidth: 0.181
+  color: {x: 0.6, y: 0.6, z: 0.6}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
   originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 1.0, y: 1.0, z: 1.0}
+  color: {x: 0.6, y: 0.6, z: 0.0}
   edgeWidth: 0.03
   visible2d: false
   visible3d: false
 renderer:
   background: {x: 0.0, y: 0.0, z: 0.0}
-  drawAxes: true
+  drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
   viewMode: VIEW_3D
 robot:
-  color: {x: 1.0, y: 0.2, z: 0.2}
-  edgeDetail: 0.001
-  edgeWidth: 0.07
+  color: {x: 1.0, y: 0.4, z: 0.4}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
   originVisible: true
-  position: {x: -0.936309, y: 3.40232}
-  rotation: {x: -0.2534141560559691, y: 0.9673578787142021}
+  position: {x: -2.44353, y: 2.54589}
+  rotation: {x: -0.6835008843850965, y: 0.7299496839130701}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
-  color: {x: 0.74509805, y: 0.8784314, z: 0.06666667}
+  clipStyle3d: NO_CLIPPING
+  color: {x: 0.6, y: 1.0, z: 0.6}
   colorStyle3d: PER_SUB
-  drawAlpha: 0.46
-  edgeDetail: 0.001
-  edgeWidth: 0.05
-  renderStyle3d: OPAQUE
+  drawAlpha: 1.0
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
   shaded: true
   thetaSampling: 0.01
   visible2d: true
   visible3d: true
   wireframed: true
 sums:
-  color: {x: 0.8, y: 0.8, z: 1.0}
+  color: {x: 0.3, y: 0.3, z: 0.3}
   drawn3d: []
-  edgeDetail: 0.001
+  edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: false
+  visible2d: true
   visible3d: false

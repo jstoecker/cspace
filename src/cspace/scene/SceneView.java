@@ -112,9 +112,8 @@ public class SceneView {
       PER_SUM
     }
 
-    public enum RenderStyle3D {
-      OPAQUE,
-      TRANSLUCENT,
+    public enum ClipStyle3D {
+      NO_CLIPPING,
       CLIP_ABOVE_THETA,
       CLIP_BELOW_THETA,
       CLIP_AROUND_THETA
@@ -129,7 +128,7 @@ public class SceneView {
     public boolean        shaded        = true;
     public boolean        wireframed    = false;
     public ColorStyle3D   colorStyle3d  = ColorStyle3D.UNIFORM;
-    public RenderStyle3D  renderStyle3d = RenderStyle3D.OPAQUE;
+    public ClipStyle3D    clipStyle3d = ClipStyle3D.NO_CLIPPING;
     public double         alphaSampling = 0.1;
     public double         thetaSampling = 0.01;
     private ColorMap<Sub> colors        = new ColorMap<Sub>();

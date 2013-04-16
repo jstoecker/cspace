@@ -48,15 +48,15 @@ public class SubSettings extends JPanel {
     
     // render style
     JComboBox renderComboBox = new JComboBox();
-    for (SceneView.Subs.RenderStyle3D style : SceneView.Subs.RenderStyle3D.values())
+    for (SceneView.Subs.ClipStyle3D style : SceneView.Subs.ClipStyle3D.values())
       renderComboBox.addItem(style);
-    renderComboBox.setSelectedItem(view.renderStyle3d);
+    renderComboBox.setSelectedItem(view.clipStyle3d);
     renderComboBox.addItemListener(new ItemListener() {
       public void itemStateChanged(ItemEvent e) {
-        view.renderStyle3d = (SceneView.Subs.RenderStyle3D)e.getItem();
+        view.clipStyle3d = (SceneView.Subs.ClipStyle3D)e.getItem();
       }
     });
-    layout.add("3D Rendering Style", renderComboBox);
+    layout.add("Clipping 3D", renderComboBox);
     
     // color style
     JComboBox colorComboBox = new JComboBox();
@@ -68,7 +68,7 @@ public class SubSettings extends JPanel {
         view.colorStyle3d = (SceneView.Subs.ColorStyle3D)e.getItem();
       }
     });
-    layout.add("3D Coloring Style", colorComboBox);
+    layout.add("Coloring 3D", colorComboBox);
     
     // draw alpha
     final JSlider drawAlpha = new JSlider(0, 100, (int)(view.drawAlpha * 100));
@@ -77,7 +77,7 @@ public class SubSettings extends JPanel {
         view.drawAlpha = drawAlpha.getValue() / 100.0f;
       }
     });
-    layout.add("Translucency", drawAlpha);
+    layout.add("Opacity", drawAlpha);
     
     // visibility
     VisibilityWidget visibility = new VisibilityWidget(view.visible2d, view.visible3d);

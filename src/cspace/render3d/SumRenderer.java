@@ -11,7 +11,6 @@ import javax.media.opengl.GL2;
 import jgl.core.Program;
 import jgl.core.Shader;
 import jgl.core.Uniform;
-import jgl.loaders.ShaderLoader;
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec3d;
 import jgl.math.vector.Vec3f;
@@ -29,7 +28,7 @@ import cspace.util.CachedRenderer;
 public class SumRenderer extends CachedRenderer {
 
   private Scene   scene;
-  private Program shader;
+  private Program prog;
   private Uniform uColor;
   private Uniform uColorMode;
   int             list = -1;
@@ -39,13 +38,13 @@ public class SumRenderer extends CachedRenderer {
   }
 
   void init(GL2 gl) {
-    shader = new Program();
-    shader.attach(gl, ShaderLoader.load(gl, "/shaders/sum.vert", Shader.Type.VERTEX));
-    shader.attach(gl, ShaderLoader.load(gl, "/shaders/sum.frag", Shader.Type.FRAGMENT));
-    shader.link(gl);
+    prog = new Program();
+    prog.attach(gl, Shader.load(gl, "/shaders/sum.vert", Shader.Type.VERTEX));
+    prog.attach(gl, Shader.load(gl, "/shaders/sum.frag", Shader.Type.FRAGMENT));
+    prog.link(gl);
 
-    uColor = shader.uniform("edgeColor");
-    uColorMode = shader.uniform("colorMode");
+    uColor = prog.uniform("edgeColor");
+    uColorMode = prog.uniform("colorMode");
   }
 
   @Override
@@ -55,7 +54,7 @@ public class SumRenderer extends CachedRenderer {
 
   @Override
   protected void beginDraw(GL2 gl) {
-    shader.bind(gl);
+    prog.bind(gl);
     uColorMode.set(gl, 1);
     uColor.set(gl, scene.view.sums.color);
     gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_LINE);
@@ -65,7 +64,7 @@ public class SumRenderer extends CachedRenderer {
   protected void endDraw(GL2 gl) {
     gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
     gl.glDisable(GL.GL_BLEND);
-    shader.unbind(gl);
+    prog.unbind(gl);
   }
 
   @Override

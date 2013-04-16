@@ -6,33 +6,16 @@ import javax.media.opengl.GL2;
 import jgl.cameras.Camera;
 import jgl.core.Program;
 import jgl.core.Shader;
-import jgl.core.Uniform;
 import jgl.core.Viewport;
-import jgl.loaders.ShaderLoader;
 import cspace.scene.Scene;
+import cspace.scene.SceneView.Subs.ClipStyle3D;
 
 public class SubRenderer {
 
-  private static final int COLOR_EDGE   = 0;
-  private static final int COLOR_UNIQUE = 1;
-  private static final int COLOR_NORMAL = 2;
-  private static final int CLIP_NONE    = 0;
-  private static final int CLIP_ABOVE   = 1;
-  private static final int CLIP_AROUND  = 2;
-  private static final int CLIP_BELOW   = 3;
-
-  private Scene            scene;
-  private Program          subShader;
-  private SubMesh          mesh;
-  private Uniform          uShading;
-  private Uniform          uColor;
-  private Uniform          uColoring;
-  private Uniform          uClipping;
-  private Uniform          uAlpha;
-  private Uniform          uTheta;
-  private Uniform          uReverse;
-  
-  private Program          subWireframe;
+  private Scene   scene;
+  private Program prog;
+  private Program progWireframed;
+  private SubMesh mesh;
 
   SubRenderer(Scene scene) {
     this.scene = scene;
@@ -40,148 +23,128 @@ public class SubRenderer {
   }
 
   void init(GL2 gl) {
-    Shader vs = ShaderLoader.load(gl, "/shaders/cspace.vert", Shader.Type.VERTEX);
-    Shader fs = ShaderLoader.load(gl, "/shaders/cspace.frag", Shader.Type.FRAGMENT);
-    subShader = new Program();
-    subShader.attach(gl, vs);
-    subShader.attach(gl, fs);
-    subShader.link(gl);
+    Shader vs = Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX);
+    System.out.println("vertex:\n" + vs.getLog());
+    Shader fs = Shader.load(gl, "/shaders/sub.fs", Shader.Type.FRAGMENT);
+    System.out.println("frag:\n" + fs.getLog());
+    prog = new Program();
+    prog.attach(gl, Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX));
+    prog.attach(gl, Shader.load(gl, "/shaders/sub.fs", Shader.Type.FRAGMENT));
+    prog.link(gl);
 
-    uShading = subShader.uniform("shading");
-    uColor = subShader.uniform("edgeColor");
-    uColoring = subShader.uniform("coloring");
-    uClipping = subShader.uniform("clipping");
-    uAlpha = subShader.uniform("alpha");
-    uTheta = subShader.uniform("robotTheta");
-    uReverse = subShader.uniform("reverse");
-
-    // check if geometry shader extensions are available for nicer wireframe
+    // check if geometry shader extensions are available for single-pass wireframe
     String ext = gl.glGetString(GL.GL_EXTENSIONS);
-    if (ext.contains("GL_EXT_gpu_shader4") && ext.contains("GL_EXT_geometry_shader4")) {
-      subWireframe = new Program();
-      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.vs", Shader.Type.VERTEX));
-      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.gs", Shader.Type.GEOMETRY));
-      subWireframe.attach(gl, ShaderLoader.load(gl, "/shaders/sub_wireframe.fs", Shader.Type.FRAGMENT));
-      subWireframe.param(gl, GL2.GL_GEOMETRY_INPUT_TYPE_EXT, GL2.GL_TRIANGLES);
-      subWireframe.param(gl, GL2.GL_GEOMETRY_OUTPUT_TYPE_EXT, GL2.GL_TRIANGLES);
-      subWireframe.param(gl, GL2.GL_GEOMETRY_VERTICES_OUT_EXT, 3);
-      subWireframe.link(gl);
+    if (ext.contains("GL_ARB_geometry_shader4")) {
+      progWireframed = new Program();
+      progWireframed.attach(gl, Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX));
+      progWireframed.attach(gl, Shader.load(gl, "/shaders/sub_wireframe.gs", Shader.Type.GEOMETRY));
+      progWireframed.attach(gl, Shader.load(gl, "/shaders/sub_wireframe.fs", Shader.Type.FRAGMENT));
+      progWireframed.param(gl, GL2.GL_GEOMETRY_INPUT_TYPE_EXT, GL2.GL_TRIANGLES);
+      progWireframed.param(gl, GL2.GL_GEOMETRY_OUTPUT_TYPE_EXT, GL2.GL_TRIANGLE_STRIP);
+      progWireframed.param(gl, GL2.GL_GEOMETRY_VERTICES_OUT_EXT, 3);
+      progWireframed.link(gl);
     }
   }
 
   void delete(GL gl) {
     mesh.delete(gl);
+    prog.delete(gl.getGL2GL3(), true);
+  }
+
+  private static int clipValue(ClipStyle3D style) {
+    switch (style) {
+    case CLIP_ABOVE_THETA:
+      return 1;
+    case CLIP_AROUND_THETA:
+      return 2;
+    case CLIP_BELOW_THETA:
+      return 3;
+    default:
+      return 0;
+    }
+  }
+  
+  private void setBlending(GL2 gl) {
+    if (scene.view.subs.drawAlpha < 1.0f) {
+      gl.glEnable(GL.GL_BLEND);
+      gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
+      gl.glDisable(GL.GL_DEPTH_TEST);
+    }
+  }
+  
+  private void endBlending(GL2 gl) {
+    if (scene.view.subs.drawAlpha < 1.0f) {
+      gl.glDisable(GL.GL_BLEND);
+      gl.glEnable(GL.GL_DEPTH_TEST);
+    }
+  }
+  
+  private void setUniforms(GL2 gl, Program shader) {
+    shader.uniform("color").set(gl, scene.view.subs.color);
+    shader.uniform("color_style").set(gl, scene.view.subs.colorStyle3d.ordinal());
+    shader.uniform("clip_style").set(gl, clipValue(scene.view.subs.clipStyle3d));
+    shader.uniform("robot_theta").set(gl, (float) scene.view.robot.rotation.anglePi());
+    shader.uniform("shading").set(gl, scene.view.subs.shaded);
+    shader.uniform("alpha").set(gl, scene.view.subs.drawAlpha);
+  }
+
+  private void draw(GL2 gl) {
+    setBlending(gl);
+    prog.bind(gl);
+    setUniforms(gl, prog);
+    mesh.setState(gl);
+    mesh.draw(gl);
+    mesh.unsetState(gl);
+    prog.unbind(gl);
+    endBlending(gl);
+  }
+  
+  private void drawWireframedTwoPass(GL2 gl) {
+    // standard pass
+    setBlending(gl);
+    prog.bind(gl);
+    setUniforms(gl, prog);
+    mesh.setState(gl);
+    mesh.draw(gl);
+    endBlending(gl);
+
+    // wireframe pass
+    prog.uniform("color").set(gl, 0.0f, 0.0f, 0.0f);
+    prog.uniform("color_style").set(gl, 0);
+    prog.uniform("clip_style").set(gl, 0);
+    prog.uniform("shading").set(gl, false);
+    prog.uniform("alpha").set(gl, 1.0f);
+    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
+    mesh.draw(gl);
+    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+    mesh.unsetState(gl);
+    prog.unbind(gl);
+  }
+
+  private void drawWireframedOnePass(GL2 gl, Viewport vp) {
+    setBlending(gl);
+    progWireframed.bind(gl);
+    setUniforms(gl, progWireframed);
+    progWireframed.uniform("wire_color").set(gl, 0f, 0f, 0f, 1f);
+    progWireframed.uniform("viewport").set(gl, (float)vp.width, (float)vp.height);
+    mesh.setState(gl);
+    mesh.draw(gl);
+    mesh.unsetState(gl);
+    prog.unbind(gl);
+    endBlending(gl);
   }
 
   void draw(GL2 gl, Camera camera, Viewport viewport) {
     if (!scene.view.subs.visible3d)
       return;
 
-    subShader.bind(gl);
-    uShading.set(gl, scene.view.subs.shaded);
-    uAlpha.set(gl, 1);
-    uTheta.set(gl, (float) scene.view.robot.rotation.anglePi());
-    switch (scene.view.subs.colorStyle3d) {
-    case UNIFORM:
-      uColor.set(gl, scene.view.subs.color);
-      uColoring.set(gl, COLOR_EDGE);
-      break;
-    case PER_SUB:
-      uColoring.set(gl, COLOR_UNIQUE);
-      break;
-    case NORMALS:
-      uColoring.set(gl, COLOR_NORMAL);
-      break;
-    case PER_SUM:
-      uColoring.set(gl, COLOR_UNIQUE);
-      break;
-    }
-
-    mesh.setState(gl);
-    
     if (scene.view.subs.wireframed) {
-      drawWireframe(gl, viewport);
+      if (progWireframed == null)
+        drawWireframedTwoPass(gl);
+      else
+        drawWireframedOnePass(gl, viewport);
     } else {
-      switch (scene.view.subs.renderStyle3d) {
-      case OPAQUE:
-        drawSolid(gl);
-        break;
-      case TRANSLUCENT:
-        drawTranslucent(gl);
-        break;
-      case CLIP_ABOVE_THETA:
-        drawClipAbove(gl);
-        break;
-      case CLIP_AROUND_THETA:
-        drawClipAround(gl);
-        break;
-      case CLIP_BELOW_THETA:
-        drawClipBelow(gl);
-        break;
-      }
-    }
-
-    subShader.unbind(gl);
-    mesh.unsetState(gl);
-  }
-  
-  private void drawSolid(GL2 gl) {
-    uClipping.set(gl, CLIP_NONE);
-    mesh.draw(gl);
-  }
-
-  private void drawTranslucent(GL2 gl) {
-    gl.glDisable(GL.GL_DEPTH_TEST);
-    uClipping.set(gl, CLIP_NONE);
-    gl.glEnable(GL.GL_BLEND);
-    if (scene.view.renderer.background.length() < 0.86) {
-      gl.glBlendEquation(GL.GL_FUNC_ADD);
-      gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE);
-      uReverse.set(gl, false);
-    } else {
-      gl.glBlendEquation(GL.GL_FUNC_REVERSE_SUBTRACT);
-      gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_ONE);
-      uReverse.set(gl, true);
-    }
-    uAlpha.set(gl, scene.view.subs.drawAlpha);
-    mesh.draw(gl);
-    gl.glDisable(GL.GL_BLEND);
-    gl.glEnable(GL.GL_DEPTH_TEST);
-  }
-
-  private void drawClipAbove(GL2 gl) {
-    uClipping.set(gl, CLIP_ABOVE);
-    mesh.draw(gl);
-  }
-
-  private void drawClipAround(GL2 gl) {
-    uClipping.set(gl, CLIP_AROUND);
-    mesh.draw(gl);
-    drawTranslucent(gl);
-  }
-
-  private void drawClipBelow(GL2 gl) {
-    uClipping.set(gl, CLIP_BELOW);
-    mesh.draw(gl);
-  }
-  
-  private void drawWireframe(GL2 gl, Viewport viewport) {
-    if (subWireframe != null) {
-      // use single-pass shader wireframe
-      subWireframe.bind(gl);
-      subWireframe.uniform("viewport").set(gl, (float)viewport.width, (float)viewport.height);
-      mesh.draw(gl);
-      subWireframe.unbind(gl);
-    } else {
-      // use old-style wireframe with poly offset
-      uColoring.set(gl, COLOR_EDGE);
-      uColor.set(gl, 0f, 0f, 0f);
-      uAlpha.set(gl, 1f);
-      uShading.set(gl, false);
-
-      gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_LINE);
-      mesh.draw(gl);
-      gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
+      draw(gl);
     }
   }
 
