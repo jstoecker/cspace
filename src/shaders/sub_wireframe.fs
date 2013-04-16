@@ -2,6 +2,7 @@
 // Justin Stoecker
 
 #version 120
+#extension GL_EXT_gpu_shader4 : enable
 
 const float wire_thickness = 0.5;
 const float clip_width = 0.05;

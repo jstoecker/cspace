@@ -23,10 +23,6 @@ public class SubRenderer {
   }
 
   void init(GL2 gl) {
-    Shader vs = Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX);
-    System.out.println("vertex:\n" + vs.getLog());
-    Shader fs = Shader.load(gl, "/shaders/sub.fs", Shader.Type.FRAGMENT);
-    System.out.println("frag:\n" + fs.getLog());
     prog = new Program();
     prog.attach(gl, Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX));
     prog.attach(gl, Shader.load(gl, "/shaders/sub.fs", Shader.Type.FRAGMENT));
@@ -49,6 +45,8 @@ public class SubRenderer {
   void delete(GL gl) {
     mesh.delete(gl);
     prog.delete(gl.getGL2GL3(), true);
+    if (progWireframed != null)
+      progWireframed.delete(gl.getGL2GL3(), true);
   }
 
   private static int clipValue(ClipStyle3D style) {
