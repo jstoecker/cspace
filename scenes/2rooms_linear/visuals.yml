@@ -16,9 +16,9 @@ contacts:
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 0.4, y: 0.4, z: 0.4}
+  color: {x: 0.6, y: 0.6, z: 0.6}
   edgeDetail: 0.0010
-  edgeWidth: 0.06
+  edgeWidth: 0.03
   originVisible: false
   visible2d: true
   visible3d: false
@@ -28,29 +28,29 @@ path:
   visible2d: false
   visible3d: false
 renderer:
-  background: {x: 0.0, y: 0.0, z: 0.0}
+  background: {x: 0.1, y: 0.1, z: 0.1}
   drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 33
-  viewMode: VIEW_SPLIT
+  viewMode: VIEW_3D
 robot:
-  color: {x: 1.0, y: 0.4, z: 0.4}
+  color: {x: 0.6, y: 0.0, z: 0.0}
   edgeDetail: 0.0010
-  edgeWidth: 0.06
+  edgeWidth: 0.03
   originVisible: true
   position: {x: -5.0, y: 1.00001}
   rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
   visible2d: true
-  visible3d: false
+  visible3d: true
 subs:
   alphaSampling: 0.1
-  color: {x: 0.4, y: 1.0, z: 0.4}
+  clipStyle3d: NO_CLIPPING
+  color: {x: 0.6, y: 1.0, z: 0.6}
   colorStyle3d: UNIFORM
-  drawAlpha: 0.22
+  drawAlpha: 1.0
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  renderStyle3d: OPAQUE
   shaded: true
   thetaSampling: 0.01
   visible2d: true
@@ -61,5 +61,5 @@ sums:
   drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: false
+  visible2d: true
   visible3d: false

@@ -4,7 +4,7 @@ import javax.media.opengl.GL2;
 
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec3f;
-import cspace.scene.CSPnt;
+import cspace.scene.Contact;
 import cspace.scene.Scene;
 import cspace.scene.SceneView;
 import cspace.util.CachedRenderer;
@@ -37,9 +37,9 @@ public class ContactRenderer extends CachedRenderer {
     gl.glEnd();
   }
   
-  private void draw(GL2 gl, CSPnt[] contacts, Vec3f color, double theta) {
+  private void draw(GL2 gl, Contact[] contacts, Vec3f color, double theta) {
     gl.glColor3f(color.x, color.y, color.z);
-    for (CSPnt contact : contacts) {
+    for (Contact contact : contacts) {
       if (contact != null && contact.isActive(theta)) {
         Vec2d p = contact.position(scene.view.robot.rotation);
         gl.glVertex2d(p.x, p.y);

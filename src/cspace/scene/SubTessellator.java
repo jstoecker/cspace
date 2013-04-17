@@ -1,4 +1,4 @@
-package cspace.scene.triangulate;
+package cspace.scene;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import jgl.math.vector.Vec2d;
-import cspace.scene.SumEV;
-import cspace.scene.SumVE;
 
 /**
  * Takes a sampled sub and converts it to vertices and triangles.
@@ -20,7 +18,7 @@ import cspace.scene.SumVE;
  */
 public class SubTessellator {
 
-  private SampledSub ssub;
+  private Sub sub;
   Set<Triangle> triangles;
   Set<Edge> edges;
   List<Vertex> verts;
@@ -29,21 +27,21 @@ public class SubTessellator {
 
   static final int DEBUG_SUB = -1;
 
-  public SubTessellator(SampledSub ssub) {
-    this.ssub = ssub;
+  public SubTessellator(Sub sub) {
+    this.sub = sub;
   }
 
   public void triangulate() {
     
     triangles = new HashSet<Triangle>();
     edges = new HashSet<Edge>();
-    outer = new ArrayList<Vertex>(ssub.outerLoop.size());
+    outer = new ArrayList<Vertex>(sub.outerLoop.size());
     verts = new ArrayList<Vertex>();
     sampleVerts = new HashMap<Sample, Vertex>();
     List<Edge> potentialEdges = new ArrayList<Edge>();
 
     // convert samples to vertices
-    for (List<Sample> l : ssub.innerSamples) {
+    for (List<Sample> l : sub.innerSamples) {
       for (Sample s : l) {
         Vertex v = new Vertex(s, false, false, false, false);
         sampleVerts.put(s, v);
@@ -51,10 +49,10 @@ public class SubTessellator {
       }
     }
     int si = 0;
-    int sj = ssub.startSamples.size() - 1;
-    int sk = sj + ssub.tailSamples.size() - 1;
-    int sl = sk + ssub.endSamples.size() - 1;
-    for (Sample s : ssub.outerLoop) {
+    int sj = sub.startSamples.size() - 1;
+    int sk = sj + sub.tailSamples.size() - 1;
+    int sl = sk + sub.endSamples.size() - 1;
+    for (Sample s : sub.outerLoop) {
       // the outerLoop is concatenation of start, tail, end, head (in order)
       // without duplicating shared vertices
       boolean onStart = (si <= sj);
@@ -76,8 +74,8 @@ public class SubTessellator {
       si++;
     }
 
-    if (ssub.sub.index == DEBUG_SUB) {
-      System.out.println("num verts: " + ssub.outerLoop.size() + " + " + verts.size());
+    if (sub.index == DEBUG_SUB) {
+      System.out.println("num verts: " + sub.outerLoop.size() + " + " + verts.size());
       System.out.println("Vertices (index, x, y):");
       for (Vertex v : verts) {
         System.out.printf("addVert(%.17f, %.17f);\n", v.x, v.y);
@@ -91,10 +89,10 @@ public class SubTessellator {
     }
 
     // add potential edges for outer<->outer verts
-    boolean straightTail = ssub.sub.tail instanceof SumVE
-        || ssub.sub.tail instanceof SumEV;
-    boolean straightHead = ssub.sub.head instanceof SumVE
-        || ssub.sub.head instanceof SumEV;
+    boolean straightTail = sub.tail instanceof SumVE
+        || sub.tail instanceof SumEV;
+    boolean straightHead = sub.head instanceof SumVE
+        || sub.head instanceof SumEV;
     for (int i = 0; i < outer.size(); i++) {
       Vertex a = outer.get(i);
       Vertex b = outer.get((i + 1) % outer.size());
@@ -142,12 +140,12 @@ public class SubTessellator {
         }
 
         if (!sticksOut && !crossing && !smallAngle) {
-          if (ssub.sub.index == DEBUG_SUB)
+          if (sub.index == DEBUG_SUB)
             System.out.printf("POTENTIAL: %s (a=%d, b=%d, c=%d, d=%d)\n", e,
                 a.index, b.index, c.index, d.index);
           potentialEdges.add(e);
         } else {
-          if (ssub.sub.index == DEBUG_SUB)
+          if (sub.index == DEBUG_SUB)
             System.out.printf("BAD:       %s (a=%d, b=%d, c=%d, d=%d) : %s\n",
                 e, a.index, b.index, c.index, d.index,
                 (sticksOut ? "sticks out" : "crossing"));
@@ -230,7 +228,7 @@ public class SubTessellator {
       e.a.edges.add(e);
       e.b.edges.add(e);
 
-      if (ssub.sub.index == DEBUG_SUB) {
+      if (sub.index == DEBUG_SUB) {
         System.out.printf("addEdge(%d, %d);\n", e.a.index, e.b.index);
       }
     }
@@ -278,7 +276,7 @@ public class SubTessellator {
 
     public Vertex(Sample s, boolean onHead, boolean onTail, boolean onStart,
         boolean onEnd) {
-      super(ssub.getVertex(s).alphaTheta);
+      super(sub.getVertex(s).alphaTheta);
       this.sample = s;
       index = verts.size();
       this.onOuter = onHead || onTail || onStart || onEnd;

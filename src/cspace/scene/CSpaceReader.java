@@ -112,19 +112,18 @@ public class CSpaceReader {
     cspace.sumMap = new HashMap<EdgePair, List<SumEE>>();
     cspace.sums = new SumEE[nextInt()];
     for (int i = 0; i < cspace.sums.length; i++) {
-      // format : iObsEdge iRobEdge tailType iTail headType iHead iStartEvent
-      // iEndEvent
+      // format : iObsEdge iRobEdge tailType iTail headType iHead iStartEvent iEndEvent
       // where type 0=VE, 1=EV
       int iObsEdge = nextInt();
       int iRobEdge = nextInt();
       Edge obsEdge = cspace.obstacle.e[iObsEdge];
       Edge robEdge = cspace.robot.e[iRobEdge];
 
-      CSPnt[] list = (nextInt() == 0) ? cspace.sves : cspace.sevs;
-      CSPnt tail = list[nextInt()];
+      Contact[] list = (nextInt() == 0) ? cspace.sves : cspace.sevs;
+      Contact tail = list[nextInt()];
 
       list = (nextInt() == 0) ? cspace.sves : cspace.sevs;
-      CSPnt head = list[nextInt()];
+      Contact head = list[nextInt()];
 
       Event start = cspace.events[nextInt()];
       Event end = cspace.events[nextInt()];
@@ -158,12 +157,11 @@ public class CSpaceReader {
   private void readSubEdges() throws IOException {
     cspace.subs = new Sub[nextInt()];
     for (int i = 0; i < cspace.subs.length; i++) {
-      // format : iObsEdge iRobEdge tailType iTail headType iHead iStartEvent
-      // iEndEvent
+      // format : iObsEdge iRobEdge tailType iTail headType iHead iStartEvent iEndEvent
       Edge obsEdge = cspace.obstacle.e[nextInt()];
       Edge robEdge = cspace.robot.e[nextInt()];
 
-      CSPnt tail = null;
+      Contact tail = null;
       switch (nextInt()) {
       case 0:
         tail = cspace.sves[nextInt()];
@@ -176,7 +174,7 @@ public class CSpaceReader {
         break;
       }
 
-      CSPnt head = null;
+      Contact head = null;
       switch (nextInt()) {
       case 0:
         head = cspace.sves[nextInt()];
@@ -194,19 +192,6 @@ public class CSpaceReader {
 
       cspace.subs[i] = new Sub(obsEdge, robEdge, tail, head, start, end, i);
     }
-  }
-
-  /** Returns the angle of u in [0, 2pi] where the zero vector is frame of ref */
-  private static double angleIn2PI(Vec2d u, Vec2d zero) {
-    double zeroRads = Math.atan2(zero.y, zero.x);
-    if (zeroRads < 0)
-      zeroRads += Math.PI * 2.0;
-
-    double rads = Math.atan2(u.y, u.x) - zeroRads;
-    while (rads < 0)
-      rads += Math.PI * 2.0;
-
-    return rads;
   }
 
   private static List<String> tokenize(String line) {

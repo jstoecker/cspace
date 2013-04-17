@@ -1,6 +1,5 @@
 package cspace.scene;
 
-import cspace.scene.triangulate.SampledCSpace;
 
 /**
  * Stores data associated with a configuration space scene.
@@ -9,7 +8,6 @@ import cspace.scene.triangulate.SampledCSpace;
  */
 public class Scene {
 
-  public SampledCSpace sampledCS;
   public CSpace        cspace;
   public Path          path;
   public SceneView     view;
@@ -18,10 +16,6 @@ public class Scene {
     this.cspace = cspace;
     this.path = path;
     this.view = view;
-    createMesh();
-  }
-
-  public void createMesh() {
-    sampledCS = new SampledCSpace(cspace, view.subs.thetaSampling, view.subs.alphaSampling);
+    cspace.sample(view.subs.thetaSampling, view.subs.alphaSampling);
   }
 }

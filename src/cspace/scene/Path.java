@@ -3,7 +3,9 @@ package cspace.scene;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec3d;
 
@@ -12,9 +14,9 @@ import jgl.math.vector.Vec3d;
  */
 public class Path {
 
-  public Waypoint[] waypoints;
+  public List<Waypoint> waypoints;
 
-  public Path(Waypoint[] waypoints) {
+  public Path(List<Waypoint> waypoints) {
     this.waypoints = waypoints;
   }
 
@@ -23,7 +25,7 @@ public class Path {
     ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
     while (scanner.hasNext())
       waypoints.add(new Waypoint(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble() - 0.0123456789));
-    return new Path(waypoints.toArray(new Waypoint[waypoints.size()]));
+    return new Path(waypoints);
   }
 
   public static class Waypoint {

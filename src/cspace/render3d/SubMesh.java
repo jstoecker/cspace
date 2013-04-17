@@ -13,10 +13,7 @@ import com.jogamp.common.nio.Buffers;
 import cspace.scene.EdgePair;
 import cspace.scene.Scene;
 import cspace.scene.SceneView.Subs.ColorStyle3D;
-import cspace.scene.triangulate.SampledCSpace;
-import cspace.scene.triangulate.SampledSub;
-import cspace.scene.triangulate.SampledSub.Triangle;
-import cspace.scene.triangulate.SampledSub.Vertex;
+import cspace.scene.Sub;
 
 public class SubMesh {
 
@@ -49,9 +46,7 @@ public class SubMesh {
     int numVerts = 0;
     numTriangles = 0;
 
-    SampledCSpace sampling = scene.sampledCS;
-
-    for (SampledSub sub : sampling.subSamplings.values()) {
+    for (Sub sub : scene.cspace.subs) {
       numVerts += sub.verts.size();
       numTriangles += sub.triangles.size();
     }
@@ -59,19 +54,19 @@ public class SubMesh {
     int offset = 0;
     vData = Buffers.newDirectFloatBuffer(numVerts * stride / typeSize);
     iData = Buffers.newDirectIntBuffer(numTriangles * 3);
-    for (SampledSub ssub : sampling.subSamplings.values()) {
-      for (Vertex v : ssub.verts) {
+    for (Sub sub : scene.cspace.subs) {
+      for (Sub.Vertex v : sub.verts) {
         v.position.toFloat().putInto(vData);
         v.normal.toFloat().putInto(vData);
-        scene.view.subs.getColor(ssub.sub).putInto(vData);
-        scene.view.sums.getColor(new EdgePair(ssub.sub.robEdge.index, ssub.sub.obsEdge.index)).putInto(vData);
+        scene.view.subs.getColor(sub).putInto(vData);
+        scene.view.sums.getColor(new EdgePair(sub.robEdge.index, sub.obsEdge.index)).putInto(vData);
       }
-      for (Triangle triangle : ssub.triangles) {
+      for (Sub.Triangle triangle : sub.triangles) {
         iData.put(triangle.a.index + offset);
         iData.put(triangle.b.index + offset);
         iData.put(triangle.c.index + offset);
       }
-      offset += ssub.verts.size();
+      offset += sub.verts.size();
     }
     vData.rewind();
     iData.rewind();

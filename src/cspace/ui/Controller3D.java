@@ -11,14 +11,12 @@ import java.awt.event.MouseWheelListener;
 
 import jgl.cameras.Camera;
 import jgl.cameras.FirstPersonController;
-import jgl.core.Viewport;
 import jgl.math.geometry.Ray;
 import jgl.math.vector.Transform;
-import jgl.math.vector.Vec2f;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
-import cspace.scene.triangulate.SampledSub.RayTriIntersection;
+import cspace.scene.Sub.RayTriIntersection;
 
 /**
  * Mouse / keyboard input controller for 3D visualization.
@@ -140,9 +138,9 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
   private void debugPick(Point winCoords) {
     Ray ray = Transform.windowToWorld(renderer.get3D().getCamera(), renderer.getViewport3d(),
         winCoords);
-    RayTriIntersection intersection = scene.sampledCS.intersect(ray);
+    RayTriIntersection intersection = scene.cspace.intersect(ray);
     if (intersection != null) {
-      System.out.println(intersection.t.getSub().sub.index);
+      System.out.println(intersection.t.getSub().index);
     } else {
     }
   }

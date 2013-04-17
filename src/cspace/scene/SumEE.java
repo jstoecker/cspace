@@ -16,7 +16,7 @@ public class SumEE extends CSArc {
   /** Robot edge */
   public final Edge robEdge;
   
-  public SumEE(Edge obsEdge, Edge robEdge, CSPnt tail, CSPnt head, Event start, Event end,
+  public SumEE(Edge obsEdge, Edge robEdge, Contact tail, Contact head, Event start, Event end,
       int index) {
     super(start, end, index, obsEdge.r + robEdge.r, head, tail);
     this.obsEdge = obsEdge;

@@ -1,36 +1,26 @@
 package cspace.scene;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
+import jgl.math.geometry.Ray;
 
 
 /**
  * Configuration space.
  */
-public class CSpace {
+public class CSpace implements Iterable<Contact> {
 
-  /** Obstacle shape */
+  // input model
   public ArcShape obstacle = new ArcShape();
-
-  /** Robot shape */
   public ArcShape robot    = new ArcShape();
-
-  /** All events */
   public Event[]  events;
-
-  /** All sums of obstacle vertices + robot edges */
   public SumVE[]  sves;
-
-  /** All sums of obstacle edges + robot vertices */
   public SumEV[]  sevs;
-
-  /** All sums of obstacle edges + robot edges */
-  public SumEE[]  sums;
-
-  /** All intersections of pairs of SumEEs */
   public Intn[]   intns;
-
-  /** All inner sub edges of SumEEs */
+  public SumEE[]  sums;
   public Sub[]    subs;
   
   /** Maps a pair of edge indices to a SumEE */
@@ -61,5 +51,90 @@ public class CSpace {
   /** Returns a list of all SumEEs that have the edge indices given */
   public List<SumEE> getSumEEs(int robEdge, int obsEdge) {
     return sumMap.get(new EdgePair(robEdge, obsEdge));
+  }
+  
+  public Sub.RayTriIntersection intersect(Ray r) {
+    Sub.RayTriIntersection nearest = null;
+    double nearestDist = Double.POSITIVE_INFINITY;
+    for (Sub sub : subs) {
+      Sub.RayTriIntersection x = sub.intersect(r);
+      if (x != null) {
+        double d = x.p.minus(r.p).lengthSquared();
+        if (d < nearestDist) {
+          nearestDist = d;
+          nearest = x;
+        }
+      }
+    }
+    return (nearest == null) ? null : nearest;
+  }
+  
+  public void sample(double threshold, double samplingLength) {
+    // remove old samples
+    Sample.NUM_SAMPLES = 0;
+    for (Contact contact : this)
+      if (contact != null)
+        contact.samples.clear();
+    // TODO: sub.samples.clear();
+    // TODO : CLEAR ALL THE SAMPLE STATE INFO
+    
+    // begin contact samplings by adding samples at sub start & end events
+    for (Sub sub : subs) {
+      sub.tail.sampleAtSubEvents(sub);
+      sub.head.sampleAtSubEvents(sub);
+      // sub.addSamplesToTailHead();
+    }
+    
+    // end contact samplings by adding samples between current samples
+    double thresholdSquared = threshold * threshold;
+    for (Contact contact : this)
+      if (contact != null)
+        contact.sampleInner(thresholdSquared);
+    
+    // begin sub samplings by adding samples along start & end
+    for (Sub sub : subs) {
+      sub.initSublists();
+      sub.sampleStart(samplingLength);
+      sub.sampleEnd(samplingLength);
+    }
+    
+    // finish sub samplings by adding samples for postponed lists then inside
+    for (Sub sub : subs) {
+      sub.samplePostponed();
+      sub.sampleInside(samplingLength);
+      sub.triangulate();
+      sub.initNeighbors(subs);
+    }
+    
+    // connect adjacent triangles across subs
+    for (Sub sub : subs)
+      sub.initTriangleAdjacency();
+  }
+
+  @Override
+  public Iterator<Contact> iterator() {
+    return new ContactIterator();
+  }
+  
+  private class ContactIterator implements Iterator<Contact> {
+    private int position = 0;
+
+    public boolean hasNext() {
+      return position < (sves.length + sevs.length + intns.length);
+    }
+
+    public Contact next() {
+      if (position < sves.length)
+        return sves[position++];
+      if (position < sves.length + sevs.length)
+        return sevs[position++ - sves.length];
+      if (position < sves.length + sevs.length + intns.length)
+        return intns[position++ - sves.length - sevs.length];
+      throw new NoSuchElementException();
+    }
+
+    public void remove() {
+      throw new UnsupportedOperationException();
+    }
   }
 }

@@ -12,12 +12,12 @@ public abstract class CSArc extends CSpacePart {
   public final double r;
 
   /** Head point geometry */
-  public final CSPnt  head;
+  public final Contact  head;
 
   /** Tail point geometry */
-  public final CSPnt  tail;
+  public final Contact  tail;
 
-  public CSArc(Event start, Event end, int index, double r, CSPnt head, CSPnt tail) {
+  public CSArc(Event start, Event end, int index, double r, Contact head, Contact tail) {
     super(start, end, index);
     this.r = r;
     this.head = head;

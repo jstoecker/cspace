@@ -25,19 +25,22 @@ public class Event {
   /** All subs that end at this event */
   public final List<Sub> endSubs   = new ArrayList<Sub>();
 
+  /** All samples that occur at this event */
+  public List<Sample>    samples   = new ArrayList<Sample>();
+
   public Event(Vec2d u, Vec2d p, int index) {
     this.u = u;
     this.p = p;
     this.index = index;
   }
-  
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null)
       return false;
     if (!(obj instanceof Event))
       return false;
-    Event that = (Event)obj;
+    Event that = (Event) obj;
     return index == that.index;
   }
 }

@@ -9,7 +9,7 @@ import jgl.math.vector.Vec2d;
 /**
  * Sum of an obstacle edge and robot vertex
  */
-public class SumEV extends CSPnt {
+public class SumEV extends Contact {
 
   /** Obstacle edge */
   public final Edge   edge;

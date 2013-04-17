@@ -1,29 +1,18 @@
-package cspace.scene.triangulate;
+package cspace.scene;
 
 import jgl.math.vector.Vec2d;
-import cspace.scene.CSPnt;
-import cspace.scene.Event;
 
 /**
- * 3D sampling of CSpace. Each sub is triangulated using the samples along its
- * edges.
+ * 3D sampling of CSpace. Used for generating a triangle mesh.
  */
 public class Sample {
 
-  public static int NUM_SAMPLES = 0;
-  /**
-   * Position
-   */
+  public static int  NUM_SAMPLES = 0;
+
   public final Vec2d p;
-  /**
-   * Theta
-   */
   public final Vec2d u;
-  /**
-   * Event the sample occurs (or null if between events)
-   */
   public final Event event;
-  public final int index;
+  public final int   index;
 
   private Sample(Vec2d p, Vec2d u, Event event) {
     this.p = p;
@@ -40,7 +29,7 @@ public class Sample {
     this(p, event.u, event);
   }
 
-  public Sample(CSPnt pnt, Event event) {
+  public Sample(Contact pnt, Event event) {
     this(event.p, event.u, event);
   }
 
@@ -50,12 +39,9 @@ public class Sample {
   }
 
   public boolean equals(Vec2d p, Vec2d u) {
-    return p.x == this.p.x
-            && p.y == this.p.y
-            && u.x == this.u.x
-            && u.y == this.u.y;
+    return p.x == this.p.x && p.y == this.p.y && u.x == this.u.x && u.y == this.u.y;
   }
- 
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof Sample) {

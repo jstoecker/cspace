@@ -6,15 +6,15 @@ import java.util.Map;
 import javax.media.opengl.GL2;
 
 import jgl.math.vector.Vec3f;
-import cspace.scene.CSPnt;
+import cspace.scene.Contact;
 import cspace.scene.Intn;
+import cspace.scene.Sample;
 import cspace.scene.Scene;
 import cspace.scene.SceneView;
+import cspace.scene.Sub;
+import cspace.scene.Sub.Vertex;
 import cspace.scene.SumEV;
 import cspace.scene.SumVE;
-import cspace.scene.triangulate.Sample;
-import cspace.scene.triangulate.SampledSub;
-import cspace.scene.triangulate.SampledSub.Vertex;
 import cspace.util.CachedRenderer;
 
 public class ContactRenderer extends CachedRenderer {
@@ -33,14 +33,14 @@ public class ContactRenderer extends CachedRenderer {
 
   @Override
   protected void updateGeometry(GL2 gl) {
-    for (SampledSub sub : scene.sampledCS.subSamplings.values()) {
-      Vec3f color = color(sub.sub.tail);
+    for (Sub sub : scene.cspace.subs) {
+      Vec3f color = color(sub.tail);
       if (color != null) {
         gl.glColor3f(color.x, color.y, color.z);
         drawLineStrip(gl, sub.vertMap, sub.tailSamples);
       }
 
-      color = color(sub.sub.head);
+      color = color(sub.head);
       if (color != null) {
         gl.glColor3f(color.x, color.y, color.z);
         drawLineStrip(gl, sub.vertMap, sub.headSamples);
@@ -48,7 +48,7 @@ public class ContactRenderer extends CachedRenderer {
     }
   }
 
-  Vec3f color(CSPnt pnt) {
+  Vec3f color(Contact pnt) {
     if (pnt instanceof Intn && scene.view.contacts.intnVisible3d)
       return scene.view.contacts.intnColor;
     if (pnt instanceof SumVE && scene.view.contacts.sveVisible3d)

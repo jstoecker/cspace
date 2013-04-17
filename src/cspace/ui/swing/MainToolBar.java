@@ -124,7 +124,7 @@ public class MainToolBar extends JPanel {
     this.controller = controller;
 
     pathSlider.setMinimum(0);
-    pathSlider.setMaximum(controller.getScene().path.waypoints.length - 1);
+    pathSlider.setMaximum(controller.getScene().path.waypoints.size() - 1);
     pathSlider.setValue(0);
     pathSlider.setEnabled(true);
     settingsButton.setEnabled(true);
@@ -155,7 +155,7 @@ public class MainToolBar extends JPanel {
     public void stateChanged(ChangeEvent e) {
       if (controller != null) {
         JSlider slider = (JSlider) e.getSource();
-        Waypoint wp = controller.getScene().path.waypoints[slider.getValue()];
+        Waypoint wp = controller.getScene().path.waypoints.get(slider.getValue());
         controller.getScene().view.robot.position = wp.p.copy();
         controller.getScene().view.robot.rotation = wp.u.copy();
         controller.getRenderer().get2D().getSumRenderer().markDirty();

@@ -7,7 +7,7 @@ import cspace.scene.ArcShape.Edge;
 /**
  * Intersection of two SumEEs.
  */
-public class Intn extends CSPnt {
+public class Intn extends Contact {
 
   /** Obstacle edges for both SumEEs */
   public final Edge[] eO;
