@@ -2,6 +2,7 @@
 // Justin Stoecker
 
 #version 120
+#extension GL_EXT_gpu_shader4 : enable
 #extension GL_ARB_geometry_shader4 : enable
 
 uniform vec2 viewport;
