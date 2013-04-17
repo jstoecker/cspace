@@ -53,11 +53,11 @@ public class CSpace implements Iterable<Contact> {
     return sumMap.get(new EdgePair(robEdge, obsEdge));
   }
   
-  public Sub.RayTriIntersection intersect(Ray r) {
-    Sub.RayTriIntersection nearest = null;
+  public Sub.Intersection intersect(Ray r) {
+    Sub.Intersection nearest = null;
     double nearestDist = Double.POSITIVE_INFINITY;
     for (Sub sub : subs) {
-      Sub.RayTriIntersection x = sub.intersect(r);
+      Sub.Intersection x = sub.intersect(r);
       if (x != null) {
         double d = x.p.minus(r.p).lengthSquared();
         if (d < nearestDist) {
@@ -82,14 +82,13 @@ public class CSpace implements Iterable<Contact> {
     for (Sub sub : subs) {
       sub.tail.sampleAtSubEvents(sub);
       sub.head.sampleAtSubEvents(sub);
-      // sub.addSamplesToTailHead();
     }
     
     // end contact samplings by adding samples between current samples
     double thresholdSquared = threshold * threshold;
     for (Contact contact : this)
       if (contact != null)
-        contact.sampleInner(thresholdSquared);
+        contact.fineSample(thresholdSquared);
     
     // begin sub samplings by adding samples along start & end
     for (Sub sub : subs) {

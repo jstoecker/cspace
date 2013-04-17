@@ -43,6 +43,7 @@ public class SettingsDialog extends JDialog {
     setAlwaysOnTop(true);
     setSize(550, 420);
     setTitle("Settings");
+    setLocationRelativeTo(window);
     getContentPane().setLayout(new BorderLayout());
 
     optionsPanel = new JPanel();

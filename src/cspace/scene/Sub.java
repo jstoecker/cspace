@@ -359,7 +359,7 @@ public class Sub extends SumEE {
   }
 
   /** @return The triangle nearest to ray start that the ray intersects */
-  public RayTriIntersection intersect(Ray r) {
+  public Intersection intersect(Ray r) {
     Triangle nearestTri = null;
     Vec3f nearestP = null;
     double nearDist = Double.POSITIVE_INFINITY;
@@ -403,17 +403,21 @@ public class Sub extends SumEE {
       }
     }
 
-    return (nearestTri == null) ? null : new RayTriIntersection(nearestTri, nearestP);
+    return (nearestTri == null) ? null : new Intersection(nearestTri, nearestP);
   }
 
   // ===========================================================================
-  public static class RayTriIntersection {
+  public class Intersection {
     public Triangle t; // nearest triangle that the ray intersects
     public Vec3f    p; // point on the triangle the ray intersects
 
-    public RayTriIntersection(Triangle t, Vec3f p) {
+    public Intersection(Triangle t, Vec3f p) {
       this.t = t;
       this.p = p;
+    }
+    
+    public Sub getSub() {
+      return Sub.this;
     }
   }
 

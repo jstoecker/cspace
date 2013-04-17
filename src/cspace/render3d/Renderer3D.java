@@ -20,6 +20,7 @@ public class Renderer3D {
   private PathRenderer    pathRenderer;
   private RobotRenderer   robotRenderer;
   private SumRenderer     sumRenderer;
+  private InspectRenderer   debugRenderer;
   private AxesGeometry    axes   = new AxesGeometry(1);
 
   public Renderer3D(Scene scene) {
@@ -32,6 +33,7 @@ public class Renderer3D {
     pathRenderer = new PathRenderer(scene);
     robotRenderer = new RobotRenderer(scene);
     sumRenderer = new SumRenderer(scene);
+    debugRenderer = new InspectRenderer(scene);
 
     updateGeometry();
   }
@@ -43,9 +45,13 @@ public class Renderer3D {
   public ContactRenderer getContactRenderer() {
     return contactRenderer;
   }
-  
+
   public SumRenderer getSumRenderer() {
     return sumRenderer;
+  }
+  
+  public InspectRenderer getDebugRenderer() {
+    return debugRenderer;
   }
 
   public void display(GL2 gl, Viewport viewport) {
@@ -55,7 +61,7 @@ public class Renderer3D {
     gl.glEnable(GL.GL_DEPTH_TEST);
 
     camera.apply(gl);
-    
+
     if (scene.view.renderer.drawAxes)
       drawAxes(gl);
 
@@ -72,11 +78,15 @@ public class Renderer3D {
     } else {
       drawScene(gl, viewport);
     }
+
     
     if (scene.view.renderer.drawPiPlanes)
       drawPiPlanes(gl);
 
     gl.glDisable(GL.GL_DEPTH_TEST);
+    
+    debugRenderer.draw(gl, viewport);
+
   }
 
   private void drawAxes(GL2 gl) {
@@ -138,15 +148,7 @@ public class Renderer3D {
     pathRenderer.draw(gl);
     robotRenderer.draw(gl);
     contactRenderer.draw(gl);
-
-    if (scene.view.subs.wireframed) {
-      gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
-      gl.glPolygonOffset(1, 1);
-    }
     subRenderer.draw(gl, camera, viewport);
-    if (scene.view.subs.wireframed)
-      gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
-
     sumRenderer.draw(gl);
   }
 

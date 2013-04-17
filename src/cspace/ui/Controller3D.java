@@ -16,7 +16,7 @@ import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
-import cspace.scene.Sub.RayTriIntersection;
+import cspace.scene.Sub.Intersection;
 
 /**
  * Mouse / keyboard input controller for 3D visualization.
@@ -136,12 +136,16 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
   }
   
   private void debugPick(Point winCoords) {
-    Ray ray = Transform.windowToWorld(renderer.get3D().getCamera(), renderer.getViewport3d(),
-        winCoords);
-    RayTriIntersection intersection = scene.cspace.intersect(ray);
+    Ray ray = Transform.windowToWorld(renderer.get3D().getCamera(), renderer.getViewport3d(), winCoords);
+    Intersection intersection = scene.cspace.intersect(ray);
     if (intersection != null) {
-      System.out.println(intersection.t.getSub().index);
+      renderer.get3D().getDebugRenderer().setCursor(winCoords);
+      renderer.get3D().getDebugRenderer().setHighlightedSub(intersection.getSub());
+      renderer.get3D().getDebugRenderer().setHighlightedTriangle(intersection.t);
     } else {
+      renderer.get3D().getDebugRenderer().setCursor(null);
+      renderer.get3D().getDebugRenderer().setHighlightedSub(null);
+      renderer.get3D().getDebugRenderer().setHighlightedTriangle(null);
     }
   }
 

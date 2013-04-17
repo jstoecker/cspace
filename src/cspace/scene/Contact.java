@@ -119,14 +119,17 @@ public abstract class Contact extends CSpacePart {
     return true;
   }
 
-  void sampleInner(double thresholdSquared) {
+  /**
+   * Sample between current samples (from sub ends) to make a smooth curve.
+   */
+  void fineSample(double thresholdSquared) {
     int i = 0;
     int depth = 0;
     int j = 1;
     int originalSize = samples.size();
     int prevSize = originalSize;
     for (int pair = 0; pair < originalSize - 1; pair++) {
-      samplePnt(i, j, thresholdSquared, depth);
+      fineSample(i, j, thresholdSquared, depth);
       int added = samples.size() - prevSize;
       prevSize = samples.size();
       i = j + added;
@@ -134,7 +137,7 @@ public abstract class Contact extends CSpacePart {
     }
   }
 
-  void samplePnt(int left, int right, double thresholdSquared, int depth) {
+  private void fineSample(int left, int right, double thresholdSquared, int depth) {
     if (depth > 10)
       return;
     Sample a = samples.get(left);
@@ -143,7 +146,7 @@ public abstract class Contact extends CSpacePart {
     // if the angle between samples is really tiny, don't bother sampling
     // between them
     if (a.u.minus(b.u).length() < 0.00001) {
-      return;
+//      return;
     }
 
     Vec2d avgU = a.u.plus(b.u).normalize();
@@ -154,10 +157,10 @@ public abstract class Contact extends CSpacePart {
       Sample newS = new Sample(midP, avgU);
       samples.add(right, newS);
       int prevSize = samples.size();
-      samplePnt(left, right, thresholdSquared, depth + 1);
+      fineSample(left, right, thresholdSquared, depth + 1);
       int added = samples.size() - prevSize;
       right += added;
-      samplePnt(right, right + 1, thresholdSquared, depth + 1);
+      fineSample(right, right + 1, thresholdSquared, depth + 1);
     }
   }
 

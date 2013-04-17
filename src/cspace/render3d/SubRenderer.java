@@ -103,7 +103,10 @@ public class SubRenderer {
     prog.bind(gl);
     setUniforms(gl, prog);
     mesh.setState(gl);
+    gl.glEnable(GL.GL_POLYGON_OFFSET_FILL);
+    gl.glPolygonOffset(1, 1);
     mesh.draw(gl);
+    gl.glDisable(GL.GL_POLYGON_OFFSET_FILL);
     endBlending(gl);
 
     // wireframe pass

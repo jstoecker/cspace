@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -47,6 +48,8 @@ public class MainToolBar extends JPanel {
     {
       JButton openButton = new JButton(new ImageIcon(getClass().getResource(
           "/folder_open_icon&16.png")));
+      openButton.setToolTipText("Open Scene");
+      openButton.setMnemonic(KeyEvent.VK_O);
       openButton.setPreferredSize(new Dimension(32,32));
       openButton.addActionListener(new OpenSceneAction());
       GridBagConstraints gbc = new GridBagConstraints();
@@ -58,7 +61,9 @@ public class MainToolBar extends JPanel {
     // button to open settings dialog
     {
       settingsButton = new JButton(new ImageIcon(getClass().getResource("/cogs_icon&16.png")));
+      settingsButton.setToolTipText("View Settings");
       settingsButton.setEnabled(false);
+      settingsButton.setMnemonic(KeyEvent.VK_S);
       settingsButton.setPreferredSize(new Dimension(32,32));
       settingsButton.addActionListener(new OpenSettingsAction());
       GridBagConstraints gbc = new GridBagConstraints();
@@ -71,19 +76,24 @@ public class MainToolBar extends JPanel {
     {
       ImageIcon icon = new ImageIcon(getClass().getResource("/push_pin_icon&16.png"));
       pathButton = new JToggleButton(icon);
+      pathButton.setToolTipText("New Path");
       pathButton.setEnabled(false);
+      pathButton.setPreferredSize(new Dimension(32, 32));
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 2;
       gbc.gridy = 0;
       add(pathButton, gbc);
     }
 
-    // inspect mode
+    // inspect/debug mode
     {
       ImageIcon icon = new ImageIcon(getClass().getResource("/zoom_icon&16.png"));
       final JToggleButton button = new JToggleButton(icon);
+      button.setToolTipText("Inspect");
+      button.setMnemonic(KeyEvent.VK_I);
+      button.setPreferredSize(new Dimension(32, 32));
       button.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent arg0) {
+        public void actionPerformed(ActionEvent e) {
           controller.setInspectMode(button.isSelected());
         }
       });
@@ -97,6 +107,7 @@ public class MainToolBar extends JPanel {
     {
       ImageIcon icon = new ImageIcon(getClass().getResource("/info_icon&16.png"));
       JButton button = new JButton(icon);
+      button.setPreferredSize(new Dimension(32, 32));
       button.setPreferredSize(new Dimension(32,32));
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 4;

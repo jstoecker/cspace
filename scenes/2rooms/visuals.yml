@@ -39,15 +39,15 @@ robot:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: -2.14972, y: 2.79841}
+  rotation: {x: -0.5993653197668066, y: 0.8004756170307961}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
   clipStyle3d: NO_CLIPPING
   color: {x: 0.6, y: 1.0, z: 0.6}
-  colorStyle3d: UNIFORM
+  colorStyle3d: PER_SUB
   drawAlpha: 1.0
   edgeDetail: 0.0010
   edgeWidth: 0.03
@@ -62,4 +62,4 @@ sums:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   visible2d: true
-  visible3d: false
+  visible3d: true

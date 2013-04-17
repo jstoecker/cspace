@@ -61,7 +61,7 @@ public class PathMaker {
     for (int i = 0; i < wp.size(); i++) {
       Path.Waypoint p = wp.get(i);
       Vec3f pp = new Vec3f((float) p.p.x, (float) p.p.y, (float) p.theta);
-      RayTriIntersection x = cs.intersect(new Ray(pp, p.n.toFloat().times(-1)));
+      Intersection x = cs.intersect(new Ray(pp, p.n.toFloat().times(-1)));
       if (x != null) {
         float d = x.p.minus(pp).length();
         if (d <= 0) {

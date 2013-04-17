@@ -55,6 +55,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
 
   public void setInspectMode(boolean inspectMode) {
     this.inspectMode = inspectMode;
+    renderer.get3D().getDebugRenderer().setEnabled(inspectMode);
   }
 
   public boolean isInspectMode() {
