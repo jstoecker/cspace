@@ -1,7 +1,10 @@
 package cspace.scene;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,41 +30,34 @@ public class Path {
       waypoints.add(new Waypoint(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble() - 0.0123456789));
     return new Path(waypoints);
   }
+  
+  public void write(File file) throws IOException {
+    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+    for (Waypoint wp : waypoints) {
+      bw.write(String.format("%f %f %f\n", wp.p.x, wp.p.y, wp.theta + 0.0123456789));
+    }
+    bw.close();
+  }
 
   public static class Waypoint {
-    /** Position */
     public Vec2d p;
-    
-    /** Theta (vector) */
     public Vec2d u;
-    
-    /** Theta (radians) */
     public double theta;
     
-    /** Normal direction */
-    public Vec3d n;
-    
-    /** Should not be moved */
-    public boolean locked = false;
-
     public Waypoint(double x, double y, double theta) {
       p = new Vec2d(x, y);
       u = new Vec2d(Math.cos(theta), Math.sin(theta));
       this.theta = theta;
     }
     
-    public Vec3d minus(Waypoint that) {
-      return new Vec3d(
-              p.x - that.p.x,
-              p.y - that.p.y,
-              theta - that.theta);
+    public Waypoint(Vec3d p) {
+      this.p = new Vec2d(p.x, p.y);
+      this.u = new Vec2d(Math.cos(p.z), Math.sin(p.z));
+      this.theta = p.z;
     }
     
-    public void add(Vec3d v) {
-      p.x += v.x;
-      p.y += v.y;
-      theta += v.z;
-      u = new Vec2d(Math.cos(theta), Math.sin(theta));
+    public Vec3d toVector() {
+      return new Vec3d(p.x, p.y, theta);
     }
   }
 }
