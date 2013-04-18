@@ -62,6 +62,7 @@ public class SceneView {
   public static class Camera3D {
     public Vec3f initialEye    = new Vec3f(0, -10, 10);
     public Vec3f initialCenter = new Vec3f();
+    public float fieldOfView   = 60;
   }
 
   public static class Contacts {
@@ -99,6 +100,7 @@ public class SceneView {
     public boolean visible2d     = true;
     public boolean visible3d     = true;
     public boolean originVisible = true;
+    public boolean cameraRobot   = false;
     public Vec2d   position      = new Vec2d();
     public Vec2d   rotation      = new Vec2d(1, 0);
   }
@@ -128,7 +130,7 @@ public class SceneView {
     public boolean        shaded        = true;
     public boolean        wireframed    = false;
     public ColorStyle3D   colorStyle3d  = ColorStyle3D.UNIFORM;
-    public ClipStyle3D    clipStyle3d = ClipStyle3D.NO_CLIPPING;
+    public ClipStyle3D    clipStyle3d   = ClipStyle3D.NO_CLIPPING;
     public double         alphaSampling = 0.1;
     public double         thetaSampling = 0.01;
     private ColorMap<Sub> colors        = new ColorMap<Sub>();

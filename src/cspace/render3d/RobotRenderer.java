@@ -14,7 +14,7 @@ public class RobotRenderer {
   }
 
   public void draw(GL2 gl) {
-    if (!scene.view.robot.visible3d) {
+    if (!scene.view.robot.visible3d || scene.view.robot.cameraRobot) {
       return;
     }
 

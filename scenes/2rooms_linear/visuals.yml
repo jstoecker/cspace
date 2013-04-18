@@ -3,6 +3,7 @@ camera2d:
   initialCenter: {x: 0.0, y: 0.0}
   initialScale: 1.0
 camera3d:
+  fieldOfView: 60.0
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
@@ -33,14 +34,15 @@ renderer:
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 33
-  viewMode: VIEW_3D
+  viewMode: VIEW_SPLIT
 robot:
+  cameraRobot: false
   color: {x: 0.6, y: 0.0, z: 0.0}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: 4.191755771636963, y: 1.0379705429077148}
+  rotation: {x: 0.7755621954706565, y: 0.6312711627793044}
   visible2d: true
   visible3d: true
 subs:

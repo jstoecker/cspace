@@ -8,10 +8,11 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jgl.cameras.Camera;
+import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
@@ -25,7 +26,7 @@ public class RendererSettings extends JPanel {
   private final Scene         scene;
   private final SceneRenderer renderer;
 
-  public RendererSettings(final Scene scene, SceneRenderer renderer) {
+  public RendererSettings(final Scene scene, final SceneRenderer renderer) {
     this.scene = scene;
     this.renderer = renderer;
 
@@ -58,6 +59,21 @@ public class RendererSettings extends JPanel {
         }
       });
       layout.add("Draw 3D Periods", spinner);
+    }
+    
+    // camera 3D fov
+    {
+      final SpinnerNumberModel model = new SpinnerNumberModel(scene.view.camera3d.fieldOfView, 1, 179, 1);
+      JSpinner spinner = new JSpinner(model);
+      spinner.addChangeListener(new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
+          scene.view.camera3d.fieldOfView = model.getNumber().floatValue();
+          Camera camera = renderer.get3D().getCamera();
+          float aspect = renderer.getViewport3d().aspect();
+          camera.setProjection(Transform.perspective(scene.view.camera3d.fieldOfView, aspect, 0.1f, 100));
+        }
+      });
+      layout.add("Camera Field of View", spinner);
     }
 
     // fixed-width edges

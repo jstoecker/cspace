@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -19,6 +21,9 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import jgl.math.vector.Mat4f;
+import jgl.math.vector.Transform;
+import jgl.math.vector.Vec3f;
 import cspace.CSpaceViewer;
 import cspace.scene.Path.Waypoint;
 import cspace.ui.SceneController;
@@ -166,9 +171,19 @@ public class MainToolBar extends JPanel {
     public void stateChanged(ChangeEvent e) {
       if (controller != null) {
         JSlider slider = (JSlider) e.getSource();
-        Waypoint wp = controller.getScene().path.waypoints.get(slider.getValue());
-        controller.getScene().view.robot.position = wp.p.copy();
-        controller.getScene().view.robot.rotation = wp.u.copy();
+        List<Waypoint> waypoints = controller.getScene().path.waypoints;
+        Waypoint wp = waypoints.get(slider.getValue());
+        
+        if (controller.getScene().view.robot.cameraRobot && slider.getValue() < waypoints.size() - 1) {
+          Vec3f p1 = wp.toVector().toFloat();
+          Vec3f p2 = waypoints.get(slider.getValue() + 1).toVector().toFloat();
+          Vec3f f = p2;
+          Mat4f view = Transform.lookAt(p1.x, p1.y, p1.z, f.x, f.y, f.z, 0, 0, 1);
+          controller.getRenderer().get3D().getCamera().setView(view);
+        } else {
+          controller.getScene().view.robot.position = wp.p.copy();
+          controller.getScene().view.robot.rotation = wp.u.copy();
+        }
         controller.getRenderer().get2D().getSumRenderer().markDirty();
         controller.getRenderer().get2D().getSubRenderer().markDirty();
         controller.getRenderer().get2D().getContactRenderer().markDirty();

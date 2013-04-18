@@ -27,7 +27,7 @@ public class Renderer3D {
     this.scene = scene;
 
     camera.setView(Transform.lookAt(10, -7, 8, 0, 0, 0, 0, 0, 1));
-    camera.setProjection(Transform.perspective(50, 1, 0.1f, 100));
+    camera.setProjection(Transform.perspective(scene.view.camera3d.fieldOfView, 1, 0.1f, 100));
     subRenderer = new SubRenderer(scene);
     contactRenderer = new ContactRenderer(scene);
     pathRenderer = new PathRenderer(scene);
@@ -78,7 +78,6 @@ public class Renderer3D {
     } else {
       drawScene(gl, viewport);
     }
-
     
     if (scene.view.renderer.drawPiPlanes)
       drawPiPlanes(gl);
@@ -86,7 +85,6 @@ public class Renderer3D {
     gl.glDisable(GL.GL_DEPTH_TEST);
     
     debugRenderer.draw(gl, viewport);
-
   }
 
   private void drawAxes(GL2 gl) {
@@ -163,7 +161,7 @@ public class Renderer3D {
   }
 
   public void reshape(int x, int y, int w, int h) {
-    camera.setProjection(Transform.perspective(50, (float) w / h, 0.1f, 100));
+    camera.setProjection(Transform.perspective(scene.view.camera3d.fieldOfView, (float) w / h, 0.1f, 100));
   }
 
   public void updateGeometry() {

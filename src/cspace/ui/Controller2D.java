@@ -7,7 +7,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.SwingUtilities;
+
 import jgl.core.Viewport;
+import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec2f;
 import cspace.SceneRenderer;
 import cspace.render2d.Camera;
@@ -23,6 +26,7 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
   private final SceneRenderer   renderer;
   private Point                 mousePressPt;
   private Vec2f                 cameraPos;
+  private boolean               robotHovered = false;
 
   public Controller2D(SceneController controller) {
     this.scene = controller.getScene();
@@ -47,8 +51,10 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
 
   @Override
   public void mouseDragged(MouseEvent e) {
-    if (mousePressPt != null) {
-      if (e.isShiftDown()) {
+    if (SwingUtilities.isRightMouseButton(e)) {
+      rotateRobotPrecise(e);
+    } else if (mousePressPt != null) {
+      if (robotHovered) {
         // move robot
         Vec2f p = renderer.get2D().getCamera().getCenter().plus(windowToWorld(e.getPoint()));
         scene.view.robot.position.x = p.x;
@@ -60,6 +66,15 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
         renderer.get2D().getCamera().setCenter(cameraPos.plus(a.minus(b)));
       }
     }
+  }
+
+  private void rotateRobotPrecise(MouseEvent e) {
+    // rotate robot using angle between anchor and robot center
+    Vec2f p = renderer.get2D().getCamera().getCenter().plus(windowToWorld(e.getPoint()));
+    Vec2f angle = p.minus(scene.view.robot.position.toFloat());
+    renderer.get2D().getRobotRenderer().setAnglePt(p);
+    scene.view.robot.rotation = new Vec2d(angle.x, angle.y).normalize();
+    renderer.get2D().markDirty();
   }
 
   Vec2f windowToWorld(Point p) {
@@ -74,20 +89,39 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
     float worldY = camera.getBottom() + camera.getHeight() * ny;
     return new Vec2f(worldX, worldY).over(camera.getScale());
   }
+  
+  Point worldToWindow(Vec2d p) {
+    Viewport vp = renderer.get2D().getViewport();
+    Camera camera = renderer.get2D().getCamera();
+    p.x -= camera.getCenter().x();
+    p.y -= camera.getCenter().y();
+    int x = (int)((p.x * camera.getScale() - camera.getLeft()) * vp.width / camera.getWidth());
+    int y = -(int)(((p.y * camera.getScale() - camera.getBottom()) * vp.height / camera.getHeight()) - vp.height + 1);
+    return new Point(x, y);
+  }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    mousePressPt = e.getPoint();
-    cameraPos = new Vec2f(renderer.get2D().getCamera().getCenter());
+    if (SwingUtilities.isRightMouseButton(e)) {
+      rotateRobotPrecise(e);
+    } else {
+      mousePressPt = e.getPoint();
+      cameraPos = new Vec2f(renderer.get2D().getCamera().getCenter());
+    }
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
     mousePressPt = null;
+    renderer.get2D().getRobotRenderer().setAnglePt(null);
   }
 
   @Override
   public void mouseMoved(MouseEvent e) {
+    Point rWindow = worldToWindow(scene.view.robot.position.copy());
+    float dist = new Vec2f(e.getX(), e.getY()).minus(new Vec2f(rWindow.x, rWindow.y)).length();
+    robotHovered = dist < 20;
+    renderer.get2D().getRobotRenderer().setHighlight(robotHovered);
   }
 
   @Override

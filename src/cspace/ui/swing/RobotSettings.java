@@ -67,6 +67,17 @@ public class RobotSettings extends JPanel {
     });
     layout.add(originCheckBox);
     
+    // use 3D camera for robot position
+    final JCheckBox cameraRobot = new JCheckBox("Camera Robot");
+    cameraRobot.setSelected(view.cameraRobot);
+    cameraRobot.addItemListener(new ItemListener() {
+      public void itemStateChanged(ItemEvent e) {
+        view.cameraRobot = cameraRobot.isSelected();
+        
+      }
+    });
+    layout.add(cameraRobot);
+    
     layout.apply(this);
   }
 }

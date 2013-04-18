@@ -13,6 +13,7 @@ import jgl.cameras.Camera;
 import jgl.cameras.FirstPersonController;
 import jgl.math.geometry.Ray;
 import jgl.math.vector.Transform;
+import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec3f;
 import cspace.SceneRenderer;
 import cspace.scene.Scene;
@@ -133,6 +134,14 @@ public class Controller3D implements MouseListener, MouseMotionListener, MouseWh
       cameraController.move(translation);
     }
 
+    if (scene.view.robot.cameraRobot) {
+      scene.view.robot.position.x = renderer.get3D().getCamera().getEye().x();
+      scene.view.robot.position.y = renderer.get3D().getCamera().getEye().y();
+      double z = renderer.get3D().getCamera().getEye().z();
+      scene.view.robot.rotation = new Vec2d(Math.cos(z), Math.sin(z));
+      renderer.get2D().getSubRenderer().markDirty();
+      renderer.get2D().getSumRenderer().markDirty();
+    }
   }
   
   private void debugPick(Point winCoords) {
