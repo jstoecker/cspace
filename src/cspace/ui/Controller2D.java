@@ -15,6 +15,7 @@ import jgl.math.vector.Vec2f;
 import cspace.SceneRenderer;
 import cspace.render2d.Camera;
 import cspace.scene.Scene;
+import cspace.scene.Sub;
 
 /**
  * Mouse / keyboard input controller for 2D visualization.
@@ -89,14 +90,15 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
     float worldY = camera.getBottom() + camera.getHeight() * ny;
     return new Vec2f(worldX, worldY).over(camera.getScale());
   }
-  
+
   Point worldToWindow(Vec2d p) {
     Viewport vp = renderer.get2D().getViewport();
     Camera camera = renderer.get2D().getCamera();
     p.x -= camera.getCenter().x();
     p.y -= camera.getCenter().y();
-    int x = (int)((p.x * camera.getScale() - camera.getLeft()) * vp.width / camera.getWidth());
-    int y = -(int)(((p.y * camera.getScale() - camera.getBottom()) * vp.height / camera.getHeight()) - vp.height + 1);
+    int x = (int) ((p.x * camera.getScale() - camera.getLeft()) * vp.width / camera.getWidth());
+    int y = -(int) (((p.y * camera.getScale() - camera.getBottom()) * vp.height / camera
+        .getHeight()) - vp.height + 1);
     return new Point(x, y);
   }
 
@@ -122,6 +124,40 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
     float dist = new Vec2f(e.getX(), e.getY()).minus(new Vec2f(rWindow.x, rWindow.y)).length();
     robotHovered = dist < 20;
     renderer.get2D().getRobotRenderer().setHighlight(robotHovered);
+
+    if (controller.isInspectMode()) {
+      debugPick(e.getPoint());
+    }
+  }
+
+  private void debugPick(Point p) {
+    // highlight the sub arc that is closest to the mouse cursor
+    Vec2f pWorldf = renderer.get2D().getCamera().getCenter().plus(windowToWorld(p));
+    Vec2d pWorld = new Vec2d(pWorldf.x, pWorldf.y);
+    Sub closest = null;
+    double closestDist = 0;
+    double minHLDist = 0.5;
+    double theta = scene.view.robot.rotation.anglePi();
+    for (Sub sub : scene.cspace.subs) {
+      if (sub.isActive(theta)) {
+        Vec2d subC = sub.center(scene.view.robot.rotation);
+        Vec2d cToP = pWorld.minus(subC);
+        Vec2d tn = sub.tail.normal(scene.view.robot.rotation, subC, sub.r);
+        Vec2d hn = sub.head.normal(scene.view.robot.rotation, subC, sub.r);
+        if (tn.cross(cToP) > 0 && cToP.cross(hn) > 0) {
+          double dist = Math.abs(pWorld.minus(sub.center(scene.view.robot.rotation)).length()
+              - Math.abs(sub.r));
+          if ((closest == null || dist < closestDist) && dist < minHLDist) {
+            closest = sub;
+            closestDist = dist;
+          }
+        }
+      }
+    }
+    
+    Point winCoords = new Point(p.x, renderer.getViewport2d().height - p.y - 1);
+    renderer.get2D().getInspectRenderer().setCursor(winCoords);
+    renderer.get2D().getInspectRenderer().setHighlightedSub(closest);
   }
 
   @Override

@@ -16,6 +16,7 @@ public class Renderer2D {
   private PathRenderer     pathRenderer;
   private SumRenderer      sumRenderer;
   private ContactRenderer  contactRenderer;
+  private InspectRenderer  inspectRenderer;
 
   public Renderer2D(Scene scene) {
     camera.setScale(scene.view.camera2d.initialScale);
@@ -26,6 +27,7 @@ public class Renderer2D {
     pathRenderer = new PathRenderer(scene, camera);
     sumRenderer = new SumRenderer(scene, camera);
     contactRenderer = new ContactRenderer(scene);
+    inspectRenderer = new InspectRenderer(scene, camera);
   }
 
   public Viewport getViewport() {
@@ -60,6 +62,10 @@ public class Renderer2D {
     return contactRenderer;
   }
   
+  public InspectRenderer getInspectRenderer() {
+    return inspectRenderer;
+  }
+
   public void markDirty() {
     obstacleRenderer.markDirty();
     sumRenderer.markDirty();
@@ -82,6 +88,7 @@ public class Renderer2D {
     contactRenderer.draw(gl);
     pathRenderer.draw(gl);
     robotRenderer.draw(gl);
+    inspectRenderer.draw(gl, viewport);
   }
 
   public void reshape(int x, int y, int w, int h) {

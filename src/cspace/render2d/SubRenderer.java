@@ -23,15 +23,16 @@ public class SubRenderer extends CachedRenderer {
     Vec3f c = scene.view.subs.color;
     gl.glColor3f(c.x, c.y, c.z);
   }
+  
 
   @Override
   protected void updateGeometry(GL2 gl) {
     double theta = scene.view.robot.rotation.anglePi();
-    
+
     float width = scene.view.subs.edgeWidth;
     if (scene.view.renderer.fixedWidthEdges)
       width /= camera.getScale();
-    
+
     for (Sub sub : scene.cspace.subs) {
       if (sub != null && sub.isActive(theta)) {
         Arc arc = sub.arc(scene.view.robot.rotation);
@@ -39,7 +40,7 @@ public class SubRenderer extends CachedRenderer {
       }
     }
   }
-  
+
   @Override
   protected boolean isVisible() {
     return scene.view.subs.visible2d;

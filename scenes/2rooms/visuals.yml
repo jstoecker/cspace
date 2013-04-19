@@ -3,7 +3,7 @@ camera2d:
   initialCenter: {x: 0.0, y: 0.0}
   initialScale: 1.0
 camera3d:
-  fieldOfView: 90.0
+  fieldOfView: 70.0
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
@@ -19,7 +19,7 @@ contacts:
 obstacle:
   color: {x: 0.6, y: 0.6, z: 0.6}
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.12
   originVisible: false
   visible2d: true
   visible3d: false
@@ -29,39 +29,39 @@ path:
   visible2d: false
   visible3d: false
 renderer:
-  background: {x: 0.0, y: 0.0, z: 0.0}
-  drawAxes: false
-  drawPiPlanes: false
+  background: {x: 1.0, y: 1.0, z: 1.0}
+  drawAxes: true
+  drawPiPlanes: true
   fixedWidthEdges: true
   periods3d: 1
   viewMode: VIEW_SPLIT
 robot:
   cameraRobot: false
-  color: {x: 0.6, y: 1.0, z: 0.6}
+  color: {x: 0.2, y: 0.4, z: 1.0}
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.05
   originVisible: true
-  position: {x: 4.976269245147705, y: 0.927869975566864}
-  rotation: {x: -0.7219963838305077, y: 0.6918968288232503}
+  position: {x: -5.0, y: 1.00001}
+  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
   clipStyle3d: NO_CLIPPING
-  color: {x: 0.6, y: 1.0, z: 0.6}
-  colorStyle3d: NORMALS
+  color: {x: 0.0, y: 0.6, z: 0.4}
+  colorStyle3d: UNIFORM
   drawAlpha: 1.0
   edgeDetail: 0.0010
-  edgeWidth: 0.03
+  edgeWidth: 0.13
   shaded: true
   thetaSampling: 0.01
   visible2d: true
   visible3d: true
-  wireframed: true
+  wireframed: false
 sums:
   color: {x: 0.3, y: 0.3, z: 0.3}
   drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: true
+  visible2d: false
   visible3d: true

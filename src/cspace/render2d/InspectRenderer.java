@@ -1,4 +1,4 @@
-package cspace.render3d;
+package cspace.render2d;
 
 import java.awt.Font;
 import java.awt.Point;
@@ -8,28 +8,26 @@ import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import jgl.core.Viewport;
+import jgl.math.vector.Vec3f;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 
 import cspace.scene.Scene;
 import cspace.scene.Sub;
+import cspace.scene.CSArc.Arc;
 
-/**
- * Draws shapes/text for inspect purposes.
- * 
- * @author justin
- */
 public class InspectRenderer {
 
   private Scene        scene;
-  private boolean      enabled    = false;
-  private Sub          hlSub      = null;
-  private Sub.Triangle hlTriangle = null;
+  private boolean      enabled = false;
+  private Sub          hlSub   = null;
   private TextRenderer textRenderer;
-  private Point        cursor     = null;
+  private Point        cursor  = null;
+  private Camera       camera;
 
-  public InspectRenderer(Scene scene) {
+  public InspectRenderer(Scene scene, Camera camera) {
     this.scene = scene;
+    this.camera = camera;
     Font font = new Font(Font.SANS_SERIF, Font.BOLD, 14);
     textRenderer = new TextRenderer(font, true);
   }
@@ -40,10 +38,6 @@ public class InspectRenderer {
 
   public void setHighlightedSub(Sub sub) {
     this.hlSub = sub;
-  }
-
-  public void setHighlightedTriangle(Sub.Triangle tri) {
-    this.hlTriangle = tri;
   }
 
   public void setCursor(Point cursor) {
@@ -58,25 +52,17 @@ public class InspectRenderer {
       drawHighlightedSub(gl, viewport);
     }
 
-    if (cursor != null)
+    if (cursor != null && hlSub != null)
       drawTooltip(gl, viewport);
   }
 
   private void drawHighlightedSub(GL2 gl, Viewport viewport) {
-    gl.glEnable(GL2.GL_BLEND);
-    gl.glBlendFunc(GL.GL_DST_COLOR, GL.GL_ONE);
-    gl.glColor4f(1, 1, 1, 0.5f);
-    gl.glBegin(GL2.GL_TRIANGLES);
-    for (Sub.Triangle triangle : hlSub.triangles) {
-      Sub.Vertex a = triangle.a;
-      Sub.Vertex b = triangle.b;
-      Sub.Vertex c = triangle.c;
-      gl.glVertex3d(a.position.x, a.position.y, a.position.z);
-      gl.glVertex3d(b.position.x, b.position.y, b.position.z);
-      gl.glVertex3d(c.position.x, c.position.y, c.position.z);
-    }
-    gl.glEnd();
-    gl.glDisable(GL2.GL_BLEND);
+    gl.glColor3fv(new Vec3f(1).minus(scene.view.renderer.background).toArray(), 0);
+    float width = scene.view.subs.edgeWidth;
+    if (scene.view.renderer.fixedWidthEdges)
+      width /= camera.getScale();
+    Arc arc = hlSub.arc(scene.view.robot.rotation);
+    new ArcGeometry(arc).draw(gl, width, scene.view.subs.edgeDetail);
   }
 
   private void drawTooltip(GL2 gl, Viewport viewport) {
@@ -87,14 +73,15 @@ public class InspectRenderer {
     gl.glMatrixMode(GL2.GL_MODELVIEW);
     gl.glLoadIdentity();
 
-    String text = String.format("sub %d (robot %d / obstacle %d)", hlSub.index, hlSub.robEdge.index, hlSub.obsEdge.index);
+    String text = String.format("sub %d (robot %d / obstacle %d)", hlSub.index,
+        hlSub.robEdge.index, hlSub.obsEdge.index);
     Rectangle2D textBounds = textRenderer.getBounds(text);
     double width = textBounds.getWidth();
     double height = textBounds.getHeight();
     double pad = 5;
     int cx = cursor.x - viewport.x;
     int cy = cursor.y - viewport.y;
-    
+
     // draw background
     gl.glDisable(GL2.GL_DEPTH_TEST);
     gl.glEnable(GL2.GL_BLEND);
