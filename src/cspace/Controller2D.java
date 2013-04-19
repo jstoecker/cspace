@@ -1,4 +1,4 @@
-package cspace.ui;
+package cspace;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 import jgl.core.Viewport;
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec2f;
-import cspace.SceneRenderer;
 import cspace.render2d.Camera;
 import cspace.scene.Scene;
 import cspace.scene.Sub;

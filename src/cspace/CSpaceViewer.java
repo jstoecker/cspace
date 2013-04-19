@@ -4,10 +4,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 
+import cspace.gui.MainWindow;
 import cspace.scene.Scene;
 import cspace.scene.SceneLoader;
-import cspace.ui.SceneController;
-import cspace.ui.swing.MainWindow;
 
 /**
  * Main program.

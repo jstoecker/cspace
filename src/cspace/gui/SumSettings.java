@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import java.util.ArrayList;
 import java.util.List;

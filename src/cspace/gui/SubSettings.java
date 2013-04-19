@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

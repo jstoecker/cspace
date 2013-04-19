@@ -1,4 +1,4 @@
-package cspace.ui;
+package cspace;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -15,7 +15,6 @@ import jgl.math.geometry.Ray;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec3f;
-import cspace.SceneRenderer;
 import cspace.scene.Scene;
 import cspace.scene.Sub.Intersection;
 

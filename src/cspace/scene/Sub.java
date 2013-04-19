@@ -46,6 +46,15 @@ public class Sub extends SumEE {
     super(obsEdge, robEdge, tail, head, start, end, index);
     start.startSubs.add(this);
     end.endSubs.add(this);
+    
+    if (endAngle - startAngle > Math.PI) {
+      System.out.println("sub " + index);
+    }
+    
+    if (index == 2459) {
+      System.out.println("here");
+    }
+    
   }
 
   void initSublists() {

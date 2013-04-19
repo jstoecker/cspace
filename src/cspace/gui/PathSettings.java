@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;

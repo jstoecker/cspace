@@ -41,8 +41,8 @@ robot:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: 4.191755771636963, y: 1.0379705429077148}
-  rotation: {x: 0.7755621954706565, y: 0.6312711627793044}
+  position: {x: -5.0, y: 1.00001}
+  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
   visible2d: true
   visible3d: true
 subs:

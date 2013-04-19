@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

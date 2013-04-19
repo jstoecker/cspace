@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import java.awt.BorderLayout;
 
@@ -15,7 +15,7 @@ import javax.swing.JSlider;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import cspace.CSpaceViewer;
-import cspace.ui.SceneController;
+import cspace.SceneController;
 
 /**
  * Main application JFrame that contains the GLCanvas and other components.

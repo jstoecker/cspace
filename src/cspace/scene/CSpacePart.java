@@ -34,6 +34,10 @@ public abstract class CSpacePart {
       endAngle -= 2 * Math.PI;
     while (endAngle - startAngle < 0)
       endAngle += 2 * Math.PI;
+    
+    if (endAngle - startAngle > Math.PI)
+      endAngle -= Math.PI * 2;
+    
     this.endAngle = endAngle;
     this.angle = endAngle - startAngle;
   }

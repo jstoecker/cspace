@@ -1,4 +1,4 @@
-package cspace.ui.swing;
+package cspace.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -25,8 +24,8 @@ import jgl.math.vector.Mat4f;
 import jgl.math.vector.Transform;
 import jgl.math.vector.Vec3f;
 import cspace.CSpaceViewer;
+import cspace.SceneController;
 import cspace.scene.Path.Waypoint;
-import cspace.ui.SceneController;
 
 public class MainToolBar extends JPanel {
 
@@ -46,7 +45,7 @@ public class MainToolBar extends JPanel {
     setBorder(BorderFactory.createCompoundBorder(outer, inner));
 
     GridBagLayout layout = new GridBagLayout();
-    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, };
+    layout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, };
     setLayout(layout);
 
     // button to open scene
@@ -108,18 +107,6 @@ public class MainToolBar extends JPanel {
       add(button, gbc);
     }
     
-    // about button
-    {
-      ImageIcon icon = new ImageIcon(getClass().getResource("/info_icon&16.png"));
-      JButton button = new JButton(icon);
-      button.setPreferredSize(new Dimension(32, 32));
-      button.setPreferredSize(new Dimension(32,32));
-      GridBagConstraints gbc = new GridBagConstraints();
-      gbc.gridx = 4;
-      gbc.gridy = 0;
-      add(button, gbc);
-    }
-
     // path progress slider
     {
       pathSlider = new JSlider();
@@ -127,7 +114,7 @@ public class MainToolBar extends JPanel {
       pathSlider.addChangeListener(new PathSlideAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.fill = GridBagConstraints.HORIZONTAL;
-      gbc.gridx = 5;
+      gbc.gridx = 4;
       gbc.gridy = 0;
       add(pathSlider, gbc);
     }
