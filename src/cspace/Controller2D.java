@@ -1,6 +1,8 @@
 package cspace;
 
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -13,13 +15,15 @@ import jgl.core.Viewport;
 import jgl.math.vector.Vec2d;
 import jgl.math.vector.Vec2f;
 import cspace.render2d.Camera;
+import cspace.scene.PathFinder;
 import cspace.scene.Scene;
 import cspace.scene.Sub;
 
 /**
  * Mouse / keyboard input controller for 2D visualization.
  */
-public class Controller2D implements MouseListener, MouseMotionListener, MouseWheelListener {
+public class Controller2D implements MouseListener, MouseMotionListener,
+    MouseWheelListener {
 
   private final SceneController controller;
   private final Scene           scene;
@@ -153,7 +157,7 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
         }
       }
     }
-    
+
     Point winCoords = new Point(p.x, renderer.getViewport2d().height - p.y - 1);
     renderer.get2D().getInspectRenderer().setCursor(winCoords);
     renderer.get2D().getInspectRenderer().setHighlightedSub(closest);
@@ -170,4 +174,5 @@ public class Controller2D implements MouseListener, MouseMotionListener, MouseWh
   @Override
   public void mouseExited(MouseEvent e) {
   }
+
 }

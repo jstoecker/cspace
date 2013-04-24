@@ -12,6 +12,9 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 
+import cspace.gui.MainWindow;
+import cspace.scene.Path;
+import cspace.scene.PathFinder;
 import cspace.scene.Scene;
 
 /**
@@ -22,17 +25,21 @@ import cspace.scene.Scene;
 public class SceneController implements GLEventListener, MouseListener, MouseMotionListener,
     MouseWheelListener, KeyListener {
 
+  private final MainWindow    mainWindow;
   private final GLCanvas      canvas;
   private final Scene         scene;
   private final SceneRenderer renderer;
   private final Controller2D  controller2d;
   private final Controller3D  controller3d;
   private boolean             inspectMode = false;
+  private PathFinder          pathFinder  = null;
 
-  public SceneController(Scene scene, GLCanvas canvas) {
+  public SceneController(Scene scene, MainWindow mainWindow) {
     this.scene = scene;
     this.renderer = new SceneRenderer(scene);
-    this.canvas = canvas;
+    this.canvas = mainWindow.getCanvas();
+    this.mainWindow = mainWindow;
+    
     controller2d = new Controller2D(this);
     controller3d = new Controller3D(this);
 
@@ -58,6 +65,10 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     renderer.get3D().getDebugRenderer().setEnabled(inspectMode);
   }
 
+  public PathFinder getPathFinder() {
+    return pathFinder;
+  }
+
   public boolean isInspectMode() {
     return inspectMode;
   }
@@ -78,9 +89,36 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
     return renderer;
   }
 
+  public void setPathFinder(PathFinder pathFinder) {
+    this.pathFinder = pathFinder;
+    renderer.get2D().getPathFindRenderer().setPathFinder(pathFinder);
+  }
+
   @Override
   public void keyPressed(KeyEvent e) {
     controller3d.keyPressed(e);
+
+    if (pathFinder != null) {
+      if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+        setPathFinder(null);
+      } else if (pathFinder.getRobotStartPos() == null) {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+          pathFinder.setRobotStart(scene.view.robot.position, scene.view.robot.rotation);
+        }
+      } else {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+          pathFinder.setRobotEnd(scene.view.robot.position, scene.view.robot.rotation);
+          Path newPath = pathFinder.makePath(scene.cspace);
+          if (newPath != null) {
+            scene.path = newPath;
+            mainWindow.getToolBar().updatePath();
+            renderer.get2D().markDirty();
+          }
+          setPathFinder(null);
+        }
+      }
+    }
+
   }
 
   @Override

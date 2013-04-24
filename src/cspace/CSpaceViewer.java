@@ -44,7 +44,7 @@ public class CSpaceViewer {
       sceneController.shutdown();
     }
     Scene scene = new SceneLoader().load(directory);
-    sceneController = new SceneController(scene, mainWindow.getCanvas());
+    sceneController = new SceneController(scene, mainWindow);
     mainWindow.setController(sceneController);
   }
 

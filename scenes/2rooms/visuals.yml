@@ -27,32 +27,32 @@ path:
   color: {x: 0.6, y: 0.6, z: 0.0}
   edgeWidth: 0.03
   visible2d: false
-  visible3d: false
+  visible3d: true
 renderer:
-  background: {x: 1.0, y: 1.0, z: 1.0}
+  background: {x: 0.0, y: 0.0, z: 0.0}
   drawAxes: true
-  drawPiPlanes: true
+  drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
   viewMode: VIEW_SPLIT
 robot:
   cameraRobot: false
-  color: {x: 0.2, y: 0.4, z: 1.0}
+  color: {x: 1.0, y: 0.4, z: 0.4}
   edgeDetail: 0.0010
   edgeWidth: 0.05
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: -0.4671109339787546, y: 3.5213976098463573}
+  rotation: {x: -0.11924925950728558, y: 0.9928643482908247}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
   clipStyle3d: NO_CLIPPING
-  color: {x: 0.0, y: 0.6, z: 0.4}
+  color: {x: 0.4, y: 1.0, z: 0.6}
   colorStyle3d: UNIFORM
-  drawAlpha: 1.0
+  drawAlpha: 0.16
   edgeDetail: 0.0010
-  edgeWidth: 0.13
+  edgeWidth: 0.03
   shaded: true
   thetaSampling: 0.01
   visible2d: true

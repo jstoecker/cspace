@@ -65,7 +65,11 @@ public class MainWindow extends JFrame {
   public GLCanvas getCanvas() {
     return canvas;
   }
-
+  
+  public MainToolBar getToolBar() {
+    return toolBar;
+  }
+  
   private class EmptyScene implements GLEventListener {
 
     public void display(GLAutoDrawable d) {

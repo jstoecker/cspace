@@ -18,6 +18,14 @@ public class RobotRenderer extends CachedRenderer {
     this.scene = scene;
     this.camera = camera;
   }
+  
+  public boolean isHighlight() {
+    return highlight;
+  }
+  
+  public Vec2f getAnglePt() {
+    return anglePt;
+  }
 
   public void setHighlight(boolean highlight) {
     this.highlight = highlight;
@@ -29,7 +37,7 @@ public class RobotRenderer extends CachedRenderer {
 
   @Override
   protected void beginDraw(GL2 gl) {
-    if (highlight || anglePt != null) {
+    if (highlight) {
       gl.glColor3fv(new Vec3f(1).minus(scene.view.renderer.background).toArray(), 0);
     } else {
       Vec3f color = scene.view.robot.color;

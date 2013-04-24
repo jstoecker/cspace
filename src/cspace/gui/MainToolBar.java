@@ -26,13 +26,14 @@ import jgl.math.vector.Vec3f;
 import cspace.CSpaceViewer;
 import cspace.SceneController;
 import cspace.scene.Path.Waypoint;
+import cspace.scene.PathFinder;
 
 public class MainToolBar extends JPanel {
 
   private JFileChooser       sceneFileChooser;
   private final CSpaceViewer viewer;
   private JSlider            pathSlider;
-  private JToggleButton      pathButton;
+  private JButton            pathButton;
   private JButton            settingsButton;
   private SceneController    controller;
   private SettingsDialog     settingsDialog;
@@ -54,7 +55,7 @@ public class MainToolBar extends JPanel {
           "/folder_open_icon&16.png")));
       openButton.setToolTipText("Open Scene");
       openButton.setMnemonic(KeyEvent.VK_O);
-      openButton.setPreferredSize(new Dimension(32,32));
+      openButton.setPreferredSize(new Dimension(32, 32));
       openButton.addActionListener(new OpenSceneAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 0;
@@ -68,7 +69,7 @@ public class MainToolBar extends JPanel {
       settingsButton.setToolTipText("View Settings");
       settingsButton.setEnabled(false);
       settingsButton.setMnemonic(KeyEvent.VK_S);
-      settingsButton.setPreferredSize(new Dimension(32,32));
+      settingsButton.setPreferredSize(new Dimension(32, 32));
       settingsButton.addActionListener(new OpenSettingsAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 1;
@@ -78,11 +79,12 @@ public class MainToolBar extends JPanel {
 
     // button to toggle path planning mode
     {
-      ImageIcon icon = new ImageIcon(getClass().getResource("/push_pin_icon&16.png"));
-      pathButton = new JToggleButton(icon);
+      ImageIcon icon = new ImageIcon(getClass().getResource("/redo_icon&16.png"));
+      pathButton = new JButton(icon);
       pathButton.setToolTipText("New Path");
       pathButton.setEnabled(false);
       pathButton.setPreferredSize(new Dimension(32, 32));
+      pathButton.addActionListener(new PathFindAction());
       GridBagConstraints gbc = new GridBagConstraints();
       gbc.gridx = 2;
       gbc.gridy = 0;
@@ -106,7 +108,7 @@ public class MainToolBar extends JPanel {
       gbc.gridy = 0;
       add(button, gbc);
     }
-    
+
     // path progress slider
     {
       pathSlider = new JSlider();
@@ -118,7 +120,7 @@ public class MainToolBar extends JPanel {
       gbc.gridy = 0;
       add(pathSlider, gbc);
     }
-    
+
     sceneFileChooser = new JFileChooser();
     sceneFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }
@@ -138,6 +140,12 @@ public class MainToolBar extends JPanel {
     }
     settingsDialog = new SettingsDialog(viewer.getMainWindow(), controller.getScene(),
         controller.getRenderer());
+  }
+  
+  public void updatePath() {
+    pathSlider.setMinimum(0);
+    pathSlider.setMaximum(controller.getScene().path.waypoints.size() - 1);
+    pathSlider.setValue(0);
   }
 
   private class OpenSceneAction implements ActionListener {
@@ -160,8 +168,9 @@ public class MainToolBar extends JPanel {
         JSlider slider = (JSlider) e.getSource();
         List<Waypoint> waypoints = controller.getScene().path.waypoints;
         Waypoint wp = waypoints.get(slider.getValue());
-        
-        if (controller.getScene().view.robot.cameraRobot && slider.getValue() < waypoints.size() - 1) {
+
+        if (controller.getScene().view.robot.cameraRobot
+            && slider.getValue() < waypoints.size() - 1) {
           Vec3f p1 = wp.toVector().toFloat();
           Vec3f p2 = waypoints.get(slider.getValue() + 1).toVector().toFloat();
           Vec3f f = p2;
@@ -175,6 +184,12 @@ public class MainToolBar extends JPanel {
         controller.getRenderer().get2D().getSubRenderer().markDirty();
         controller.getRenderer().get2D().getContactRenderer().markDirty();
       }
+    }
+  }
+  
+  private class PathFindAction implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+      viewer.getSceneController().setPathFinder(new PathFinder());
     }
   }
 }

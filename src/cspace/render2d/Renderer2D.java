@@ -8,15 +8,16 @@ import cspace.scene.Scene;
 
 public class Renderer2D {
 
-  private Camera           camera = new Camera();
-  private Viewport         viewport;
-  private RobotRenderer    robotRenderer;
-  private ObstacleRenderer obstacleRenderer;
-  private SubRenderer      subRenderer;
-  private PathRenderer     pathRenderer;
-  private SumRenderer      sumRenderer;
-  private ContactRenderer  contactRenderer;
-  private InspectRenderer  inspectRenderer;
+  private Camera             camera = new Camera();
+  private Viewport           viewport;
+  private RobotRenderer      robotRenderer;
+  private ObstacleRenderer   obstacleRenderer;
+  private SubRenderer        subRenderer;
+  private PathRenderer       pathRenderer;
+  private SumRenderer        sumRenderer;
+  private ContactRenderer    contactRenderer;
+  private InspectRenderer    inspectRenderer;
+  private PathFinderRenderer pathFindRenderer;
 
   public Renderer2D(Scene scene) {
     camera.setScale(scene.view.camera2d.initialScale);
@@ -28,6 +29,7 @@ public class Renderer2D {
     sumRenderer = new SumRenderer(scene, camera);
     contactRenderer = new ContactRenderer(scene);
     inspectRenderer = new InspectRenderer(scene, camera);
+    pathFindRenderer = new PathFinderRenderer(scene, robotRenderer);
   }
 
   public Viewport getViewport() {
@@ -61,9 +63,13 @@ public class Renderer2D {
   public ContactRenderer getContactRenderer() {
     return contactRenderer;
   }
-  
+
   public InspectRenderer getInspectRenderer() {
     return inspectRenderer;
+  }
+
+  public PathFinderRenderer getPathFindRenderer() {
+    return pathFindRenderer;
   }
 
   public void markDirty() {
@@ -87,7 +93,10 @@ public class Renderer2D {
     subRenderer.draw(gl);
     contactRenderer.draw(gl);
     pathRenderer.draw(gl);
-    robotRenderer.draw(gl);
+    if (pathFindRenderer.isEnabled())
+      pathFindRenderer.draw(gl, viewport);
+    else
+      robotRenderer.draw(gl);
     inspectRenderer.draw(gl, viewport);
   }
 
