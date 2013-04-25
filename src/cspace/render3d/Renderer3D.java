@@ -37,6 +37,10 @@ public class Renderer3D {
 
     updateGeometry();
   }
+  
+  public PathRenderer getPathRenderer() {
+    return pathRenderer;
+  }
 
   public Camera getCamera() {
     return camera;

@@ -113,6 +113,7 @@ public class SceneController implements GLEventListener, MouseListener, MouseMot
             scene.path = newPath;
             mainWindow.getToolBar().updatePath();
             renderer.get2D().markDirty();
+            renderer.get3D().getPathRenderer().markDirty();
           }
           setPathFinder(null);
         }

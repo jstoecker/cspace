@@ -34,20 +34,20 @@ renderer:
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
-  viewMode: VIEW_2D
+  viewMode: VIEW_SPLIT
 robot:
   cameraRobot: false
   color: {x: 1.0, y: 0.4, z: 0.4}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: 0.11666679382324219, y: 0.34999942779541016}
-  rotation: {x: 0.8642921006373931, y: 0.5029902233401783}
+  position: {x: 5.31261, y: 1.53634}
+  rotation: {x: 0.9999999999999998, y: 2.1099999998955288E-8}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
-  clipStyle3d: NO_CLIPPING
+  clipStyle3d: DEFAULT
   color: {x: 0.6, y: 1.0, z: 0.4}
   colorStyle3d: UNIFORM
   drawAlpha: 1.0
@@ -55,7 +55,7 @@ subs:
   edgeWidth: 0.03
   shaded: true
   thetaSampling: 0.01
-  visible2d: false
+  visible2d: true
   visible3d: true
   wireframed: false
 sums:
