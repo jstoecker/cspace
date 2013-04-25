@@ -1,0 +1,67 @@
+!!cspace.scene.SceneView
+camera2d:
+  initialCenter: {x: 0.0, y: 0.0}
+  initialScale: 1.0
+camera3d:
+  fieldOfView: 60.0
+  initialCenter: {x: 0.0, y: 0.0, z: 0.0}
+  initialEye: {x: 0.0, y: -10.0, z: 10.0}
+contacts:
+  intnColor: {x: 0.6, y: 1.0, z: 0.4}
+  intnVisible2d: false
+  intnVisible3d: true
+  sevColor: {x: 0.3, y: 0.0, z: 0.6}
+  sevVisible2d: false
+  sevVisible3d: false
+  sveColor: {x: 0.6, y: 0.3, z: 0.0}
+  sveVisible2d: false
+  sveVisible3d: false
+obstacle:
+  color: {x: 0.35, y: 0.35, z: 0.35}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  originVisible: false
+  visible2d: true
+  visible3d: false
+path:
+  color: {x: 1.0, y: 1.0, z: 1.0}
+  edgeWidth: 0.03
+  visible2d: false
+  visible3d: false
+renderer:
+  background: {x: 0.0, y: 0.0, z: 0.0}
+  drawAxes: false
+  drawPiPlanes: false
+  fixedWidthEdges: true
+  periods3d: 1
+  viewMode: VIEW_SPLIT
+robot:
+  cameraRobot: false
+  color: {x: 1.0, y: 0.4, z: 0.4}
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  originVisible: true
+  position: {x: -0.119392, y: 0.0494539}
+  rotation: {x: 0.9990429411426326, y: 0.04374016178614648}
+  visible2d: true
+  visible3d: true
+subs:
+  alphaSampling: 0.1
+  clipStyle3d: DEFAULT
+  color: {x: 0.6, y: 1.0, z: 0.4}
+  colorStyle3d: UNIFORM
+  drawAlpha: 1.0
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  shaded: true
+  thetaSampling: 0.01
+  visible2d: true
+  visible3d: true
+  wireframed: false
+sums:
+  color: {x: 0.3, y: 0.3, z: 0.3}
+  drawn3d: []
+  edgeDetail: 0.0010
+  edgeWidth: 0.03
+  visible2d: false
+  visible3d: false
