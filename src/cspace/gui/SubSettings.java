@@ -1,8 +1,11 @@
 package cspace.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -56,7 +59,7 @@ public class SubSettings extends JPanel {
         view.clipStyle3d = (SceneView.Subs.ClipStyle3D)e.getItem();
       }
     });
-    layout.add("Clipping 3D", renderComboBox);
+    layout.add("Rendering 3D", renderComboBox);
     
     // color style
     JComboBox colorComboBox = new JComboBox();
@@ -69,6 +72,33 @@ public class SubSettings extends JPanel {
       }
     });
     layout.add("Coloring 3D", colorComboBox);
+    
+    final SpinnerNumberModel thetaModel = new SpinnerNumberModel(view.thetaSampling, 0, 100, 0.05);
+    JSpinner thetaSampling = new JSpinner(thetaModel);
+    thetaSampling.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        view.thetaSampling = thetaModel.getNumber().doubleValue();
+      }
+    });
+    layout.add("Theta Sampling", thetaSampling);
+    
+    final SpinnerNumberModel alphaModel = new SpinnerNumberModel(view.alphaSampling, 0, 100, 0.05);
+    JSpinner alphaSampling = new JSpinner(alphaModel);
+    alphaSampling.addChangeListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        view.alphaSampling = alphaModel.getNumber().doubleValue();
+      }
+    });
+    layout.add("Alpha Sampling", alphaSampling);
+    
+    JButton resampleButton = new JButton("Resample");
+    resampleButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        scene.cspace.sample(view.thetaSampling, view.alphaSampling);
+        renderer.get3D().getSubRenderer().update(scene);
+      }
+    });
+    layout.add(resampleButton);
     
     // draw alpha
     final JSlider drawAlpha = new JSlider(0, 100, (int)(view.drawAlpha * 100));

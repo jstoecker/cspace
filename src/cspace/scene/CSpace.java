@@ -75,8 +75,8 @@ public class CSpace implements Iterable<Contact> {
     for (Contact contact : this)
       if (contact != null)
         contact.samples.clear();
-    // TODO: sub.samples.clear();
-    // TODO : CLEAR ALL THE SAMPLE STATE INFO
+    for (Sub sub : subs)
+      sub.clear();
     
     // begin contact samplings by adding samples at sub start & end events
     for (Sub sub : subs) {

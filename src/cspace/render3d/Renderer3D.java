@@ -41,6 +41,10 @@ public class Renderer3D {
   public Camera getCamera() {
     return camera;
   }
+  
+  public SubRenderer getSubRenderer() {
+    return subRenderer;
+  }
 
   public ContactRenderer getContactRenderer() {
     return contactRenderer;

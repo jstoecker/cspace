@@ -17,45 +17,45 @@ contacts:
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.35, y: 0.35, z: 0.35}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 0.6, y: 0.6, z: 0.0}
+  color: {x: 1.0, y: 1.0, z: 1.0}
   edgeWidth: 0.03
   visible2d: false
   visible3d: false
 renderer:
-  background: {x: 0.1, y: 0.1, z: 0.1}
+  background: {x: 0.0, y: 0.0, z: 0.0}
   drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
-  periods3d: 33
-  viewMode: VIEW_SPLIT
+  periods3d: 1
+  viewMode: VIEW_2D
 robot:
   cameraRobot: false
-  color: {x: 0.6, y: 0.0, z: 0.0}
+  color: {x: 1.0, y: 0.4, z: 0.4}
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -5.0, y: 1.00001}
-  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
+  position: {x: 0.11666679382324219, y: 0.34999942779541016}
+  rotation: {x: 0.8642921006373931, y: 0.5029902233401783}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
   clipStyle3d: NO_CLIPPING
-  color: {x: 0.6, y: 1.0, z: 0.6}
+  color: {x: 0.6, y: 1.0, z: 0.4}
   colorStyle3d: UNIFORM
   drawAlpha: 1.0
   edgeDetail: 0.0010
   edgeWidth: 0.03
   shaded: true
   thetaSampling: 0.01
-  visible2d: true
+  visible2d: false
   visible3d: true
   wireframed: false
 sums:
@@ -63,5 +63,5 @@ sums:
   drawn3d: []
   edgeDetail: 0.0010
   edgeWidth: 0.03
-  visible2d: true
+  visible2d: false
   visible3d: false

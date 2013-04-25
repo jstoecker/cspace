@@ -46,7 +46,7 @@ public class SceneView {
       }
     }
 
-    public Vec3f    background      = new Vec3f(0.1f);
+    public Vec3f    background      = new Vec3f(0.0f);
     public ViewMode viewMode        = ViewMode.VIEW_SPLIT;
     public boolean  fixedWidthEdges = true;
     public boolean  drawPiPlanes    = false;
@@ -78,7 +78,7 @@ public class SceneView {
   }
 
   public static class Obstacle {
-    public Vec3f   color         = new Vec3f(0.6f);
+    public Vec3f   color         = new Vec3f(0.35f);
     public float   edgeWidth     = 0.03f;
     public float   edgeDetail    = 0.001f;
     public boolean visible2d     = true;
@@ -87,14 +87,14 @@ public class SceneView {
   }
 
   public static class Path {
-    public Vec3f   color     = new Vec3f(0.6f, 0.6f, 0.0f);
+    public Vec3f   color     = new Vec3f(1);
     public float   edgeWidth = 0.03f;
     public boolean visible2d = false;
     public boolean visible3d = false;
   }
 
   public static class Robot {
-    public Vec3f   color         = new Vec3f(0.6f, 0.0f, 0.0f);
+    public Vec3f   color         = new Vec3f(1, 0.4f, 0.4f);
     public float   edgeWidth     = 0.03f;
     public float   edgeDetail    = 0.001f;
     public boolean visible2d     = true;
@@ -115,22 +115,22 @@ public class SceneView {
     }
 
     public enum ClipStyle3D {
-      NO_CLIPPING,
+      DEFAULT,
       CLIP_ABOVE_THETA,
       CLIP_BELOW_THETA,
-      CLIP_AROUND_THETA
+      HIGHLIGHT_THETA
     }
 
-    public Vec3f          color         = new Vec3f(0.0f, 0.6f, 0.0f);
+    public Vec3f          color         = new Vec3f(0.6f, 1.0f, 0.4f);
     public float          edgeWidth     = 0.03f;
     public float          edgeDetail    = 0.001f;
-    public float          drawAlpha     = 0.3f;
+    public float          drawAlpha     = 1.0f;
     public boolean        visible2d     = true;
     public boolean        visible3d     = true;
     public boolean        shaded        = true;
     public boolean        wireframed    = false;
     public ColorStyle3D   colorStyle3d  = ColorStyle3D.UNIFORM;
-    public ClipStyle3D    clipStyle3d   = ClipStyle3D.NO_CLIPPING;
+    public ClipStyle3D    clipStyle3d   = ClipStyle3D.DEFAULT;
     public double         alphaSampling = 0.1;
     public double         thetaSampling = 0.01;
     private ColorMap<Sub> colors        = new ColorMap<Sub>();
@@ -144,7 +144,7 @@ public class SceneView {
     public Vec3f               color      = new Vec3f(0.3f, 0.3f, 0.3f);
     public float               edgeWidth  = 0.03f;
     public float               edgeDetail = 0.001f;
-    public boolean             visible2d  = true;
+    public boolean             visible2d  = false;
     public boolean             visible3d  = false;
     public List<EdgePair>      drawn3d    = new ArrayList<EdgePair>();
     private ColorMap<EdgePair> colors     = new ColorMap<EdgePair>();

@@ -21,7 +21,7 @@ public class SubRenderer {
     this.scene = scene;
     this.mesh = new SubMesh(scene);
   }
-
+  
   void init(GL2 gl) {
     prog = new Program();
     prog.attach(gl, Shader.load(gl, "/shaders/sub.vs", Shader.Type.VERTEX));
@@ -53,7 +53,7 @@ public class SubRenderer {
     switch (style) {
     case CLIP_ABOVE_THETA:
       return 1;
-    case CLIP_AROUND_THETA:
+    case HIGHLIGHT_THETA:
       return 2;
     case CLIP_BELOW_THETA:
       return 3;
@@ -149,7 +149,7 @@ public class SubRenderer {
     }
   }
 
-  void update(Scene scene) {
+  public void update(Scene scene) {
     mesh.update(scene);
   }
 }

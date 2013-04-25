@@ -46,15 +46,32 @@ public class Sub extends SumEE {
     super(obsEdge, robEdge, tail, head, start, end, index);
     start.startSubs.add(this);
     end.endSubs.add(this);
-    
+
     if (endAngle - startAngle > Math.PI) {
       System.out.println("sub " + index);
     }
-    
+
     if (index == 2459) {
       System.out.println("here");
     }
-    
+
+  }
+
+  void clear() {
+    startSamples.clear();
+    endSamples.clear();
+    if (tailSamples != null)
+      tailSamples = null;
+    if (headSamples != null)
+      headSamples = null;
+    if (outerLoop != null)
+      outerLoop = null;
+    if (innerSamples != null)
+      innerSamples = null;
+    verts.clear();
+    triangles.clear();
+    neighbors.clear();
+    vertMap.clear();
   }
 
   void initSublists() {
@@ -424,7 +441,7 @@ public class Sub extends SumEE {
       this.t = t;
       this.p = p;
     }
-    
+
     public Sub getSub() {
       return Sub.this;
     }

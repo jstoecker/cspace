@@ -3,7 +3,7 @@ camera2d:
   initialCenter: {x: 0.0, y: 0.0}
   initialScale: 1.0
 camera3d:
-  fieldOfView: 70.0
+  fieldOfView: 60.0
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
@@ -17,20 +17,20 @@ contacts:
   sveVisible2d: false
   sveVisible3d: false
 obstacle:
-  color: {x: 0.6, y: 0.6, z: 0.6}
+  color: {x: 0.35, y: 0.35, z: 0.35}
   edgeDetail: 0.0010
-  edgeWidth: 0.12
+  edgeWidth: 0.03
   originVisible: false
   visible2d: true
   visible3d: false
 path:
-  color: {x: 0.6, y: 0.6, z: 0.0}
+  color: {x: 1.0, y: 1.0, z: 1.0}
   edgeWidth: 0.03
   visible2d: false
-  visible3d: true
+  visible3d: false
 renderer:
   background: {x: 0.0, y: 0.0, z: 0.0}
-  drawAxes: true
+  drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
@@ -39,18 +39,18 @@ robot:
   cameraRobot: false
   color: {x: 1.0, y: 0.4, z: 0.4}
   edgeDetail: 0.0010
-  edgeWidth: 0.05
+  edgeWidth: 0.03
   originVisible: true
-  position: {x: -0.4671109339787546, y: 3.5213976098463573}
-  rotation: {x: -0.11924925950728558, y: 0.9928643482908247}
+  position: {x: 4.600000381469727, y: 0.5500001907348633}
+  rotation: {x: -0.9999238837413194, y: 0.012338019438968938}
   visible2d: true
   visible3d: true
 subs:
   alphaSampling: 0.1
-  clipStyle3d: NO_CLIPPING
-  color: {x: 0.4, y: 1.0, z: 0.6}
+  clipStyle3d: DEFAULT
+  color: {x: 0.6, y: 1.0, z: 0.4}
   colorStyle3d: UNIFORM
-  drawAlpha: 0.16
+  drawAlpha: 1.0
   edgeDetail: 0.0010
   edgeWidth: 0.03
   shaded: true
@@ -64,4 +64,4 @@ sums:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   visible2d: false
-  visible3d: true
+  visible3d: false
