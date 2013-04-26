@@ -1,26 +1,19 @@
-cspace
-======
+Interactive Visualization of 3D Configuration Spaces
+====================================================
 
-Configuration space visualization in 2D + 3D
+Please refer to the website for information on how to use the software : http://jstoecker.github.io/cspace/
 
 Compiling
 ---------
-You must have Apache Ant and a Java Development Kit (JDK) installed. In the
-terminal, enter the following:
+When cloning the repository, be careful that you also initialize the submodules that the code depends on. The easiest
+way to download the source is using the recursive flag:
 
+$ git clone --recursive git://github.com/jstoecker/cspace.git
+
+You must have Apache Ant and a Java Development Kit (JDK) installed. After you have cloned the repository, enter the 
+cspace directory and run ant to compile:
+
+$ cd cspace
 $ ant
 
 You should see output placed in the bin/ directory.
-
-
-Running
--------
-The program must be started from the terminal with a command line argument: the
-path to a directory containing the cspace model and path files. A bash script
-is provided for Unix-like systems. Run one of the examples like so:
-
-$ ./cspace scenes/2rooms
-
-or, alternatively (on any system):
-
-$ java -jar bin/CSpace.jar scenes/3pin
