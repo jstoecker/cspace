@@ -14,6 +14,7 @@ You must have Apache Ant and a Java Development Kit (JDK) installed. After you h
 cspace directory and run ant to compile:
 
 $ cd cspace
+
 $ ant
 
 You should see output placed in the bin/ directory.
