@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -122,7 +123,12 @@ public class MainToolBar extends JPanel {
       add(pathSlider, gbc);
     }
 
-    sceneFileChooser = new JFileChooser(new File(".").getAbsolutePath());
+    String curdir = null;
+    try {
+      curdir = new File(CSpaceViewer.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
+    } catch (URISyntaxException e) {
+    }
+    sceneFileChooser = new JFileChooser(curdir);
     sceneFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }
 
