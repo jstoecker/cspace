@@ -123,12 +123,7 @@ public class MainToolBar extends JPanel {
       add(pathSlider, gbc);
     }
 
-    String curdir = null;
-    try {
-      curdir = new File(CSpaceViewer.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getAbsolutePath();
-    } catch (URISyntaxException e) {
-    }
-    sceneFileChooser = new JFileChooser(curdir);
+    sceneFileChooser = new JFileChooser();
     sceneFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
   }
 
