@@ -30,7 +30,7 @@ path:
   visible3d: false
 renderer:
   background: {x: 0.0, y: 0.0, z: 0.0}
-  drawAxes: true
+  drawAxes: false
   drawPiPlanes: false
   fixedWidthEdges: true
   periods3d: 1
@@ -41,20 +41,20 @@ robot:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -9.99999, y: 1.8147E-9}
-  rotation: {x: 0.9961608190660365, y: 0.08754211876396006}
+  position: {x: 10.0, y: -8.34809E-9}
+  rotation: {x: 0.9936958702837413, y: -0.11210939916455719}
   visible2d: true
   visible3d: true
 subs:
-  alphaSampling: 0.09999999999999999
+  alphaSampling: 0.1
   clipStyle3d: DEFAULT
   color: {x: 0.6, y: 1.0, z: 0.4}
   colorStyle3d: UNIFORM
-  drawAlpha: 0.31
+  drawAlpha: 1.0
   edgeDetail: 0.0010
   edgeWidth: 0.03
   shaded: true
-  thetaSampling: 0.0049999999999999975
+  thetaSampling: 0.01
   visible2d: true
   visible3d: true
   wireframed: false

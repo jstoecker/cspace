@@ -7,7 +7,7 @@ camera3d:
   initialCenter: {x: 0.0, y: 0.0, z: 0.0}
   initialEye: {x: 0.0, y: -10.0, z: 10.0}
 contacts:
-  intnColor: {x: 0.6, y: 1.0, z: 0.4}
+  intnColor: {x: 0.4, y: 1.0, z: 0.4}
   intnVisible2d: false
   intnVisible3d: true
   sevColor: {x: 0.3, y: 0.0, z: 0.6}
@@ -41,8 +41,8 @@ robot:
   edgeDetail: 0.0010
   edgeWidth: 0.03
   originVisible: true
-  position: {x: -0.119392, y: 0.0494539}
-  rotation: {x: 0.9990429411426326, y: 0.04374016178614648}
+  position: {x: -0.118005, y: 8.85386E-11}
+  rotation: {x: 0.9999237929639023, y: -0.012345374222070573}
   visible2d: true
   visible3d: true
 subs:
