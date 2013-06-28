@@ -3,10 +3,13 @@
 
 #version 120
 
+uniform float zOffset;
+
 varying vec3  normal_world;
 varying vec3  normal_eye;
 varying vec3  vertex_color;
 varying float theta;
+varying float theta_world;
 
 void main()
 {
@@ -14,5 +17,6 @@ void main()
   normal_eye = vec3(gl_ModelViewMatrix * vec4(normal_world, 0.0));
   vertex_color = gl_Color.xyz;
   theta = gl_Vertex.z; 
+  theta_world = theta + zOffset;
   gl_Position = ftransform();
 }

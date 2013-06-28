@@ -72,19 +72,38 @@ public class Renderer3D {
 
     if (scene.view.renderer.drawAxes)
       drawAxes(gl);
-
-    int numPeriods = scene.view.renderer.periods3d;
-    if (numPeriods > 1) {
-      double z = camera.getEye().z();
-      int centerPeriod = (int) ((z < 0 ? (z - Math.PI) : (z + Math.PI)) / (2 * Math.PI));
-      for (int i = -numPeriods / 2; i <= numPeriods / 2; i++) {
-        gl.glPushMatrix();
-        gl.glTranslated(0, 0, Math.PI * 2 * (centerPeriod + i));
-        drawScene(gl, viewport);
-        gl.glPopMatrix();
-      }
-    } else {
+    
+    if (scene.view.renderer.drawPiClipped) {
+      subRenderer.zOffset = (float)(-Math.PI * 2);
+      gl.glPushMatrix();
+      gl.glTranslated(0, 0, -Math.PI * 2);
       drawScene(gl, viewport);
+      gl.glPopMatrix();
+      
+      subRenderer.zOffset = 0.0f;
+      drawScene(gl, viewport);
+      
+      subRenderer.zOffset = (float)(Math.PI * 2);
+      gl.glPushMatrix();
+      gl.glTranslated(0, 0, Math.PI * 2);
+      drawScene(gl, viewport);
+      gl.glPopMatrix();
+      
+      subRenderer.zOffset = 0.0f;
+    } else {
+      int numPeriods = scene.view.renderer.periods3d;    
+      if (numPeriods > 1) {
+        double z = camera.getEye().z();
+        int centerPeriod = (int) ((z < 0 ? (z - Math.PI) : (z + Math.PI)) / (2 * Math.PI));
+        for (int i = -numPeriods / 2; i <= numPeriods / 2; i++) {
+          gl.glPushMatrix();
+          gl.glTranslated(0, 0, Math.PI * 2 * (centerPeriod + i));
+          drawScene(gl, viewport);
+          gl.glPopMatrix();
+        }
+      } else {
+        drawScene(gl, viewport);
+      }
     }
     
     if (scene.view.renderer.drawPiPlanes)

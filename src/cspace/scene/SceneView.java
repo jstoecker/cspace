@@ -51,6 +51,7 @@ public class SceneView {
     public boolean  fixedWidthEdges = true;
     public boolean  drawPiPlanes    = false;
     public boolean  drawAxes        = false;
+    public boolean  drawPiClipped   = false;
     public int      periods3d       = 1;
   }
 

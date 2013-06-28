@@ -10,6 +10,7 @@ const vec3 l = vec3(0.0, 0.0, -1.0);
 uniform vec3  color;
 uniform int   color_style;   // 0 = UNIFORM, 1 = NORMAL, 2/3 = VERTEX COLOR (per sub/sum)
 uniform int   clip_style;    // 0 = NONE, 1 = ABOVE, 2 = AROUND, 3 = BELOW
+uniform bool  clipTwoPi;
 uniform float robot_theta;
 uniform bool  shading;
 uniform float alpha;
@@ -18,6 +19,7 @@ varying vec3  vertex_color;
 varying vec3  normal_world;
 varying vec3  normal_eye;
 varying float theta;
+varying float theta_world;
 
 void main()
 {
@@ -37,6 +39,9 @@ void main()
   }
   
   // apply clipping
+  if (clipTwoPi && (theta_world < 0 || theta_world > 6.28318))
+  	  discard;
+  
   if (clip_style == 1) {
     if (theta > robot_theta)
       discard;

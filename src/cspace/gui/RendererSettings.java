@@ -107,6 +107,18 @@ public class RendererSettings extends JPanel {
       });
       layout.add(checkBox);
     }
+    
+    // draw pi clipped
+    {
+      final JCheckBox checkBox = new JCheckBox("Draw [0,2pi]");
+      checkBox.setSelected(scene.view.renderer.drawPiClipped);
+      checkBox.addItemListener(new ItemListener() {
+        public void itemStateChanged(ItemEvent e) {
+          scene.view.renderer.drawPiClipped = checkBox.isSelected();
+        }
+      });
+      layout.add(checkBox);
+    }
 
     layout.apply(this);
   }

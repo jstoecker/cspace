@@ -16,6 +16,8 @@ public class SubRenderer {
   private Program prog;
   private Program progWireframed;
   private SubMesh mesh;
+  
+  float zOffset = 0;
 
   SubRenderer(Scene scene) {
     this.scene = scene;
@@ -84,6 +86,8 @@ public class SubRenderer {
     shader.uniform("robot_theta").set(gl, (float) scene.view.robot.rotation.anglePi());
     shader.uniform("shading").set(gl, scene.view.subs.shaded);
     shader.uniform("alpha").set(gl, scene.view.subs.drawAlpha);
+    shader.uniform("clipTwoPi").set(gl, scene.view.renderer.drawPiClipped);
+    shader.uniform("zOffset").set(gl, zOffset);
   }
 
   private void draw(GL2 gl) {
